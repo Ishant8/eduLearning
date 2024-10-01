@@ -1,0 +1,45 @@
+.navbar{
+    background-color: #fffbe6;
+    background-image: var(--bs-gradient);
+}
+
+.btn-custom{
+    background-color: #147a55;
+    color: white;
+}
+
+.btn-custom-light{
+    color: #147a55;
+}
+
+.btn-custom:hover{
+    background-color: #0d6343;
+}
+
+.btn-custom-light:hover{
+    background-color: #ffffff;
+}
+
+
+.lg-size{
+font-size: .7rem;
+}
+
+.form-control:focus{
+    box-shadow: none;
+}
+
+    /* .btn-shape{
+        border-radius: 200px;
+    } */
+
+.logo-text{
+    font-size: 30px;
+    font-family: "Fira Sans", sans-serif;
+    font-weight: 500;
+    color: black;
+}
+
+.logo-inner-text{
+    color: #147a55;
+}
