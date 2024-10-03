@@ -1,0 +1,24 @@
+.jumbo-bg{
+    /* height: 500px; */
+    width: 420px;
+}
+
+.my-color{
+    background-color: #147a5599;
+}
+
+.jumbotron-bg::before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.08;
+    background-image: url("../../../../public/images/imgpsh_fullsize_anim.png");
+    background-position: center;
+    background-size:contain;
+    z-index: -1;
+  
+  }
