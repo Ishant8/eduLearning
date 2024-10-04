@@ -12,5 +12,33 @@
 </head>
 <body>
   <app-root></app-root>
+  <script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+    let multipleCardCarousel = document.querySelector("#carouselExampleCaptions");
+    if (window.matchMedia("(min-width: 768px)").matches) {
+    let carousel = new bootstrap.Carousel(multipleCardCarousel, { interval: false, wrap: false,});
+    let carouselWidth = document.querySelector(".carousel-inner").scrollWidth;
+    let cardWidth = document.querySelector(".carousel-item").offsetWidth;
+    let scrollPosition = 0;
+    
+    document.querySelector("#carouselExampleCaptions .carousel-control-next").addEventListener("click", function() {
+    if (scrollPosition < carouselWidth - cardWidth * 4) {
+    scrollPosition += cardWidth;
+    document.querySelector("#carouselExampleCaptions .carousel-inner").scroll({ left: scrollPosition, behavior: 'smooth' });
+    }
+    });
+    
+    document.querySelector("#carouselExampleCaptions .carousel-control-prev").addEventListener("click", function() {
+    if (scrollPosition > 0) {
+    scrollPosition -= cardWidth;
+    document.querySelector("#carouselExampleCaptions .carousel-inner").scroll({ left: scrollPosition, behavior: 'smooth' });
+    }
+    });
+    } else {
+    multipleCardCarousel.classList.add("slide");
+    }
+    });
+    </script>
 </body>
 </html>
+

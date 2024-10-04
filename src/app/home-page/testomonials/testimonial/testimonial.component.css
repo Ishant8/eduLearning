@@ -1,0 +1,36 @@
+.img-border::after {
+    position: absolute;
+    content: '';
+    width: 40px;
+    height: 40px;
+    bottom: 21px;
+    left: 14px;
+    z-index: 1;
+    background-color: #FFFBE8;
+    border-bottom: 3px solid #0d6343;
+    border-left: 3px solid #0d6343;
+}
+
+.img-border::before {
+    position: absolute;
+    content: '';
+    width: 40px;
+    height: 40px;
+    top: 14px;
+    left: 128px;
+    z-index: 1;
+    background-color: #FFFBE8;
+    border-top: 3px solid #0d6343;
+    border-right: 3px solid #0d6343;
+}
+
+.negative-mt{
+    margin-top: -25px;
+}
+
+@media (max-width: 767px) {
+    .img-border::before {
+        left: 202px;
+    }
+}
+

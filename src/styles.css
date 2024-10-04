@@ -1,1 +1,6 @@
 @import "../node_modules/bootstrap-icons/font/bootstrap-icons.min.css";
+
+::selection{
+    background-color: #147a55;
+    color: white;
+}

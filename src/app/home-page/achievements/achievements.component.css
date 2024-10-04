@@ -1,0 +1,52 @@
+/* .achieve{
+  background-image: url("../../../../public/images/achieve-bg.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 0 80%;  
+  }
+
+.glowy-border{
+    box-shadow: 3px 3px 15px white;
+} */
+
+.achievement-container{
+    background-image: url(../../../../public/images/achieve-bg.svg);
+    background-size:cover;
+    background-repeat: no-repeat;
+    background-position: 0 80%;
+}
+
+.custom-achievement{
+    background-color: white;
+    padding: 20px;
+}
+
+.card{
+    box-shadow: 0 0 10px white;
+}
+
+.number{
+    font-size: 40px;
+    font-weight: 900;
+}
+
+.number+p{
+    font-size: 35px;
+    color: var(--primary-color);
+    letter-spacing: 1.25px;
+}
+
+@media screen and (max-width:765px) {
+
+    .number{
+        font-size: 30px;
+        font-weight: 900;
+    }
+    
+    .number+p{
+        font-size: 25px;
+        color: var(--primary-color);
+        letter-spacing: 1.25px;
+    }
+    
+}   
