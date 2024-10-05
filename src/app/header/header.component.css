@@ -26,17 +26,6 @@ font-size: .7rem;
         border-radius: 200px;
     } */
 
-.logo-text{
-    font-size: 30px;
-    font-family: "Fira Sans", sans-serif;
-    font-weight: 500;
-    color: black;
-}
-
-.logo-inner-text{
-    color: #147a55;
-}
-
 .jumbo-bg{
     /* height: 500px; */
     width: 420px;

@@ -4,3 +4,40 @@
     background-color: #147a55;
     color: white;
 }
+
+.logo-text{
+    font-size: 30px;
+    font-family: "Fira Sans", sans-serif;
+    font-weight: 500;
+    color: black;
+}
+
+.logo-inner-text{
+    color: #147a55;
+}
+
+.btn-custom{
+    background-color: #147a55;
+    color: white;
+}
+
+.btn-custom:hover{
+    background-color: #0d6343;
+    color: white;
+}
+
+.small-txt{
+    font-size: 13px;
+}
+
+.green-txt{
+    color: #0d6343;
+}
+
+.green-bg{
+    background-color: #147a5580;
+}
+
+.bg-color-home{
+    background-color: #FFFBE8;
+}

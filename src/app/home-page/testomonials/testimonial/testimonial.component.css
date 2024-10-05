@@ -3,7 +3,7 @@
     content: '';
     width: 40px;
     height: 40px;
-    bottom: 21px;
+    bottom: 13px;
     left: 14px;
     z-index: 1;
     background-color: #FFFBE8;
@@ -24,6 +24,15 @@
     border-right: 3px solid #0d6343;
 }
 
+.truncate{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    line-clamp: inherit;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+}
+
 .negative-mt{
     margin-top: -25px;
 }
@@ -31,6 +40,11 @@
 @media (max-width: 767px) {
     .img-border::before {
         left: 202px;
+    }
+
+    .truncate{
+        line-clamp: inherit;
+        -webkit-line-clamp: 6;
     }
 }
 
