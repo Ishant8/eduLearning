@@ -5,11 +5,12 @@ import { JumbotronComponent } from "../home-page/jumbotron/jumbotron.component";
 import { TestomonialsComponent } from "../home-page/testomonials/testomonials.component";
 import { TestimonialComponent } from '../home-page/testomonials/testimonial/testimonial.component';
 import { CourseCardComponent } from "../course-card/course-card.component";
+import { PageNavComponent } from "../page-nav/page-nav.component";
 
 @Component({
   selector: 'app-courses',
   standalone: true,
-  imports: [HeaderComponent, FooterComponent, JumbotronComponent, TestomonialsComponent, TestimonialComponent, CourseCardComponent],
+  imports: [HeaderComponent, FooterComponent, JumbotronComponent, TestomonialsComponent, TestimonialComponent, CourseCardComponent, PageNavComponent],
   templateUrl: './courses.component.html',
   styleUrl: './courses.component.css'
 })

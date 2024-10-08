@@ -1,0 +1,13 @@
+
+.active .page-link{
+    background-color: #147a55;
+    color: white;
+}
+
+.active .page-link:hover{
+    background-color: #0d6343;
+}
+
+.page-link{
+    color: #0d6343;
+}
