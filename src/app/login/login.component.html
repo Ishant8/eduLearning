@@ -1,6 +1,6 @@
-<section class="vh-100 green-bg my-class" >
+<section class="vh-100 green-bg my-class position-relative" >
     <div class="container py-5 h-100">
-        <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="row d-flex justify-content-center h-100">
             <div class="col col-xl-10">
                 <div class="card overflow-hidden shadow-lg" style="border-radius: 1rem; border: none;">
                     <div class="row g-0 ">
@@ -21,13 +21,13 @@
                                     </h5>
 
                                     <div class="form-floating mb-4">
-                                        <input type="email" id="floatingInputEmail" class="form-control form-control-lg" placeholder="name@example.com" />
+                                        <input type="email" id="floatingInputEmail" class="form-control form-control-lg" [(ngModel)]="username" name="username" placeholder="name@example.com" />
                                         <label class="form-label" for="floatingInputEmail">Email address</label>
                                     </div>
 
                                     <div class="form-floating mb-4">
                                         <input type="password" id="floatingInputEmailPassword"
-                                            class="form-control form-control-lg" placeholder="Password"/>
+                                            class="form-control form-control-lg" [(ngModel)]="password" name="password" placeholder="Password"/>
                                         <label class="form-label" for="floatingInputPassword">Password</label>
                                         <div class="mt-2 d-flex justify-content-end"><a class="small text-muted mb-1" href="#!">Forgot password?</a></div>
                                     </div>
@@ -35,7 +35,7 @@
                                     
 
                                     <div class="d-grid pt-1 mb-4">
-                                        <button class="btn btn-custom btn-lg rounded-1 fw-medium" type="button">Login</button>
+                                        <button class="btn btn-custom btn-lg rounded-1 fw-medium" (click)="doLogin()" type="button">Login</button>
                                     </div>
 
                                     <p class="mb-5 pb-lg-2" >Don't have an account? <a class="mall text-muted mb-1" href="#!">Register here</a></p>

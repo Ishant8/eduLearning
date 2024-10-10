@@ -1,5 +1,12 @@
 @import "../node_modules/bootstrap-icons/font/bootstrap-icons.min.css";
 
+:root{
+    --primary-color:#147a55;
+    --secondary-color:#fffbe6;
+    --primary-color-dark:#20694d;
+    --secondary-color-dark:#fff8d3;
+}
+
 ::selection{
     background-color: #147a55;
     color: white;
