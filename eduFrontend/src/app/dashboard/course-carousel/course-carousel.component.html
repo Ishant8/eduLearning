@@ -1,0 +1,34 @@
+@if(courses()?.length != 0){
+    <div class="position-relative">
+    <div #carouselControl>
+        <button (click)="scrollPrev()" class="carousel-control-prev me-5" type="button"
+        [attr.data-bs-target]="'#'+carouselId()" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button (click)="scrollNext()" class="carousel-control-next ms-5" type="button"
+        [attr.data-bs-target]="'#'+carouselId()" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <div #carouselContainer [id]="carouselId()" class="carousel p-5 light-bg">
+
+        @if(sectionTitle() === 'Enrolled')
+        {<p class="fs-2 custom-font fw-bold mb-0">Continue Learning.</p>
+        <p class="custom-font fs-4 fw-medium mb-0">You're Enrolled in the following Courses</p>}
+
+       
+        <div #carouselInner class="carousel-inner pt-4">
+
+            @for (courseItem of courses(); track courseItem.courseId) {
+                <!-- <app-course-card [course]="courseItem" class="course-card rounded-2 overflow-hidden"/> -->
+                <div class="carousel-item" [class.active]="courseItem === courses()![0]" [course]="courseItem" [enrolled]="sectionTitle() === 'Enrolled'" course-item></div>
+            } @empty {
+                <li>There are no Courses Available.</li>
+            }
+            
+        </div>
+
+    </div>
+</div>}

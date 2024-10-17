@@ -17,9 +17,10 @@ export class CourseService {
     'X-Requested-With': 'XMLHttpRequest',
   });
 
-  getCourses() {
+  getCourses(url:string) {
     return this.httpClient
-      .get<Course[]>('http://localhost:8080/course/get',{
+      .get<Course[]>(url,{
+        headers: this.headers
       });
   }
 }

@@ -15,4 +15,8 @@ public interface CourseService {
     CourseDTO getCourseById(int id);
 
     CourseDTO updateCourse(CourseDTO courseDTO);
+
+    List<CourseDTO> findCoursesByCategoryExcludingUser(String categoryName);
+
+    List<CourseDTO> findCoursesByUser();
 }

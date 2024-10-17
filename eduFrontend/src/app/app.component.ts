@@ -7,11 +7,12 @@ import { CourseCardComponent } from "./course-card/course-card.component";
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { DashboardComponent } from "./dashboard/dashboard.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [HomePageComponent, LoginComponent, RegisterComponent, CoursesComponent, CourseCardComponent, HeaderComponent, FooterComponent, RouterOutlet],
+  imports: [HomePageComponent, LoginComponent, RegisterComponent, CoursesComponent, CourseCardComponent, HeaderComponent, FooterComponent, RouterOutlet, DashboardComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
