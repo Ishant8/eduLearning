@@ -11,6 +11,7 @@ import { CoursesComponent } from "./courses/courses.component";
 import { AuthGuard, LoggedIn } from "./auth-guard.service";
 import { NotExpr } from "@angular/compiler";
 import { NotFoundComponent } from "./not-found/not-found.component";
+import { DashboardComponent } from "./dashboard/dashboard.component";
 
 export const routes:Routes=[
     {
@@ -45,6 +46,10 @@ export const routes:Routes=[
                 component:DeleteAccountComponent
             }
         ]
+    },
+    {
+        path:'dashboard',
+        component:DashboardComponent
     },
     {
         path:'courses',

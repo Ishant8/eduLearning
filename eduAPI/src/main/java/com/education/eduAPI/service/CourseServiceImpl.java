@@ -1,14 +1,19 @@
 package com.education.eduAPI.service;
 
 import com.education.eduAPI.dto.CourseDTO;
+import com.education.eduAPI.entity.Category;
 import com.education.eduAPI.entity.Course;
+import com.education.eduAPI.entity.User;
 import com.education.eduAPI.exception.CustomEntityNotFoundException;
 import com.education.eduAPI.mapper.CourseMapper;
 import com.education.eduAPI.mapper.UserMapper;
+import com.education.eduAPI.repository.CategoryRepository;
 import com.education.eduAPI.repository.CourseRepository;
 import com.education.eduAPI.repository.UserRepository;
 import jakarta.persistence.EntityManager;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,13 +22,17 @@ import java.util.List;
 @Service
 public class CourseServiceImpl implements CourseService {
 
+    private final UserRepository userRepository;
     CourseRepository courseRepository;
+    CategoryRepository categoryRepository;
 
     CourseMapper courseMapper;
 
-    public CourseServiceImpl(UserRepository userRepository, EntityManager entityManager, CourseRepository courseRepository, UserMapper userMapper, CourseMapper courseMapper) {
+    public CourseServiceImpl(UserRepository userRepository, EntityManager entityManager, CourseRepository courseRepository, UserMapper userMapper, CourseMapper courseMapper, CategoryRepository categoryRepository) {
          this.courseRepository = courseRepository;
         this.courseMapper = courseMapper;
+        this.categoryRepository = categoryRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -68,6 +77,31 @@ public class CourseServiceImpl implements CourseService {
         course = courseRepository.save(course);
 
         return courseMapper.toDto(course);
+    }
+
+    @Override
+    public List<CourseDTO> findCoursesByCategoryExcludingUser(String categoryName) {
+
+        Category category = categoryRepository.findByCategoryName(categoryName);
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = userDetails.getUsername();
+        User user = userRepository.findUserByEmail(username);
+
+        List<CourseDTO> listCourses = courseRepository.findAllByCategoryAndUsersNotContaining(category, user).stream().map(c-> courseMapper.toDto(c)).toList();
+
+        return listCourses;
+    }
+
+    @Override
+    public List<CourseDTO> findCoursesByUser() {
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = userDetails.getUsername();
+        User user = userRepository.findUserByEmail(username);
+
+        return courseRepository.findByUsers(user).stream().map(c-> courseMapper.toDto(c)).toList();
+
     }
 
 }

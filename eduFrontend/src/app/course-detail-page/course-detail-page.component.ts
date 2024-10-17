@@ -44,7 +44,7 @@ export class CourseDetailPageComponent implements OnInit {
     
     if(!this.courseService.course())
     {
-      this.courseService.getCourses().subscribe({
+      this.courseService.getCourses("http://localhost:8080/course/get").subscribe({
         next:(resData)=>{
           this.course.set(resData.find((course)=>course.courseId === this.courseId));
           this.courseService.course.set(resData)

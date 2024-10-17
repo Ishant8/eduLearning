@@ -22,7 +22,7 @@ export class CoursesComponent implements OnInit {
   courses = signal<Course[] | undefined>(undefined);
 
   ngOnInit() {
-    this.courseService.getCourses()
+    this.courseService.getCourses("http://localhost:8080/course/get")
     .subscribe({
       next:(resData)=>{
         this.courses.set(resData);

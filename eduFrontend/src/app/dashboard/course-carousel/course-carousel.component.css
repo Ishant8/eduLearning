@@ -1,0 +1,127 @@
+.custom-font{
+    font-family: Courier 'Courier New', Courier, monospace;
+}
+
+.light-bg{
+    background-color: #fff;
+}
+
+.carousel-inner {
+    padding: 1em;
+}
+
+.card {
+    margin: 0 0.5em;
+    /* box-shadow: 1px 1px 10px 0 #147a55; */
+    border: none;
+    background-color: #fcfaf0;
+    width: 19em;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    background-color: #147a55;
+    width: 4vh;
+    height: 4vh;
+    top: 50%;
+    opacity: 0.75;
+    z-index: 10;
+    margin-inline: 10px;
+}
+
+/* .carouselbtn{
+   position: relative;
+   margin-left: auto;
+   width: 120px;
+   right: 100px;
+   top: 100px;
+} */
+
+/* .carousel{
+        background-image: url("../../../../public/images/imgpsh_fullsize_anim.png");
+        background-position: center;
+        background-size:contain;
+        opacity: 0.3;
+        z-index: 0;
+} */
+
+
+@media (min-width: 550px) {
+    .carousel-item {
+        margin-inline: 30px;
+        flex: 0 0 50%;
+        display: block;
+    }
+
+    .carousel-inner {
+        display: flex;
+    }
+}
+
+@media (min-width: 768px) {
+    .carousel-item {
+        margin-inline: 30px;
+        flex: 0 0 40%;
+        display: block;
+    }
+
+    .carousel-inner {
+        display: flex;
+    }
+}
+
+@media (min-width: 992px){
+    .carousel-item{
+        flex: 0 0 30%
+    }
+
+    .carouselbtn{
+        width: 70px;
+    }
+}
+
+@media(min-width: 1200px)
+{
+    .carousel-item{
+        flex: 0 0 20%
+    }
+
+    .carouselbtn{
+        width: 75px;
+    }
+}
+
+/* .card .img-wrapper {
+    max-width: 100%;
+    height: 19em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} */
+
+/* .card img {
+    max-height: 100%;
+} */
+
+/* @media (max-width: 767px) {
+    .card {
+        width: 80%;
+    }
+
+    .carousel-item{
+        
+        display: block;
+    }
+} */
+
+@media (max-width: 550px) {
+    .card {
+        width: 100%;
+    }
+}
+
+/* .equal-height {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+} */

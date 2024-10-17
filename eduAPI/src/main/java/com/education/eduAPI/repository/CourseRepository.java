@@ -1,5 +1,6 @@
 package com.education.eduAPI.repository;
 
+import com.education.eduAPI.entity.Category;
 import com.education.eduAPI.entity.Course;
 import com.education.eduAPI.entity.User;
 import org.springframework.data.domain.Page;
@@ -17,4 +18,6 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
     Page<Course> findAll(Pageable pageable);
 
     List<Course> findAllByCourseNameIn(List<String> courseNames);
+
+    List<Course> findAllByCategoryAndUsersNotContaining(Category category, User user);
 }

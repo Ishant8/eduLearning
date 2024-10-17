@@ -1,0 +1,49 @@
+<div class="d-flex my-bg welcome" style="min-height: 20vh;" >
+    <div class="d-flex justify-content-end align-items-center">
+        <div class="custom-profile d-flex align-items-center justify-content-center rounded-pill">M</div>
+    </div>
+    <div class="d-flex justify-content-start align-items-center">
+        <p class="mb-0 ms-3 fs-4 fw-bold">Welcome Back, Mason</p>
+    </div>
+</div>
+<div class="mx-md-5">
+    <app-course-carousel carouselId="Enrolled" sectionTitle="Enrolled" [courses]="courses()"/>
+
+    <div class="mx-md-5">
+        
+            <div>
+                <div class="mx-5 mx-md-0">
+                    <p class="custom-font fs-4 fw-medium fw-bold">Based on your skill interests, we recommend</p>
+                </div>
+                <div class="mx-5 mx-md-0">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    @for(category of categories(); track category){<li class="nav-item" role="presentation">
+                        <button class="nav-link fw-bold" [class.active]="category === firstElement()" [id]="category+'-tabId'" data-bs-toggle="tab" [attr.data-bs-target]="'#'+category" type="button"
+                            role="tab" [attr.aria-controls]="category" (click)="getFilterCourses(category)" [attr.aria-selected]="category === firstElement()">{{category}}</button>
+                    </li>}
+                    <!-- <li class="nav-item" role="presentation">
+                        <button class="nav-link fw-bold" id="angular-tab" data-bs-toggle="tab" data-bs-target="#angular" type="button"
+                            role="tab" aria-controls="angular" aria-selected="false">Angular</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link fw-bold" id="esports-tab" data-bs-toggle="tab" data-bs-target="#esports" type="button"
+                            role="tab" aria-controls="esports" aria-selected="false">Esports</button>
+                    </li> -->
+                </ul>
+            </div>
+            
+        
+        <div class="tab-content" id="myTabContent">
+            @for(category of categories(); track category){<div class="tab-pane fade" [class.show]="category === firstElement()" [class.active]="category === firstElement()" [id]="category" role="tabpanel" [attr.aria-labelledby]="category+'-tabId'">
+                <app-course-carousel [carouselId]="category+'Carousel'" [courses]="filterCourses()"/>
+            </div>}
+            <!-- <div class="tab-pane fade" id="angular" role="tabpanel" aria-labelledby="angular-tab">
+                <app-course-carousel carouselId="angularCarousel" courseUrl="http://localhost:8080/course/get" [courses]="filterCourses()"/>
+            </div>
+            <div class="tab-pane fade" id="esports" role="tabpanel" aria-labelledby="esports-tab">
+                <app-course-carousel carouselId="esportsCarousel" courseUrl="http://localhost:8080/course/get" [courses]="filterCourses()"/>
+            </div> -->
+        </div>
+    </div>
+
+</div>

@@ -43,6 +43,15 @@ public class CourseController {
         return courseService.updateCourse(courseDTO);
     }
 
+    @GetMapping("/notenrolled/{categoryName}")
+    public List<CourseDTO> findCourseByCategoryId(@PathVariable String categoryName){
+        return courseService.findCoursesByCategoryExcludingUser(categoryName);
+    }
+
+    @GetMapping("/user")
+    public List<CourseDTO> findCourseByUser(){
+        return courseService.findCoursesByUser();
+    }
 
 
 
