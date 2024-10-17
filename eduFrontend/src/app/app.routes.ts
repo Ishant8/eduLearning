@@ -11,6 +11,7 @@ import { CoursesComponent } from "./courses/courses.component";
 import { AuthGuard, LoggedIn } from "./auth-guard.service";
 import { NotExpr } from "@angular/compiler";
 import { NotFoundComponent } from "./not-found/not-found.component";
+import { PhotoComponent } from "./profile-page/photo/photo.component";
 
 export const routes:Routes=[
     {
@@ -35,6 +36,10 @@ export const routes:Routes=[
             {
                 path:'edit',
                 component:EditProfileComponent
+            },
+            {
+                path:'edit-photo',
+                component:PhotoComponent
             },
             {
                 path:'security',

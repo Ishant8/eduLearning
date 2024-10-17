@@ -1,0 +1,26 @@
+<div>
+    <div class="text-center">
+        <p class="fs-2 fw-bold m-0 mt-2">Public Photo</p>
+    </div>
+    <hr />
+
+    <div class="row">
+        <form class="col-10 m-auto" name="form" (ngSubmit)="uploadImage()">
+
+            <p class="fw-bolder fs-5">Image Preview</p>
+            <div class="border border-black py-2">
+                <img [src]="imgSrc()" alt="your-img" class="custom-image-preview">
+            </div>
+
+            <div class="my-4">
+                <label for="formFile" class="form-label fw-bolder fs-5 mb-2">Add/Change Image</label>
+                <input class="form-control form-control-lg rounded-1 fs-5" (change)="imgDetails($event)" #imgDetail type="file" id="formFile" accept="image/*"/>
+            </div>
+
+            
+            <button type="submit" class="btn btn-custom rounded-1 px-4 fs-5">Save</button>
+            
+            
+        </form>
+    </div>
+</div>
