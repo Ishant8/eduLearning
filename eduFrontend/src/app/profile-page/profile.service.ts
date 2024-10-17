@@ -31,8 +31,8 @@ export class ProfileService {
     });
   }
   
-  addUser(userDetails:Register){
-    return this.httpClient.post("http://localhost:8080/user/create",userDetails);
+  addUser(url:string,userDetails:Register){
+    return this.httpClient.post(url,userDetails);
   }
   
   changePassword(oldPassword: string, newPassword: string) {
