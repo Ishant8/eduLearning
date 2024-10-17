@@ -82,6 +82,22 @@ export class ProfileService {
       });
   }
 
+  uploadProfileImage(url:string,imgData:FormData){
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${getCookie('JwtToken')}`,
+      'X-Requested-With': 'XMLHttpRequest'
+    });
+    
+
+    return this.httpClient.post(url,imgData,{
+      responseType:'text',
+      headers,
+      withCredentials:true
+    })
+
+  }
+
   login(credens: { email: string; password: string }) {
     return this.httpClient
       .post('http://localhost:8080/user/login', credens, {

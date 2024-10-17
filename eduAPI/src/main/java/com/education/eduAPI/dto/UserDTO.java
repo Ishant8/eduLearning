@@ -102,7 +102,7 @@ public class UserDTO {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", role='" + role + '\'' +
-//                ", image='" + profileImage + '\'' +
+                ", image='" + profileImage + '\'' +
                 ", courseNames=" + courseNames +
                 '}';
     }

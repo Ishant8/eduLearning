@@ -52,7 +52,7 @@ public class UserController {
         {
             Cookie cookie = new Cookie("JwtToken", JwtToken);
             cookie.setPath("/"); // Set the same path as the original cookie
-            cookie.setMaxAge(1000*60*30); // Set maxAge to 0 to delete the cookie
+            cookie.setMaxAge(60*30); // Set maxAge to 0 to delete the cookie
             response.addCookie(cookie);
 
             return "Logged in successfully";
@@ -134,7 +134,8 @@ public class UserController {
     }
 
     @PostMapping("/image")
-    public String uploadImage(@RequestBody MultipartFile file) throws Exception {
+    public String uploadImage(@RequestParam("file") MultipartFile file) throws Exception {
+//        System.out.println("Line 138"+file.getOriginalFilename());
         return imageService.uploadImageToFileSystem(file);
     }
 
