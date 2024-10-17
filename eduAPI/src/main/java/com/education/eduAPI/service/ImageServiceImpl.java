@@ -12,13 +12,16 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
+import java.time.Instant;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class ImageServiceImpl implements ImageService{
 
-    private final String FILE_PATH = "/home/ishant/Projects/EducationAPI/eduFrontend/public/images/common/";
+    private final String FILE_PATH = "/home/anant/Projects/eduLearning/eduFrontend/public/images/common/";
 
     private final ImageRepository imageRepository;
     private final UserRepository userRepository;
@@ -29,9 +32,11 @@ public class ImageServiceImpl implements ImageService{
     }
 
     @Override
-    public String uploadImageToFileSystem(MultipartFile file) throws IOException {
+    public String uploadImageToFileSystem(MultipartFile file) throws IOException, URISyntaxException {
 
-        String filePath = FILE_PATH + file.getOriginalFilename();
+        String[] fileName = Objects.requireNonNull(file.getOriginalFilename()).split("\\.");
+        String filePath = FILE_PATH + fileName[0]+ "_" +Instant.now().getEpochSecond()+"."+fileName[1];
+
 
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String email = userDetails.getUsername();

@@ -16,6 +16,12 @@
 
         <button class="btn btn-custom-light rounded-pill fw-bold ms-2 ms-lg-0 me-auto me-lg-0" type="button" data-bs-toggle="offcanvas"
           data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Categories</button>
+        
+        @if(!isLoggedIn()){
+          <button class="btn btn-custom-light rounded-pill fw-bold ms-2 ms-lg-0 me-auto me-lg-0" type="button" routerLink="register/instructor" >Be an Instructor</button>
+        }@else{
+          <button class="btn btn-custom-light rounded-pill fw-bold ms-2 ms-lg-0 me-auto me-lg-0" type="button" routerLink="/dashboard" >Dashboard</button>
+        }
       </ul>
 
       <div class="col-lg-4 ps-3 ps-lg-0 ms-auto me-3 mb-3 mb-lg-0">
@@ -32,7 +38,7 @@
 
       @if(!isLoggedIn())
       {<a class="btn fw-bold rounded-pill btn-custom-light ms-2 me-3" routerLink='login' type="button">Log In</a>
-      <a class="btn rounded-pill btn-custom me-3" routerLink='register' type="button">Sign Up</a>}
+      <a class="btn rounded-pill btn-custom me-3" routerLink='register/user' type="button">Sign Up</a>}
       @else {
         <ul class="navbar-nav d-flex gap-lg-2 ms-lg-4 mb-2 mb-lg-0 ">
         <li class="nav-item ps-3 ps-lg-0 dropdown d-flex flex-wrap gap-2">

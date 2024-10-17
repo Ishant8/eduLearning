@@ -31,8 +31,8 @@ export class ProfileService {
     });
   }
   
-  addUser(userDetails:Register){
-    return this.httpClient.post("http://localhost:8080/user/create",userDetails);
+  addUser(url:string,userDetails:Register){
+    return this.httpClient.post(url,userDetails);
   }
   
   changePassword(oldPassword: string, newPassword: string) {
@@ -80,6 +80,22 @@ export class ProfileService {
           this.profile.set(resData);
         },
       });
+  }
+
+  uploadProfileImage(url:string,imgData:FormData){
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${getCookie('JwtToken')}`,
+      'X-Requested-With': 'XMLHttpRequest'
+    });
+    
+
+    return this.httpClient.post(url,imgData,{
+      responseType:'text',
+      headers,
+      withCredentials:true
+    })
+
   }
 
   login(credens: { email: string; password: string }) {

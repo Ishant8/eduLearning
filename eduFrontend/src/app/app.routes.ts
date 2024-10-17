@@ -12,6 +12,8 @@ import { AuthGuard, LoggedIn } from "./auth-guard.service";
 import { NotExpr } from "@angular/compiler";
 import { NotFoundComponent } from "./not-found/not-found.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
+import { PhotoComponent } from "./profile-page/photo/photo.component";
+
 
 export const routes:Routes=[
     {
@@ -38,6 +40,10 @@ export const routes:Routes=[
                 component:EditProfileComponent
             },
             {
+                path:'edit-photo',
+                component:PhotoComponent
+            },
+            {
                 path:'security',
                 component:AccountSecurityComponent
             },
@@ -61,7 +67,7 @@ export const routes:Routes=[
         canActivate:[AuthGuard]
     },
     {
-        path:'register',
+        path:'register/:role',
         component:RegisterComponent,
         canActivate:[AuthGuard]
     },
