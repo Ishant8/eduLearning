@@ -1,0 +1,32 @@
+@if(reviews()?.length != 0){<div class="position-relative">
+    <div #carouselControl>
+        <button (click)="scrollPrev()" class="carousel-control-prev me-5" type="button"
+            data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button (click)="scrollNext()" class="carousel-control-next ms-5" type="button"
+            data-bs-target="#carouselExampleControls" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <div #carouselContainer id="carouselExampleControls" class="carousel p-5 bg-color-home">
+
+        <p class="fs-2 custom-font fw-bold">Reviews From Our Students</p>
+        <p class="custom-font fw-medium">The ultimate platform to    upskill yourself.</p>
+
+       
+        <div #carouselInner class="carousel-inner pt-5">
+
+            @for (reviewItem of reviews(); track reviewItem.reviewId) {
+                <!-- <app-course-card [course]="courseItem" class="course-card rounded-2 overflow-hidden"/> -->
+                <div class="carousel-item" [class.active]="reviewItem === reviews()![0]" [review]="reviewItem" testimonial></div>
+            } @empty {
+                <li>There are no Courses Available.</li>
+            }
+            
+        </div>
+
+    </div>
+</div>}

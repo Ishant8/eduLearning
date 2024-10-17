@@ -1,0 +1,64 @@
+<div class="">
+    <div class="text-center">
+        <p class="fs-3 fw-bold m-0 mt-2">Account</p>
+        <p class="m-0 p-0">
+            Edit your account settings and change your password here.
+        </p>
+    </div>
+    <hr />
+    <form (ngSubmit)="changePassword()" #form="ngForm" class="d-flex align-items-start flex-column gap-4">
+        <div class="col-7 m-auto">
+            <div class="d-flex flex-column w-100">
+                <p class="fw-bold fs-5">Email:</p>
+                <div class="form-floating mb-3 w-100">
+                    <input type="email" class="form-control custom-form bg-white border-black" placeholder=""
+                        disabled />
+                    <label class="text-black">Your email address is <strong>{{profile()?.email}}</strong></label>
+                </div>
+            </div>
+        </div>
+        <hr class="w-100 m-0" />
+        <div class="col-7 m-auto">
+            <div class="d-flex flex-column w-100">
+                <p class="fw-bold fs-5">Password:</p>
+                <div class="form-floating mb-4 pb-2 w-100">
+                    <input type="password" class="form-control shadow-none rounded-1 custom-form bg-white" [class.is-invalid]="checkInputStatus(oldpass)" [(ngModel)]="oldPassword" name="oldPassword" id="oldPassword" placeholder="" #oldpass="ngModel" required/>
+                    <label class="placeholder-font" for="oldPassword">Enter current password</label>
+                    @if (oldpass.hasError('required') && (oldpass.touched || oldpass.dirty)) {
+                    <div class="position-absolute ms-1 mt-1 small text-danger">
+                        Current Password is required
+                    </div>
+                    }
+                </div>
+                <div class="form-floating mb-4 pb-2 w-100">
+                    <input type="password" class="form-control shadow-none rounded-1 custom-form bg-white" [class.is-invalid]="checkInputStatus(newPass)" [(ngModel)]="newPassword" name="newPassword" id="newPassword" placeholder="" #newPass="ngModel" required minlength="3"/>
+                    <label class="placeholder-font" for="newPassword">Enter new password</label>
+                    @if (newPass.hasError('required') && (newPass.touched || newPass.dirty)) {
+                    <div class="position-absolute ms-1 mt-1 small text-danger">
+                        New Password is required
+                    </div>
+                    }@else if(newPass.hasError('minlength') && (newPass.touched || newPass.dirty)){
+                    <div class="position-absolute ms-1 mt-1 small text-danger">
+                        Password must be at least 3 characters
+                    </div>
+                    }
+                </div>
+                <div class="form-floating mb-4 pb-2 w-100">
+                    <input type="password" class="form-control shadow-none rounded-1 custom-form bg-white" [class.is-invalid]="checkInputStatus(confPass) || (confPass.control.value != newPass.control.value && (confPass.dirty || confPass.touched))"
+                    [(ngModel)]="confirmPassword" name="confirmPassword" id="confirmPassword" id="confirmPassword" placeholder="" #confPass="ngModel" required/>
+                    <label class="placeholder-font" for="confirmPassword">Re-Type new password</label>
+                    @if(confPass.hasError('required') && (confPass.touched || confPass.dirty)){
+                    <div class="position-absolute ms-1 mt-1 small text-danger">
+                        Confirm Password is required
+                    </div>
+                    }@else if(confirmPassword != newPassword && (confPass.touched || confPass.dirty)){
+                    <div class="position-absolute ms-1 mt-1 small text-danger">
+                        Password and Confirm Password don't match
+                    </div>
+                    }
+                </div>
+            </div>
+            <button class="btn btn-custom btn-lg" [disabled]="!(form.valid && (confirmPassword === newPassword))" type="submit">Change Password</button>
+        </div>
+    </form>
+</div>

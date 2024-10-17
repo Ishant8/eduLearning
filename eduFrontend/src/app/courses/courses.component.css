@@ -1,0 +1,54 @@
+.dropdown-filters{
+    background-color: transparent;
+    border: 0;
+}
+
+.dropdown:has(+ .show){
+    border-bottom: 1px solid transparent;;
+}
+
+.dropdown:has(+ .show) .down{
+   display: none !important;
+}
+
+:not(.dropdown:has(+ .show)) .up{
+    display: none;
+}
+
+/* :not(.dropdown:has(+ .show)) .down{
+    display: flex;
+} */
+
+.dropdown:has(+ .show) .up{
+    display: flex;
+}
+
+.dropdown{
+    border-bottom: 1px solid #BFBCAE;
+}
+
+#page-nav{
+    position: relative;
+    left: -10px;
+}
+
+.course-card{
+    width: 30%;
+    font-size: 13px;
+}
+
+@media (max-width: 1407px){
+    .course-card{
+        width: 40%;
+    }
+
+    #cards-inner{
+        justify-content: center;
+    }
+}
+
+@media (max-width: 1100px){
+    .course-card{
+        width: 80%;
+    }
+}

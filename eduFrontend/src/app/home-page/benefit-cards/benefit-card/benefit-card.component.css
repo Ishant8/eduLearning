@@ -1,0 +1,15 @@
+.card{
+    background-color: #f8f3d9;
+    background-image: var(--bs-gradient);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.678);
+    border: 0px;
+    height: 100%;
+}
+
+.green-txt-color{
+    color: #202020;
+}
+
+.symbol-height{
+    font-size: 100px;
+}

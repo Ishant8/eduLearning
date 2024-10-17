@@ -1,0 +1,268 @@
+package com.education.eduAPI.service;
+
+import com.education.eduAPI.dto.PasswordDTO;
+import com.education.eduAPI.dto.UserDTO;
+import com.education.eduAPI.entity.JwtToken;
+import com.education.eduAPI.entity.User;
+import com.education.eduAPI.exception.CustomEntityNotFoundException;
+import com.education.eduAPI.mapper.CourseMapper;
+import com.education.eduAPI.mapper.UserMapper;
+import com.education.eduAPI.repository.CourseRepository;
+import com.education.eduAPI.repository.UserRepository;
+import jakarta.persistence.EntityManager;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class EduServiceImpl implements EduService{
+
+    UserRepository userRepository;
+    CourseRepository courseRepository;
+    EntityManager entityManager;
+    JWTService jwtService;
+
+    UserMapper userMapper;
+    CourseMapper courseMapper;
+
+    AuthenticationManager authManager;
+
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+
+    public EduServiceImpl(JWTService jwtService, AuthenticationManager authManager, UserRepository userRepository, EntityManager entityManager, CourseRepository courseRepository, UserMapper userMapper, CourseMapper courseMapper){
+        this.userRepository = userRepository;
+        this.entityManager = entityManager;
+        this.courseRepository = courseRepository;
+        this.userMapper = userMapper;
+        this.courseMapper = courseMapper;
+        this.authManager = authManager;
+        this.jwtService = jwtService;
+    }
+
+
+    @Override
+    public String verify(UserDTO userDTO) {
+
+        Authentication authentication = authManager.authenticate(new UsernamePasswordAuthenticationToken(userDTO.getEmail(), userDTO.getPassword()));
+
+        if(authentication.isAuthenticated()){
+            return new JwtToken(jwtService.generateToken(10,userDTO.getEmail())).getToken() ;
+        }else {
+            return "Fail";
+        }
+    }
+
+    @Override
+    public UserDTO createUserUsingDTO(UserDTO userDTO) {
+
+        User user = userMapper.toEntity(userDTO);
+        user = userRepository.save(user);
+
+        return userMapper.toDTO(user);
+    }
+
+
+    @Override
+    public String deleteUserById(UserDTO userDTO) {
+
+        userRepository.deleteById(userDTO.getUserId());
+
+        return "User with id " + userDTO.getUserId() + " has been deleted";
+    }
+
+    @Override
+    public List<UserDTO> getAllUsers() {
+
+        return userRepository.findAll().stream().map(us -> userMapper.toDTO(us)).toList();
+    }
+
+    @Override
+    public UserDTO getUserById(int id) {
+
+        User user = userRepository.findById(id).orElseThrow(() -> new CustomEntityNotFoundException("No User with Given ID Exists"));
+        return userMapper.toDTO(user);
+    }
+
+    @Override
+    public UserDTO updateUser(UserDTO userDTO) {
+
+        User user = userMapper.toEntity(userDTO);
+
+        user = userRepository.save(user);
+
+        return userMapper.toDTO(user);
+    }
+
+    @Override
+    public UserDTO getUserByEmail() {
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String email = userDetails.getUsername();
+
+        User user;
+        try {
+             user = userRepository.findUserByEmail(email);
+        }catch(Exception e){
+            throw new CustomEntityNotFoundException("No Such user with provided email");
+        }
+
+        return userMapper.toDTO(user);
+    }
+
+    @Override
+    public UserDTO updateUserProfile(UserDTO userDTO) {
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String email = userDetails.getUsername();
+
+        User user;
+        try {
+            user = userRepository.findUserByEmail(email);
+        }catch(Exception e){
+            throw new CustomEntityNotFoundException("No Such user with provided email");
+        }
+
+        if(userDTO.getFirstName() != null) user.setFirstName(userDTO.getFirstName());
+        if(userDTO.getLastName() != null) user.setLastName(userDTO.getLastName());
+        if(userDTO.getEmail() != null) user.setEmail(userDTO.getEmail());
+
+        userRepository.save(user);
+
+        return userMapper.toDTO(user);
+    }
+
+
+    @Override
+    public Boolean changePassword(PasswordDTO passwordDTO) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String password = userDetails.getPassword();
+        String username = userDetails.getUsername();
+
+        if(encoder.matches(passwordDTO.getOldPassword(),password)){
+            User user = userRepository.findUserByEmail(username);
+            System.out.println(user);
+            user.setPassword(encoder.encode(passwordDTO.getNewPassword()));
+            userRepository.save(user);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public Boolean checkPassword(PasswordDTO passwordDTO) {
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String password = userDetails.getPassword();
+
+        return encoder.matches(passwordDTO.getOldPassword(),password);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    @Override
+//    public User createUser(User user) {
+//        return userRepository.save(user);
+//    }
+//
+//    @Override
+//    public List<User> findAllUsers() {
+//
+////        User user = userRepository.findById(1).orElse(null);
+////        System.out.println(user);
+////        entityManager.detach(user);
+//
+//        return userRepository.findAll();
+//    }
+//
+//    @Override
+//    public List<Course> findAllCourses() {
+//        return courseRepository.findAll();
+//    }
+//
+//    @Override
+//    public User findUserById(int id) {
+//        return userRepository.findById(id).orElse(null);
+//    }
+//
+//    @Override
+//    public Course findCourseById(int id) {
+//        return courseRepository.findById(id).orElse(null);
+//    }
+//
+//    @Override
+//    public Object findUserNameById(int id) {
+//        return userRepository.findUserById(id);
+//    }
+//
+//    @Override
+//    public String associateUserToCourseById(int userId, int courseId) {
+//        User user = userRepository.findById(userId).orElseThrow();
+//        Course course = courseRepository.findById(courseId).orElseThrow();
+//        List<Course> courseList = user.getCourses();
+//
+//        if(courseList.contains(course)){
+//            return "Already Present";
+//        }
+//
+//        user.getCourses().add(course);
+//        userRepository.save(user);
+//
+//        return "saved";
+//    }
+//
+//    @Override
+//    public List<User> findByCourse(int c) {
+//        Course course = courseRepository.findById(c).orElseThrow();
+//
+//        return userRepository.findByCourses(course);
+//    }
+//
+//    @Override
+//    public List<Course> findByUser(int s) {
+//        User user = userRepository.findById(s).orElseThrow();
+//
+//        return courseRepository.findByUsers(user);
+//    }
+
+
+}

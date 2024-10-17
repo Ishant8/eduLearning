@@ -1,0 +1,20 @@
+<div class="d-flex my-color position-relative align-items-center">
+  <div class="p-5 rounded-3 col-12 col-md-10 offset-md-1 offset-lg-0 col-lg-8 jumbotron-bg">
+    <!-- used offset just to test centering -->
+    <div class="container-fluid py-4 ps-xl-5">
+      <h1 class="display-5 fw-bold">It's time to amplify your career!</h1>
+      <p class="col-md-11 fs-4 text-white">Elevate learning with our cutting-edge platform. Intuitive design, interactive
+        tools, and expert guidance converge for a seamless education experience. Track progress, connect with peers, and
+        unlock limitless growth potential.</p>
+      @if(!userDet())
+      {
+        <a class="btn btn-custom rounded-pill btn-lg" routerLink="/register" type="button">Sign Up</a>
+      }
+      <!-- d-block mx-auto   works on btn-->
+    </div>
+  </div>
+  <div class="col-4">
+    <img class="img-fluid jumbo-bg d-none d-xl-block" src="images/jumbo_bg2_nobg_crop_upscaled.png" alt="cat studying">
+    <img class="img-fluid jumbo-bg d-none d-lg-block d-xl-none" src="images/jumbo_bg2_nobg.png" alt="cat studying">
+  </div>
+</div>

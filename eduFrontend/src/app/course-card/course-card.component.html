@@ -1,0 +1,21 @@
+<div class="card p-0 m-0 d-flex flex-column z-1"  style="height: 100%;">
+    <div class="position-relative align-self-center">
+        <div class="img-wrapper img-border z-2"><img  
+            [src]="'data:image/*;base64,' + course().coverImage" class="img-fluid pb-1 p-0 m-0 z-3" alt="..."> </div>
+    </div>
+    <div class="card-body px-4 pt-1 d-flex flex-column justify-content-between">
+        <div>
+            <p class="card-title fs-6 green-txt  fw-bold">{{course().courseName}}</p>
+            <p class="card-text negative-mt truncate">{{description}}</p>
+        </div>
+        <div>
+            <p class="fw-bold mb-0 ">{{instructor[0]}}</p>
+            <p class="mb-0  ">{{avgRating}} ⭐⭐⭐⭐<span class="text-secondary">({{course().reviews != undefined?course().reviews.length:0}})</span></p>
+            <p class="mb-0  fw-medium text-secondary">{{course().hours}} total hours&nbsp; &nbsp;{{course().sections}} Sections</p>
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <a class="btn btn btn-custom" [routerLink]="['/course', course().courseId]" routerLink="/course">Enroll Now</a>
+                <p class=" mb-0 text-secondary">${{course().price}}</p>
+            </div>
+        </div>
+    </div>
+</div>

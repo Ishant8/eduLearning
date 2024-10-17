@@ -1,0 +1,54 @@
+@import "../node_modules/bootstrap-icons/font/bootstrap-icons.min.css";
+
+:root{
+    --primary-color:#147a55;
+    --secondary-color:#fffbe6;
+    --primary-color-dark:#20694d;
+    --secondary-color-dark:#fff8d3;
+}
+
+::selection{
+    background-color: #147a55;
+    color: white;
+}
+
+.logo-text{
+    font-size: 30px;
+    font-family: "Fira Sans", sans-serif;
+    font-weight: 500;
+    color: black;
+}
+
+.logo-inner-text{
+    color: #147a55;
+}
+
+.btn-custom, .btn-custom:disabled{
+    background-color: #147a55;
+    color: white;
+}
+
+.btn-custom:hover{
+    background-color: #0d6343;
+    color: white;
+}
+
+.small-txt{
+    font-size: 13px;
+}
+
+.green-txt{
+    color: #0d6343;
+}
+
+.green-bg{
+    background-color: #147a5580;
+}
+
+.green-bg-dark{
+    background-color: #147a55;
+}
+
+.bg-color-home{
+    background-color: #FFFBE8;
+}

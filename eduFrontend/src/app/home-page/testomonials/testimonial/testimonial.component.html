@@ -1,0 +1,12 @@
+<div class="card d-flex flex-column flex-md-row z-1">
+    <div class="position-relative align-self-center">
+        <div class="img-wrapper m-4 img-border z-2"><img [src]="'data:image/*;base64,' + review()?.profileImage" class="rounded-3 z-3" alt="..."> </div>
+    </div>
+    <div class="card-body mb-2">
+        <p class="card-title fs-2 mt-2 green-txt fw-bold ">“</p>
+        <p class="card-text ps-1 negative-mt truncate">{{review()?.comment}}</p>
+        <p class="mb-0 ps-1">★★★★</p>
+        <p class="mb-0 ps-1 fs-medium text-secondary">{{review()?.userName}}</p>
+        <a class="ps-1 text-success fw-medium truncate-course" [routerLink]="['/course',review()?.courseId]" routerLinkActive="router-link-active" >{{review()?.courseName}}</a>
+    </div>
+</div>

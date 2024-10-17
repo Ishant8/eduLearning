@@ -1,0 +1,35 @@
+.my-class::before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.18;
+    background-image: url("../../../public/images/imgpsh_fullsize_anim.png");
+    background-position: center;
+    background-size:20%;
+    z-index: -1;
+  
+}
+@media (max-width: 992px) {
+
+    /* .bg-color-home{
+        background-color: transparent;
+    } */
+    
+}
+
+.icon-custom{
+    font-size: 30px;
+    color: #4f4f4f;
+}
+
+input:focus + .placeholder-font, input:not(:placeholder-shown) + .placeholder-font{
+    font-size: 12px;
+}
+/* 
+.form-control{
+    padding-bottom: 0px;
+} */

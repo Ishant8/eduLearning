@@ -1,0 +1,71 @@
+<section class="vh-100 green-bg my-class position-relative" >
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center h-100">
+            <div class="col col-xl-10">
+                <div class="card overflow-hidden shadow-lg" style="border-radius: 1rem; border: none;">
+                    <div class="row g-0 ">
+                        <div class="col-md-5 col-lg-4 d-none d-md-flex align-items-center bg-color-home">
+                            <img src="images/docile_cow_nobg.png" alt="login form" class="img-fluid" />
+                        </div>
+                        <div class="col-md-5 col-lg-6 offset-md-1 d-flex align-items-center">
+                            <div class="card-body p-4 p-lg-5 text-black">
+
+                                <form (ngSubmit)="doLogin()" #form="ngForm">
+
+                                    <div class="d-flex align-items-center mb-3 pb-1">
+                                        <i class="bi bi-door-open fs-3 d-flex align-items-center me-1"></i>
+                                        <span class="h1 fw-bold mb-0">Log In</span>
+                                    </div>
+
+                                    <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Enter your credentials
+                                    </h5>
+
+                                    <div class="form-floating mb-4 pb-3 position-relative">
+                                        <input type="email" id="floatingInputEmail" [class.is-invalid]="checkInputStatus(email)"
+                                            class="form-control shadow-none rounded-1 form-control-lg" [(ngModel)]="username" name="username"
+                                            placeholder="name@example.com" #email="ngModel" required email />
+                                        <label class="form-label text-secondary" for="floatingInputEmail">Email address</label>
+                                    
+                                        @if (email.hasError('required') && (email.touched || email.dirty)) {
+                                        <div class="position-absolute ms-1 mt-1 small text-danger">
+                                            Email is required
+                                        </div>
+                                        }@else if(email.hasError('email') && (email.touched || email.dirty)){
+                                        <div class="position-absolute ms-1 mt-1 small text-danger">
+                                            Enter valid email
+                                        </div>
+                                        }
+                                    
+                                    </div>
+
+                                    <div class="form-floating mb-4 position-relative">
+                                        <input type="password" id="floatingInputEmailPassword" class="form-control shadow-none rounded-1 form-control-lg"
+                                            [class.is-invalid]="checkInputStatus(pass)" [(ngModel)]="password" name="password" placeholder="Password" #pass="ngModel" required minlength="3"/>
+                                        <label class="form-label text-secondary" for="floatingInputPassword">Password</label>
+
+                                        @if (pass.hasError('required') && (pass.touched || pass.dirty)) {
+                                        <div class="position-absolute ms-1 mt-1 small text-danger">
+                                            Password is required
+                                        </div>
+                                        }
+
+                                        <div class="mt-2 d-flex justify-content-end"><a class="small text-muted mb-1" href="#!">Forgot password?</a></div>
+                                    </div>
+
+                                    
+
+                                    <div class="d-grid pt-1 mb-4">
+                                        <button class="btn btn-custom btn-lg rounded-1 fw-medium" [disabled]="form.invalid" type="submit">Login</button>
+                                    </div>
+
+                                    <p class="mb-5 pb-lg-2" >Don't have an account? <a class="mall text-muted mb-1" routerLink="/register">Register here</a></p>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

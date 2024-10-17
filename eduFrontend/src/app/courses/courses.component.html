@@ -1,0 +1,186 @@
+<app-jumbotron />
+<div>
+    <div class="green-bg-dark">
+        <p class="display-5 text-white fw-bold text-center p-5 mb-0">
+            Courses to get you started
+        </p>
+    </div>
+    <div class="d-flex flex-column flex-md-row">
+        <div class="col-md-3 bg-color-home py-2 ps-5 ps-md-3 pe-5 pe-md-3 px-lg-4 px-xl-5">
+            <div>
+                <p class="fs-5 my-2 border-bottom border-black border-opacity-25 fw-bold">
+                    Filter By
+                </p>
+                <div class="mb-3">
+                    <a class="nav-link d-flex justify-content-between dropdown" href="#" data-bs-toggle="collapse"
+                        data-bs-target="#submenu" aria-expanded="false" aria-controls="submenu">
+                        <span class="description fs-5 d-block ms-2">All Courses</span>
+                        <div class="down d-flex align-items-center">
+                            <i class="bi bi-chevron-down"></i>
+                        </div>
+                        <div class="up">
+                            <i class="bi bi-chevron-up d-flex align-items-center"></i>
+                        </div>
+                    </a>
+                    <div class="collapse show ms-1" id="submenu">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item dropdown-filters">
+                                <input class="form-check-input me-1" type="checkbox" value="" id="Logo Design" />
+                                <label class="form-check-label" for="firstCheckbox">Logo Design</label>
+                            </li>
+                            <li class="list-group-item dropdown-filters">
+                                <input class="form-check-input me-1" type="checkbox" value="" id="Brand Identity" />
+                                <label class="form-check-label" for="secondCheckbox">Brand Identity</label>
+                            </li>
+                            <li class="list-group-item dropdown-filters">
+                                <input class="form-check-input me-1" type="checkbox" value="" id="UI Ux Design" />
+                                <label class="form-check-label" for="thirdCheckbox">UI Ux Design</label>
+                            </li>
+                            <li class="list-group-item dropdown-filters">
+                                <input class="form-check-input me-1" type="checkbox" value="" id="3D Modeling" />
+                                <label class="form-check-label" for="firstCheckbox">3D Modeling</label>
+                            </li>
+                            <li class="list-group-item dropdown-filters">
+                                <input class="form-check-input me-1" type="checkbox" value="" id="Product Design" />
+                                <label class="form-check-label" for="secondCheckbox">Product Design</label>
+                            </li>
+                            <li class="list-group-item dropdown-filters">
+                                <input class="form-check-input me-1" type="checkbox" value="" id="Game Design" />
+                                <label class="form-check-label" for="thirdCheckbox">Game Design</label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <a class="nav-link d-flex justify-content-between dropdown" href="#" data-bs-toggle="collapse"
+                        data-bs-target="#subradio" aria-expanded="false" aria-controls="submenu">
+                        <span class="description fs-5 d-block ms-2">Difficulty</span>
+                        <div class="down d-flex align-items-center">
+                            <i class="bi bi-chevron-down"></i>
+                        </div>
+                        <div class="up">
+                            <i class="bi bi-chevron-up d-flex align-items-center"></i>
+                        </div>
+                    </a>
+                    <div class="collapse ms-1" id="subradio">
+                        <ul class="list-group">
+                            <li class="list-group-item dropdown-filters">
+                                <input class="form-check-input me-1" type="radio" name="listGroupRadio" value=""
+                                    id="firstRadio" checked />
+                                <label class="form-check-label" for="firstRadio">Beginner</label>
+                            </li>
+                            <li class="list-group-item dropdown-filters">
+                                <input class="form-check-input me-1" type="radio" name="listGroupRadio" value=""
+                                    id="secondRadio" />
+                                <label class="form-check-label" for="secondRadio">Intermediate</label>
+                            </li>
+                            <li class="list-group-item dropdown-filters">
+                                <input class="form-check-input me-1" type="radio" name="listGroupRadio" value=""
+                                    id="thirdRadio" />
+                                <label class="form-check-label" for="thirdRadio">Advanced</label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <a class="nav-link d-flex justify-content-between dropdown" href="#" data-bs-toggle="collapse"
+                        data-bs-target="#MyRange" aria-expanded="false" aria-controls="submenu">
+                        <span class="description fs-5 d-block ms-2">Course Rating⭐</span>
+                        <div class="down d-flex align-items-center">
+                            <i class="bi bi-chevron-down"></i>
+                        </div>
+                        <div class="up">
+                            <i class="bi bi-chevron-up d-flex align-items-center"></i>
+                        </div>
+                    </a>
+                    <div class="collapse ms-2" id="MyRange">
+                        <input type="range" class="form-range" value="2" min="0" max="4" step="1" id="customRange2" />
+                        <div class="d-flex ms-1">
+                            <p class="col-3 text-start">1</p>
+                            <p class="col-2 text-start">2</p>
+                            <!-- <div class="col-3 d-flex justify-content-between">
+                                <p>3</p>
+                                <p>4</p>
+                            </div> -->
+                            <p class="col-2 text-center">3</p>
+                            <p class="col-2 text-end">4</p>
+                            <p class="col-3 text-end">5</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 px-5 py-5" id="cards">
+            <!-- <app-testomonials/> -->
+
+            @if(courses()) {
+                <div class="d-flex flex-wrap gap-5 py-4" id="cards-inner">
+                    @for (courseItem of courses(); track courseItem.courseId) {
+                        <app-course-card [course]="courseItem" class="course-card rounded-2 overflow-hidden"/>
+                    } @empty {
+                        <li>There are no Courses Available.</li>
+                    }
+                </div>
+            } @else{
+                <div class="loading d-flex justify-content-center align-items-center vh-100">
+                    <img src="images/loading/loading-elephant.gif" height="50%" alt="loader" />
+                </div>
+            }
+            
+            <div class="m-5 pt-5" id="page-nav">
+                <app-page-nav />
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="sidebar">
+    <nav class="nav flex-column">
+        <a class="nav-link" href="#">
+            <span class="icon">
+                <i class="bi bi-grid"></i>
+            </span>
+            <span class="description">Dashboard</span>
+        </a>
+        <a class="nav-link" href="#">
+            <span class="icon">
+                <i class="bi bi-clipboard-check"></i>
+            </span>
+            <span class="description">Posts</span>
+        </a>
+        <a class="nav-link" href="#">
+            <span class="icon">
+                <i class="bi bi-bell"></i>
+            </span>
+            <span class="description">Notifications</span>
+        </a>
+
+        Dropdown
+
+        <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#submenu" aria-expanded="false"
+            aria-controls="submenu">
+
+            <span class="icon">
+                <i class="bi bi-box-seam"></i>
+            </span>
+            <span class="description">Projects <i class="bi bi-caret-down-fill"></i></span>
+        </a>
+        submenu for projects
+        <div class="sub-menu collapse" id="submenu">
+            <a class="nav-link" href="#">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description">Project 1</span>
+            </a>
+        </div>
+        <a class="nav-link" href="#">
+            <span class="icon">
+                <i class="bi bi-bell"></i>
+            </span>
+            <span class="description">Notifications</span>
+        </a>
+    </nav>
+</div> -->
