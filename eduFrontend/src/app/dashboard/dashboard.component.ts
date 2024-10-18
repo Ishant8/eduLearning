@@ -2,23 +2,30 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { CourseCarouselComponent } from "./course-carousel/course-carousel.component";
 import { CourseService } from '../courses/course.service';
 import { Course } from '../courses/course.model';
+import { RouterLink } from '@angular/router';
+import { ProfileService } from '../profile-page/profile.service';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CourseCarouselComponent],
+  imports: [CourseCarouselComponent,RouterLink],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
 export class DashboardComponent implements OnInit {
   courseService = inject(CourseService);
+  profileService = inject(ProfileService);
   courses = signal<Course[] | undefined>(undefined);
   categories = signal<Set<string>>(new Set());
   filterCourses = signal<Course[] | undefined>(undefined);
   firstElement = signal<string>('Photography');
 
+  role:string="";
+
   ngOnInit(): void {
     console.log('In testimonial onInit');
+
+    this.role = this.profileService.profile()!.role;
 
     this.courseService
       .getCourses('http://localhost:8080/course/user')
@@ -41,7 +48,7 @@ export class DashboardComponent implements OnInit {
               this.categories().add(course.categoryName);
             });
   
-            this.firstElement.set(this.categories().values().next().value);
+            this.firstElement.set(this.categories().values().next().value as string);
   
             this.getFilterCourses(this.firstElement());
           }
