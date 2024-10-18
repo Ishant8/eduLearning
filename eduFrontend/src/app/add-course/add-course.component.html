@@ -45,9 +45,10 @@
           required
         >
           <option value="" selected disabled>Select a category</option>
-          <option value="Painting">Painting</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
+          @for(category of categories; track category){
+              <option [value]="category">{{category}}</option>
+          }
+          
         </select>
       </div>
 

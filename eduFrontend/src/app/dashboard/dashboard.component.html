@@ -8,7 +8,14 @@
 </div>
 <div class="mx-md-5">
     @if(courses()?.length)
-    {<app-course-carousel carouselId="Enrolled" sectionTitle="Enrolled" [courses]="courses()" />}
+    {
+        
+        <app-course-carousel carouselId="Enrolled" sectionTitle="Enrolled" [courses]="courses()" >
+            @if(role === "ROLE_ADMIN"){
+                <div><a routerLink="/course/add" class="green-txt fs-5 fw-medium">Create Course</a></div>    
+            }
+        </app-course-carousel>
+    }
     @else {
         <div class="mx-5 mx-md-0 mt-4">
             <p class="fs-2 custom-font fw-bold mb-0">Oh no....You're not enrolled in any courses.</p>

@@ -15,8 +15,16 @@
     <div #carouselContainer [id]="carouselId()" class="carousel p-5 light-bg">
 
         @if(sectionTitle() === 'Enrolled')
-        {<p class="fs-2 custom-font fw-bold mb-0">Continue Learning.</p>
-        <p class="custom-font fs-4 fw-medium mb-0">You're Enrolled in the following Courses</p>}
+        {   
+            <div class="d-flex justify-content-between">
+            <div>
+                <p class="fs-2 custom-font fw-bold mb-0">Continue Learning.</p>
+                <p class="custom-font fs-4 fw-medium mb-0">You're Enrolled in the following Courses</p>
+                
+            </div>
+            <ng-content/>
+            </div>    
+        }
 
        
         <div #carouselInner class="carousel-inner pt-4">

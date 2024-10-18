@@ -1,17 +1,19 @@
-import { Component, inject, viewChild } from '@angular/core';
+import { Component, inject, OnInit, viewChild } from '@angular/core';
 import { PhotoComponent } from '../profile-page/photo/photo.component';
 import { ControlContainer, FormsModule, NgModel } from '@angular/forms';
 import { CourseService } from '../courses/course.service';
 import { ProfileService } from '../profile-page/profile.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-add-course',
   standalone: true,
-  imports: [PhotoComponent, FormsModule],
+  imports: [PhotoComponent, FormsModule,RouterLink],
   templateUrl: './add-course.component.html',
   styleUrl: './add-course.component.css',
 })
-export class AddCourseComponent {
+export class AddCourseComponent implements OnInit {
+  
   courseName = viewChild<NgModel>('courseName');
   categoryName = viewChild<NgModel>('categoryName');
   level = viewChild<NgModel>('level');
@@ -29,6 +31,17 @@ export class AddCourseComponent {
 
   imgSrc: string | ArrayBuffer =
     'https://placehold.co/600x400/fff/20694d?text=Click+here+to+upload';
+
+    categories:string[]=[];
+
+
+    ngOnInit(): void {
+      this.courseService.getAllCategories().subscribe({
+        next:(resData)=>{
+          this.categories = resData;
+        }
+      })
+    }
 
   imgDetails(event: Event) {
     // console.log(event);
