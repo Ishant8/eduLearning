@@ -4,22 +4,31 @@ package com.education.eduAPI.controller;
 import com.education.eduAPI.dto.CategoryListDTO;
 import com.education.eduAPI.dto.CourseDTO;
 import com.education.eduAPI.service.CourseService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
 @RequestMapping("/course")
 public class CourseController {
 
+    private final ObjectMapper jacksonObjectMapper;
     CourseService courseService;
 
-    public CourseController(CourseService courseService){
+    public CourseController(CourseService courseService, ObjectMapper jacksonObjectMapper){
         this.courseService = courseService;
+        this.jacksonObjectMapper = jacksonObjectMapper;
     }
 
     @PostMapping("/create")
-    public CourseDTO createCourse(@RequestBody CourseDTO courseDTO){
+    public CourseDTO createCourse(@RequestParam("imageData") MultipartFile file, @RequestParam("instructorData") String instructorData) throws IOException {
+
+        CourseDTO courseDTO = jacksonObjectMapper.readValue(instructorData, CourseDTO.class);
+        courseDTO.setImageData(file);
+
         return courseService.createCourseUsingDto(courseDTO);
     }
 

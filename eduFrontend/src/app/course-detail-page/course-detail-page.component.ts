@@ -33,7 +33,8 @@ export class CourseDetailPageComponent implements OnInit {
     return 0
   });
 
-  description = computed(() => this.course()?.courseDescription.split("\n") as string[])
+  description = computed(() => this.course()?.courseDescription.split("-----") as string[])
+  // description:string[] = [] ;
 
 
   constructor(private route: ActivatedRoute) {}
@@ -57,6 +58,7 @@ export class CourseDetailPageComponent implements OnInit {
         next:(resData)=>{
           this.course.set(resData.find((course)=>course.courseId === this.courseId));
           this.courseService.course.set(resData)
+          // this.description = this.course()!.courseDescription.split("\n");
         }
       })
     }
@@ -64,6 +66,7 @@ export class CourseDetailPageComponent implements OnInit {
       console.log("courses are already set \n",this.courseService.course());
       
       this.course.set(this.courseService.course()?.find((course)=>course.courseId === this.courseId));
+      // this.description = this.course()?.courseDescription.split("\n") as string[];
     }
     
     

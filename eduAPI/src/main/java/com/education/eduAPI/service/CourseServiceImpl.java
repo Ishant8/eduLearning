@@ -17,6 +17,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 
@@ -37,10 +39,13 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public CourseDTO createCourseUsingDto(CourseDTO courseDTO) {
+    public CourseDTO createCourseUsingDto(CourseDTO courseDTO ) throws IOException {
 
         Course course = courseMapper.toEntity(courseDTO);
+
         course = courseRepository.save(course);
+
+        courseDTO.getImageData().transferTo(new File(course.getCoverImage().getFilePath()));
 //        System.out.println(courseRepository.save(course));
 
         return courseMapper.toDto(course);
