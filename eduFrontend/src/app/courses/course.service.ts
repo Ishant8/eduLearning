@@ -23,4 +23,10 @@ export class CourseService {
         headers: this.headers
       });
   }
+
+  getAllCourses() {
+    return this.httpClient
+      .get<Course[]>("http://localhost:8080/course/get");
+  }
+  
 }
