@@ -39,7 +39,6 @@ export class CourseService {
 
   getFilterCourses(filterData:{categoriesList:string[], levelList:string[]}){
     return this.httpClient.post<Course[]>("http://localhost:8080/course/filter", filterData);
-
   }
 
   addCourse(courseData:FormData){
