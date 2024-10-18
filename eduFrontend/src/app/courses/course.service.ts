@@ -28,5 +28,14 @@ export class CourseService {
     return this.httpClient
       .get<Course[]>("http://localhost:8080/course/get");
   }
+
+  getAllCategories() {
+    return this.httpClient
+      .get<string[]>("http://localhost:8080/category/all");
+  }
+
+  getFilterCourses(filterData:{categoriesList:string[], levelList:string[]}){
+    return this.httpClient.post<Course[]>("http://localhost:8080/course/filter", filterData);
+  }
   
 }

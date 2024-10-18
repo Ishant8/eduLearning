@@ -40,10 +40,19 @@ export class CourseDetailPageComponent implements OnInit {
 
   ngOnInit(){
 
-    this.courseId = Number(this.route.snapshot.paramMap.get('courseId'));    
+    console.log("inside course-detail-init");
+    
+
+    this.courseId = Number(this.route.snapshot.paramMap.get('courseId'));
+    console.log(this.courseId);
+        
     
     if(!this.courseService.course())
     {
+      
+      console.log("courseService.course() is empty .....");
+      
+      
       this.courseService.getCourses("http://localhost:8080/course/get").subscribe({
         next:(resData)=>{
           this.course.set(resData.find((course)=>course.courseId === this.courseId));
@@ -52,6 +61,8 @@ export class CourseDetailPageComponent implements OnInit {
       })
     }
     else{
+      console.log("courses are already set \n",this.courseService.course());
+      
       this.course.set(this.courseService.course()?.find((course)=>course.courseId === this.courseId));
     }
     

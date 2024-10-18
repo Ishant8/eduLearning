@@ -55,7 +55,7 @@ public class UserController {
             cookie.setMaxAge(60*30); // Set maxAge to 0 to delete the cookie
             response.addCookie(cookie);
 
-            return "Logged in successfully";
+            return JwtToken;
         }
 
         return "login failed";

@@ -24,30 +24,12 @@
                     </a>
                     <div class="collapse show ms-1" id="submenu">
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item dropdown-filters">
-                                <input class="form-check-input me-1" type="checkbox" value="" id="Logo Design" />
-                                <label class="form-check-label" for="firstCheckbox">Logo Design</label>
-                            </li>
-                            <li class="list-group-item dropdown-filters">
-                                <input class="form-check-input me-1" type="checkbox" value="" id="Brand Identity" />
-                                <label class="form-check-label" for="secondCheckbox">Brand Identity</label>
-                            </li>
-                            <li class="list-group-item dropdown-filters">
-                                <input class="form-check-input me-1" type="checkbox" value="" id="UI Ux Design" />
-                                <label class="form-check-label" for="thirdCheckbox">UI Ux Design</label>
-                            </li>
-                            <li class="list-group-item dropdown-filters">
-                                <input class="form-check-input me-1" type="checkbox" value="" id="3D Modeling" />
-                                <label class="form-check-label" for="firstCheckbox">3D Modeling</label>
-                            </li>
-                            <li class="list-group-item dropdown-filters">
-                                <input class="form-check-input me-1" type="checkbox" value="" id="Product Design" />
-                                <label class="form-check-label" for="secondCheckbox">Product Design</label>
-                            </li>
-                            <li class="list-group-item dropdown-filters">
-                                <input class="form-check-input me-1" type="checkbox" value="" id="Game Design" />
-                                <label class="form-check-label" for="thirdCheckbox">Game Design</label>
-                            </li>
+                            @for (cat of category(); track $index) {
+                                <li class="list-group-item dropdown-filters">
+                                    <input class="form-check-input me-1" type="checkbox" [value]="cat" (change)="addCategory($event)" [id]="cat" />
+                                    <label class="form-check-label" [for]="cat">{{cat}}</label>
+                                </li>
+                            }
                         </ul>
                     </div>
                 </div>
@@ -66,19 +48,19 @@
                     <div class="collapse ms-1" id="subradio">
                         <ul class="list-group">
                             <li class="list-group-item dropdown-filters">
-                                <input class="form-check-input me-1" type="radio" name="listGroupRadio" value=""
-                                    id="firstRadio" checked />
-                                <label class="form-check-label" for="firstRadio">Beginner</label>
+                                <input class="form-check-input me-1" type="radio" name="listGroupRadio" value="Beginner"
+                                    id="Beginner" (click)="addLevel($event)"/>
+                                <label class="form-check-label" for="Beginner">Beginner</label>
                             </li>
                             <li class="list-group-item dropdown-filters">
-                                <input class="form-check-input me-1" type="radio" name="listGroupRadio" value=""
-                                    id="secondRadio" />
-                                <label class="form-check-label" for="secondRadio">Intermediate</label>
+                                <input class="form-check-input me-1" type="radio" name="listGroupRadio" value="Intermediate"
+                                    id="Intermediate" (click)="addLevel($event)"/>
+                                <label class="form-check-label" for="Intermediate">Intermediate</label>
                             </li>
                             <li class="list-group-item dropdown-filters">
-                                <input class="form-check-input me-1" type="radio" name="listGroupRadio" value=""
-                                    id="thirdRadio" />
-                                <label class="form-check-label" for="thirdRadio">Advanced</label>
+                                <input class="form-check-input me-1" type="radio" name="listGroupRadio" value="Advanced"
+                                    id="Advanced" (click)="addLevel($event)"/>
+                                <label class="form-check-label" for="Advanced">Advanced</label>
                             </li>
                         </ul>
                     </div>

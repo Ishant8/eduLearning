@@ -4,6 +4,7 @@ import com.education.eduAPI.dto.CourseDTO;
 import com.education.eduAPI.entity.Category;
 import com.education.eduAPI.entity.Course;
 import com.education.eduAPI.entity.User;
+import com.education.eduAPI.enums.Level;
 import com.education.eduAPI.exception.CustomEntityNotFoundException;
 import com.education.eduAPI.mapper.CourseMapper;
 import com.education.eduAPI.mapper.UserMapper;
@@ -101,6 +102,17 @@ public class CourseServiceImpl implements CourseService {
         User user = userRepository.findUserByEmail(username);
 
         return courseRepository.findByUsers(user).stream().map(c-> courseMapper.toDto(c)).toList();
+
+    }
+
+    @Override
+    public List<CourseDTO> findAllCoursesByCategoryAndLevel(List<Category> categories, List<Level> levels) {
+
+        List<Category> persistentCategories = categories.stream().map((category)->{
+            return categoryRepository.findByCategoryName(category.getCategoryName());
+        }).toList();
+
+        return courseRepository.findAllByCategoryInAndLevelIn(persistentCategories, levels).stream().map(c -> courseMapper.toDto(c)).toList();
 
     }
 
