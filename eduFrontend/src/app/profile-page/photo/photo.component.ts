@@ -42,9 +42,9 @@ export class PhotoComponent {
   }
 
   uploadImage(){
-    console.log(this.imgDet());
-    this.selectedImage
-    console.log(this.selectedImage?.name);
+    // console.log(this.imgDet());
+    // this.selectedImage
+    // console.log(this.selectedImage?.name);
     
     const formData = new FormData();
     formData.append("file",this.selectedImage as File);

@@ -21,7 +21,7 @@ export class CourseCardComponent implements OnInit{
   // instructor = computed(()=> Object.values(this.course().instructorDetails)[0]);
   ngOnInit(): void {
     this.instructor = Object.values(this.course().instructorDetails);
-    this.description = this.course().courseDescription.split("\n")[1];
+    this.description = this.course().courseDescription.split("-----")[0];
 
     console.log(this.course().instructorDetails);
     

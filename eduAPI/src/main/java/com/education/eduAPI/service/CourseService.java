@@ -2,11 +2,12 @@ package com.education.eduAPI.service;
 
 import com.education.eduAPI.dto.CourseDTO;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface CourseService {
 
-    CourseDTO createCourseUsingDto(CourseDTO courseDTO);
+    CourseDTO createCourseUsingDto(CourseDTO courseDTO) throws IOException;
 
     String deleteCourseById(CourseDTO courseDTO);
 

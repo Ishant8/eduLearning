@@ -1,6 +1,7 @@
 package com.education.eduAPI.dto;
 
 import com.education.eduAPI.enums.Level;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
@@ -22,6 +23,7 @@ public class CourseDTO {
     private String profileImage;
     private Map<Integer,String> instructorDetails;
     private List<ReviewDTO> reviews;
+    private MultipartFile imageData;
 
     public CourseDTO(int courseId, String courseName, String categoryName, Map<Integer, String> instructorDetails, List<ReviewDTO> reviews) {
         this.courseId = courseId;
@@ -145,5 +147,13 @@ public class CourseDTO {
 
     public void setProfileImage(String profileImage) {
         this.profileImage = profileImage;
+    }
+
+    public MultipartFile getImageData() {
+        return imageData;
+    }
+
+    public void setImageData(MultipartFile imageData) {
+        this.imageData = imageData;
     }
 }

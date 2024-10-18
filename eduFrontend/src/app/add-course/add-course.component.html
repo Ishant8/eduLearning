@@ -1,0 +1,220 @@
+<div class="col-11 mx-auto my-5">
+  <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb" class="ms-5 ps-4">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a class="text-decoration-none" routerLink="/dashboard">Dashboard</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">Add Course</li>
+    </ol>
+  </nav>
+
+  <main class="mt-5">
+    <form class="row col-11 gap-4 mx-auto" (ngSubmit)="handleSubmit()">
+      <div class="input-group custom-width">
+        <label
+          for="course-name"
+          class="input-group-text rounded-start-1 w-25 bg-color-home green-txt fw-medium"
+        >
+          Course name
+        </label>
+        <input
+          type="text"
+          class="form-control p-2 rounded-end-1 shadow-none"
+          name="courseName"
+          id="course-name"
+          aria-describedby="courseName"
+          placeholder="Enter course name"
+          ngModel
+          #courseName = "ngModel"
+        />
+      </div>
+
+      <div class="input-group custom-width">
+        <label
+          for="course-category"
+          class="input-group-text rounded-start-1 w-25 bg-color-home green-txt fw-medium"
+          >Category</label
+        >
+        <select
+          class="form-select p-2 rounded-end-1 shadow-none"
+          name="categoryName"
+          id="course-category"
+          aria-label="Default select example"
+          ngModel
+          #categoryName = "ngModel"
+          required
+        >
+          <option value="" selected disabled>Select a category</option>
+          <option value="Painting">Painting</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+        </select>
+      </div>
+
+      <div class="input-group" style="width: 23%">
+        <label
+          for="course-level"
+          class="input-group-text rounded-start-1 bg-color-home green-txt fw-medium"
+          >Level</label
+        >
+        <select
+          class="form-select p-2 rounded-end-1 shadow-none"
+          name="level"
+          id="course-level"
+          aria-label="Default select example"
+          ngModel
+          #level = "ngModel"
+          required
+        >
+          <option value="" selected disabled>Select course level</option>
+          <option value="Beginner">Beginner</option>
+          <option value="Intermediate">Intermediate</option>
+          <option value="Advanced">Advanced</option>
+        </select>
+      </div>
+
+      <div class="input-group" style="width: 22.25%">
+        <label
+          for="course-section"
+          class="input-group-text rounded-start-1 d-flex justify-content-between bg-color-home fw-medium green-txt"
+        >
+          <span>Sections</span>
+        </label>
+        <input
+          type="number"
+          name="sections"
+          class="form-control p-2 shadow-none rounded-end-1"
+          id="course-section"
+          aria-describedby="courseName"
+          placeholder="Enter no. of sections"
+          ngModel
+          #sections = "ngModel"
+          required
+        />
+      </div>
+
+      <div class="input-group" style="width: 22%">
+        <label
+          for="course-hour"
+          class="input-group-text rounded-start-1 w-50 bg-color-home green-txt fw-medium"
+        >
+          <span>Hours</span>
+        </label>
+        <input
+          type="number"
+          class="form-control p-2 shadow-none rounded-end-1"
+          name="hours"
+          id="course-hour"
+          aria-describedby="courseName"
+          placeholder="Enter hours"
+          ngModel
+          #hours = "ngModel"
+          required
+        />
+      </div>
+
+      <div class="input-group" style="width: 23%">
+        <label
+          for="course-price"
+          class="input-group-text rounded-start-1 w-50 d-flex justify-content-between bg-color-home green-txt fw-medium"
+        >
+          <span>Price</span><span>$</span>
+        </label>
+        <input
+          type="number"
+          class="form-control p-2 shadow-none rounded-end-1"
+          name="price"
+          id="course-price"
+          aria-describedby="courseName"
+          placeholder="Enter price"
+          ngModel
+          #price = "ngModel"
+          required
+        />
+      </div>
+
+      <div class="input-group d-flex flex-column custom-width">
+        <label
+          for="course-description"
+          class="input-group-text rounded-0 rounded-top-1 border-bottom-0 p-2 bg-color-home green-txt fw-medium"
+          >Description</label
+        >
+        <textarea
+          id="course-description"
+          name="description"
+          class="form-control w-100 rounded-0 rounded-bottom-1 shadow-none"
+          rows="8"
+          style="resize: none"
+          aria-label="With textarea"
+          placeholder="Enter description about course..."
+          ngModel
+          #description = "ngModel"
+          required
+        ></textarea>
+      </div>
+
+      <div class="input-group d-flex flex-column custom-width">
+        <label
+          for="course-curriculum"
+          class="input-group-text rounded-0 rounded-top-1 border-bottom-0 p-2 bg-color-home green-txt fw-medium"
+          >Curriculum</label
+        >
+        <textarea
+          id="course-curriculum"
+          name="curriculam"
+          class="form-control w-100 rounded-0 rounded-bottom-1 shadow-none"
+          rows="8"
+          style="resize: none"
+          aria-label="With textarea"
+          placeholder="Enter curriculam about course..."
+          ngModel
+          #curriculum = "ngModel"
+          required
+        ></textarea>
+      </div>
+      <div class="input-group d-flex flex-column custom-width">
+        <label
+          for="course-review"
+          class="input-group-text rounded-0 rounded-top-1 border-bottom-0 p-2 bg-color-home green-txt fw-medium"
+          >About You</label
+        >
+        <textarea
+          id="course-review"
+          name="review"
+          class="form-control w-100 rounded-0 rounded-bottom-1 shadow-none"
+          rows="8"
+          style="resize: none"
+          aria-label="With textarea"
+          placeholder="Enter about you..."
+          ngModel
+          #courseReview = "ngModel"
+          required
+        ></textarea>
+      </div>
+      <div class="input-group d-flex flex-column custom-width">
+        <label for="course-image" class="border rounded-1">
+          <p class="fw-medium p-2 border-bottom bg-color-home green-txt">
+            Add Course Image
+          </p>
+          <img [src]="imgSrc" alt="" class="custom-image mb-3" />
+        </label>
+        <input
+          type="file"
+          id="course-image"
+          name="coverImage"
+          class="d-none"
+          (change)="imgDetails($event)"
+          ngModel
+          #coverImage = "ngModel"
+          required
+        />
+      </div>
+
+      <div>
+        <button type="submit" class="btn btn-custom btn-lg rounded-1">
+          Add Course
+        </button>
+      </div>
+    </form>
+  </main>
+</div>
