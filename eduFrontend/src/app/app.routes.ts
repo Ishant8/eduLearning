@@ -13,12 +13,18 @@ import { NotExpr } from "@angular/compiler";
 import { NotFoundComponent } from "./not-found/not-found.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { PhotoComponent } from "./profile-page/photo/photo.component";
+import { AddCourseComponent } from "./add-course/add-course.component";
 
 
 export const routes:Routes=[
     {
         path:'',
         component:HomePageComponent
+    },
+    {
+        path:'course/add',
+        component:AddCourseComponent,
+        canActivate:[LoggedIn]
     },
     {
         path:'course/:courseId',
@@ -55,7 +61,9 @@ export const routes:Routes=[
     },
     {
         path:'dashboard',
-        component:DashboardComponent
+        component:DashboardComponent,
+        canActivate:[LoggedIn],
+
     },
     {
         path:'courses',

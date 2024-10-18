@@ -1,0 +1,10 @@
+.custom-width{
+    width: 47%;
+}
+
+.custom-image{
+    height: 250px;
+    width: 100%;
+    object-fit: contain;
+    object-position: center;
+}
