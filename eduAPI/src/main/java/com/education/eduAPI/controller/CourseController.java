@@ -1,6 +1,7 @@
 package com.education.eduAPI.controller;
 
 
+import com.education.eduAPI.dto.CategoryListDTO;
 import com.education.eduAPI.dto.CourseDTO;
 import com.education.eduAPI.service.CourseService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -61,6 +62,16 @@ public class CourseController {
     public List<CourseDTO> findCourseByUser(){
         return courseService.findCoursesByUser();
     }
+
+    @PostMapping("/filter")
+    public List<CourseDTO> findFilteredCourses(@RequestBody CategoryListDTO categoriesList){
+
+        System.out.println("------------------------------"+categoriesList+"----"+categoriesList.getLevelList());
+
+        return courseService.findAllCoursesByCategoryAndLevel(categoriesList.getCategoriesList(), categoriesList.getLevelList());
+    }
+
+
 
 
 

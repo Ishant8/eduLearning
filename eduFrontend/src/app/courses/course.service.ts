@@ -31,11 +31,21 @@ export class CourseService {
       .get<Course[]>("http://localhost:8080/course/get");
   }
 
+
+  getAllCategories() {
+    return this.httpClient
+      .get<string[]>("http://localhost:8080/category/all");
+  }
+
+  getFilterCourses(filterData:{categoriesList:string[], levelList:string[]}){
+    return this.httpClient.post<Course[]>("http://localhost:8080/course/filter", filterData);
+
   addCourse(courseData:FormData){
     return this.httpClient.post("http://localhost:8080/course/create",courseData,{
       headers:this.headers,
       withCredentials:true
     });
+
   }
   
 }

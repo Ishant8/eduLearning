@@ -24,19 +24,27 @@ export class DashboardComponent implements OnInit {
       .getCourses('http://localhost:8080/course/user')
       .subscribe({
         next: (resData) => {
-          console.log(resData);
 
           this.courses.set(resData);
 
-          resData.forEach((course) => {
-            this.categories().add(course.categoryName);
-          });
-
-          this.firstElement.set(this.categories().values().next().value);
-          console.log(this.firstElement());
-
-          this.getFilterCourses(this.firstElement());
-          this.courseService.course.set(resData);
+          if(resData.length == 0)
+            {
+              this.courseService.getAllCourses().subscribe({
+                next:(resData2)=>{
+                  this.courseService.course.set(resData2);
+                  console.log(this.courseService.course());
+                }
+              })
+            }
+          else{
+            resData.forEach((course) => {
+              this.categories().add(course.categoryName);
+            });
+  
+            this.firstElement.set(this.categories().values().next().value);
+  
+            this.getFilterCourses(this.firstElement());
+          }
         },
       });
   }
