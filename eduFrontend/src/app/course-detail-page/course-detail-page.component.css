@@ -5,6 +5,22 @@
     border-radius: 50%;
 }
 
+.select-custom{
+    background-color: #EEEDED;
+    color: black;
+}
+
+.select-custom:hover{
+    background-color: #e4e4e4;
+    color: black;
+}
+
+.select-custom:focus{
+    background-color: #e4e4e4;
+    border: 1px solid #147a55;
+    color: black;
+}
+
 .custom-fixed{
     position: fixed;
     right: 0px;
@@ -20,10 +36,15 @@
     color:var(--primary-color-dark);
 }
 
-.custom-width{
+.dropdown-item:hover{
+    background-color: #147a55;
+    color: white;
+}
+
+/* .custom-width{
 
     width:47%;
-}
+} */
 
 .custom-form{
     border: none;

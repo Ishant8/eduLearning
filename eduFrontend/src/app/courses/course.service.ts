@@ -4,6 +4,8 @@ import { getCookie, setCookie } from '../utils/cookie.util';
 import { Course } from './course.model';
 import { reportUnhandledError } from 'rxjs/internal/util/reportUnhandledError';
 import { AddCourse } from '../add-course/add-course.model';
+import { WriteReview } from '../course-detail-page/review.model';
+import { Review } from '../home-page/testomonials/testimonial.model';
 
 @Injectable({
   providedIn: 'root',
@@ -55,6 +57,7 @@ export class CourseService {
       headers:this.headers,
       withCredentials:true
     });
+  }
 
   getCoursesBySearch(searchItem:string){
     return this.httpClient.get<Course[]>("http://localhost:8080/course/search?search="+searchItem,{
@@ -62,6 +65,14 @@ export class CourseService {
       withCredentials:true
     })
 
+  }
+
+  sendReview(review: WriteReview, url:string){
+    return this.httpClient.post(url,review,{
+      responseType:'text',
+      headers:this.headers,
+      withCredentials:true
+    })
   }
   
 }
