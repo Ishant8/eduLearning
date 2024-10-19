@@ -73,3 +73,26 @@ font-size: .7rem;
     border: 2px solid var(--primary-color);
     color: #147a55;
 }
+
+.custom-dropdown{
+    background-color: #fff;
+    position: absolute;
+    z-index: 10; 
+    max-height: 80vh;
+    overflow: scroll;
+}
+
+.custom-image{
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+}
+
+.truncate{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    line-clamp: inherit;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}

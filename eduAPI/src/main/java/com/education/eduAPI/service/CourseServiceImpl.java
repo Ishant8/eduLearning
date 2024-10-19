@@ -121,4 +121,10 @@ public class CourseServiceImpl implements CourseService {
 
     }
 
+    @Override
+    public List<CourseDTO> findAllCoursesByCourseNameOrInstructor(String searchItem) {
+        List<Course> courses = courseRepository.findByCourseNameAndInstructor(searchItem);
+        return courses.stream().map(c-> courseMapper.toDto(c)).toList();
+    }
+
 }

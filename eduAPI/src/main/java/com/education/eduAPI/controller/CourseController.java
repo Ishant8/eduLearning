@@ -71,6 +71,10 @@ public class CourseController {
         return courseService.findAllCoursesByCategoryAndLevel(categoriesList.getCategoriesList(), categoriesList.getLevelList());
     }
 
+    @GetMapping("/search")
+    public List<CourseDTO> findCourseBySearch(@RequestParam("search") String keyword){
+        return courseService.findAllCoursesByCourseNameOrInstructor(keyword);
+    }
 
 
 
