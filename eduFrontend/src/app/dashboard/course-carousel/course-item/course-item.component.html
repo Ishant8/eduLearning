@@ -6,7 +6,7 @@
     </div>
     <div class="card-body px-4 pt-1 d-flex flex-column justify-content-between">
         <div>
-            <p class="card-title fs-6 green-txt  fw-bold">{{course().courseName}}</p>
+            <a [routerLink]="['/course', course().courseId]" class="card-title fs-6 green-txt  fw-bold">{{course().courseName}}</a>
             @if(!enrolled()){<p class="card-text negative-mt truncate">{{description}}</p>}
         </div>
         <div>

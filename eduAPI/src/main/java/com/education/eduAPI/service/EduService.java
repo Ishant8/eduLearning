@@ -29,6 +29,8 @@ public interface EduService {
 
     Boolean checkPassword(PasswordDTO passwordDTO);
 
+    UserDTO enrolUser(String courseName);
+
 
 
 

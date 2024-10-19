@@ -112,7 +112,11 @@
             </div>
           </div>
           <hr />
-          <button class="btn btn-custom d-block m-auto">Enroll Now!</button>
+          @if(!profileService.profile()?.courseNames?.includes(courseName()))
+          {<button class="btn fs-6 px-3 btn-custom d-block m-auto" (click)="enrol(course()?.courseName)">Enroll</button>}
+          @else {
+            <p class="mb-0 text-center fw-medium green-txt">Already Enrolled</p>
+          }
         </div>
       </div>
     </main>

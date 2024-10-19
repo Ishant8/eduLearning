@@ -1,6 +1,6 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { TestomonialsComponent } from "../home-page/testomonials/testomonials.component";
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CourseService } from '../courses/course.service';
 import { Course } from '../courses/course.model';
 import { ProfileService } from '../profile-page/profile.service';
@@ -16,7 +16,12 @@ export class CourseDetailPageComponent implements OnInit {
   
   courseId:number | undefined
   courseService = inject(CourseService)
+  router = inject(Router)
   course = signal<Course | undefined>(undefined)
+
+  courseName = (() => this.course()!.courseName)
+
+  
 
   profileService = inject(ProfileService);
 
@@ -86,6 +91,20 @@ export class CourseDetailPageComponent implements OnInit {
     // console.log(this.description);
     
     
+    
+  }
+
+  enrol(theCourseName:string | undefined){
+    this.courseService.enrolCourse(theCourseName).subscribe({
+      next:(resData)=>{
+        console.log(resData);
+      },
+      complete:()=>{
+        this.router.navigate(['/dashboard']).then(()=>{
+          window.location.reload();
+        });
+      }
+    })
     
   }
 

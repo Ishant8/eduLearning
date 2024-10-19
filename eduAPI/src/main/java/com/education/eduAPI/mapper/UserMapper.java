@@ -54,6 +54,8 @@ public class UserMapper {
         else
             userDTO.setProfileImage(null);
 
+        System.out.println("------------------------------------------------------------------------------"+user.getCourses());
+
         userDTO.setCourseNames(user.getCourses() != null?
                 user.getCourses().stream().map(Course::getCourseName).toList()
                 :null);

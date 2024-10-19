@@ -2,6 +2,7 @@ package com.education.eduAPI.service;
 
 import com.education.eduAPI.dto.PasswordDTO;
 import com.education.eduAPI.dto.UserDTO;
+import com.education.eduAPI.entity.Course;
 import com.education.eduAPI.entity.JwtToken;
 import com.education.eduAPI.entity.User;
 import com.education.eduAPI.exception.CustomEntityNotFoundException;
@@ -165,38 +166,24 @@ public class EduServiceImpl implements EduService{
         return encoder.matches(passwordDTO.getOldPassword(),password);
     }
 
+    @Override
+    public UserDTO enrolUser(String courseName) {
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String email = userDetails.getUsername();
+
+        User user = userRepository.findUserByEmail(email);
+        Course course = courseRepository.findCourseByCourseName(courseName);
+        List<Course> existingCourses = user.getCourses();
+        existingCourses.add(course);
+
+        user.setCourses(existingCourses);
+        System.out.println("-----------------------------------------------------------------------------------------------------");
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        return userMapper.toDTO(userRepository.save(user));
+    }
 
 
 //    @Override

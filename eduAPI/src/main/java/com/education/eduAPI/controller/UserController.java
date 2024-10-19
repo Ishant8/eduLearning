@@ -147,6 +147,11 @@ public class UserController {
         return ResponseEntity.ok().contentType(MediaType.asMediaType(new MimeType("image",subtype))).body(image);
     }
 
+    @PostMapping("/enrol")
+    public UserDTO enrolUser(@RequestBody String courseName){
+        return eduService.enrolUser(courseName);
+    }
+
 
 
 
