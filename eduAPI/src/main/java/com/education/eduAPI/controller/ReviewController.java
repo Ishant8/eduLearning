@@ -1,9 +1,7 @@
 package com.education.eduAPI.controller;
 
 
-import com.education.eduAPI.dto.CourseDTO;
 import com.education.eduAPI.dto.ReviewDTO;
-import com.education.eduAPI.service.CourseService;
 import com.education.eduAPI.service.ReviewService;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,6 +37,18 @@ public class ReviewController {
     public ReviewDTO createReview(@RequestBody ReviewDTO reviewDTO)
     {
         return reviewService.createReview(reviewDTO);
+    }
+
+    @PostMapping("/addReview")
+    public String addReview(@RequestBody ReviewDTO reviewDTO)
+    {
+        return reviewService.addReview(reviewDTO);
+    }
+
+    @PostMapping("/updateReview")
+    public String updateReview(@RequestBody ReviewDTO reviewDTO)
+    {
+        return reviewService.updateReview(reviewDTO);
     }
 
 }

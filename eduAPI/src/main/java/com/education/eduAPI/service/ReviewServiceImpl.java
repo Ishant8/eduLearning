@@ -3,10 +3,14 @@ package com.education.eduAPI.service;
 import com.education.eduAPI.dto.ReviewDTO;
 import com.education.eduAPI.entity.Course;
 import com.education.eduAPI.entity.Review;
+import com.education.eduAPI.entity.User;
 import com.education.eduAPI.exception.CustomEntityNotFoundException;
 import com.education.eduAPI.mapper.ReviewMapper;
 import com.education.eduAPI.repository.CourseRepository;
 import com.education.eduAPI.repository.ReviewRepository;
+import com.education.eduAPI.repository.UserRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,13 +19,15 @@ import java.util.List;
 public class ReviewServiceImpl implements ReviewService {
 
     private final CourseRepository courseRepository;
+    private final UserRepository userRepository;
     ReviewRepository reviewRepository;
     ReviewMapper reviewMapper;
 
-    public ReviewServiceImpl(ReviewRepository reviewRepository, ReviewMapper reviewMapper, CourseRepository courseRepository) {
+    public ReviewServiceImpl(ReviewRepository reviewRepository, ReviewMapper reviewMapper, CourseRepository courseRepository, UserRepository userRepository) {
         this.reviewRepository = reviewRepository;
         this.reviewMapper = reviewMapper;
         this.courseRepository = courseRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -55,4 +61,43 @@ public class ReviewServiceImpl implements ReviewService {
 
         return reviewRepository.findByCourse(course).stream().map(rv -> reviewMapper.toDto(rv)).toList();
     }
+
+    @Override
+    public String addReview(ReviewDTO reviewDTO) {
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = userDetails.getUsername();
+
+        User user = userRepository.findUserByEmail(username);
+        Course course = courseRepository.findCourseByCourseName(reviewDTO.getCourseName());
+
+        if(course.getUsers().contains(user))
+        {
+            Review review = new Review(reviewDTO.getComment(), reviewDTO.getRating());
+            review.setUser(user);
+            review.setCourse(course);
+            return reviewMapper.toDto(reviewRepository.save(review)).toString();
+        }
+
+        return "User not Enrolled";
+
+    }
+
+    @Override
+    public String updateReview(ReviewDTO reviewDTO) {
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = userDetails.getUsername();
+
+        User user = userRepository.findUserByEmail(username);
+        Course course = courseRepository.findCourseByCourseName(reviewDTO.getCourseName());
+
+        Review review = reviewRepository.findByCourseAndUser(course, user).get(0);
+
+        review.setComment(reviewDTO.getComment());
+        review.setRating(reviewDTO.getRating());
+        return reviewMapper.toDto(reviewRepository.save(review)).toString();
+    }
+
+
 }

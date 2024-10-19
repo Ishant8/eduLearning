@@ -125,26 +125,43 @@
 
   <div class="m-5 px-3 row">
     <div class="col-8">
-      <h3>Leave a Comment</h3>
-      <form action="#" class="d-flex flex-wrap gap-3 justify-content-between mt-5 ms-1">
+      <!-- @if(isReviewed()) 
+      {
+        <h3>Leave a Review</h3>
+      }@else{
+        <h3>Update Review</h3>
+      } -->
+      <h3>Leave a Review</h3>
+      <form #form = "ngForm" (ngSubmit)="addReview()" class="d-flex flex-wrap gap-3 mt-5 ms-1">
 
-        <div class="form-floating mb-3 custom-width">
-          <input type="email" class="form-control custom-form" id="floatingInput" placeholder="John Doe">
-          <label for="floatingInput">Full Name</label>
-        </div>
-
-        <div class="form-floating mb-3 custom-width">
-          <input type="email" class="form-control custom-form" id="floatingInput" placeholder="name@example.com">
-          <label for="floatingInput">Email</label>
+        <div class="w-100 d-flex gap-5">
+          
+          <div class="form-floating mb-3 col-8">
+            <input type="email" class="form-control custom-form" id="floatingInput" [(ngModel)]="fullName" name="fullname" placeholder="John Doe">
+            <label for="floatingInput">Full Name</label>
+          </div>
+          
+          <div class="col-3 mb-3 d-flex align-items-center justify-content-center">
+            <select class="form-select p-2 rounded-end-1 shadow-none select-custom" [(ngModel)]="rating" name="rarating" aria-label="Default select example">
+              <option value="7" selected>
+                  ⭐ Select Rating
+              </option>
+              <option class="option-custom" value="5">(5) Excellent </option>
+              <option class="option-custom" value="4">(4) Great </option>
+              <option class="option-custom" value="3">(3) Average </option>
+              <option class="option-custom" value="2">(2) Bad </option>
+              <option class="option-custom" value="1">(1) Horrible </option>
+            </select>
+          </div>
         </div>
 
         <div class="form-floating mb-3 w-100">
-          <input type="email" class="form-control custom-form" id="floatingInput" placeholder="">
-          <label for="floatingInput">Subject</label>
+          <input type="email" class="form-control custom-form" [(ngModel)]="email" name="email" id="floatingInput" placeholder="">
+          <label for="floatingInput">Email {{email}}</label>
         </div>
 
         <div class="form-floating w-100">
-          <textarea class="form-control custom-form" style="height: 150px;" placeholder="Leave your message here" id="floatingTextarea"></textarea>
+          <textarea class="form-control custom-form" style="height: 150px;" [(ngModel)]="comment" name="comment" placeholder="Leave your message here" id="floatingTextarea"></textarea>
           <label for="floatingTextarea">Your Message</label>
         </div>
 

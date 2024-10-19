@@ -33,6 +33,11 @@
     color: white;
 }
 
+.btn-custom:focus{
+    background-color: #0d6343;
+    color: white;
+}
+
 .small-txt{
     font-size: 13px;
 }

@@ -89,4 +89,18 @@ public class ReviewDTO {
     public void setCourseName(String courseName) {
         this.courseName = courseName;
     }
+
+    @Override
+    public String toString() {
+        return "ReviewDTO{" +
+                "reviewId=" + reviewId +
+                ", comment='" + comment + '\'' +
+                ", userName='" + userName + '\'' +
+                ", profileImage='" + profileImage + '\'' +
+                ", userId=" + userId +
+                ", courseId=" + courseId +
+                ", courseName='" + courseName + '\'' +
+                ", rating=" + rating +
+                '}';
+    }
 }
