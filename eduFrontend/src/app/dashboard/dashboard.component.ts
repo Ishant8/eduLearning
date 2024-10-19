@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { CourseCarouselComponent } from "./course-carousel/course-carousel.component";
 import { CourseService } from '../courses/course.service';
 import { Course } from '../courses/course.model';
@@ -20,12 +20,15 @@ export class DashboardComponent implements OnInit {
   filterCourses = signal<Course[] | undefined>(undefined);
   firstElement = signal<string>('Photography');
 
-  role:string="";
+  role = computed(() => this.profileService.profile()?.role);
 
   ngOnInit(): void {
     console.log('In testimonial onInit');
 
-    this.role = this.profileService.profile()!.role;
+    setTimeout(()=>{
+      console.log(this.profileService.profile());
+    }, 1000)
+    
 
     this.courseService
       .getCourses('http://localhost:8080/course/user')

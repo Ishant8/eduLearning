@@ -11,7 +11,7 @@
     {
         
         <app-course-carousel carouselId="Enrolled" sectionTitle="Enrolled" [courses]="courses()" >
-            @if(role === "ROLE_ADMIN"){
+            @if(role() === "ROLE_ADMIN"){
                 <div><a routerLink="/course/add" class="green-txt fs-5 fw-medium">Create Course</a></div>    
             }
         </app-course-carousel>

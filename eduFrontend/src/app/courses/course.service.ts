@@ -48,5 +48,12 @@ export class CourseService {
     });
 
   }
+
+  enrolCourse(courseName:string|undefined){
+    return this.httpClient.post("http://localhost:8080/user/enrol",courseName,{
+      headers:this.headers,
+      withCredentials:true
+    });
+  }
   
 }
