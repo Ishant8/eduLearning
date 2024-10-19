@@ -24,4 +24,6 @@ public interface CourseService {
     List<CourseDTO> findCoursesByUser();
 
     List<CourseDTO> findAllCoursesByCategoryAndLevel(List<Category> categoryName, List<Level> levels);
+
+    List<CourseDTO> findAllCoursesByCourseNameOrInstructor(String searchItem);
 }
