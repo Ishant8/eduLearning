@@ -24,7 +24,7 @@
         }
       </ul>
 
-      <div class="col-lg-4 ps-3 ps-lg-0 ms-auto me-3 mb-3 mb-lg-0">
+      <div class="col-lg-6 ps-3 ps-lg-0 ms-auto me-3 mb-3 mb-lg-0 position-relative">
         <div class="input-group ">
           
             <span class="input-group-text rounded-start-pill bg-white border-end-0" id="basic-addon1">
@@ -32,8 +32,30 @@
             </span>
           
           <input type="text" class="form-control rounded-end-pill border-start-0" placeholder="Search"
-            aria-label="Username" aria-describedby="basic-addon1">
+            aria-label="Username" aria-describedby="basic-addon1" name="search" [(ngModel)]="searchString" (keyup)="getCoursesByFilter()" (blur)="hideDropdown()">
         </div>
+
+        <div class="custom-dropdown w-100 d-none" id="dropdown-custom">
+          @for (course of courses(); track course.courseId) {
+            <div class="d-flex align-items-center border-bottom">
+              <div class="px-2 m-auto col-2">
+                <img [src]="'data:image/*;base64,'+course.coverImage" alt="working img" class="custom-image">
+              </div>
+              <div class="border-start p-2 col-10">
+                <p class="truncate fw-bold ">{{course.courseName}}</p>
+                <!-- @for(instructorName of ;track instructorName.id){
+
+                } -->
+                <p class="truncate">{{course.instructorDetails}}</p>
+              </div>
+            </div>
+          }@empty {
+            <div>
+              <p>No Data Found</p>
+            </div>
+          }
+        </div>
+
       </div>
 
       @if(!isLoggedIn())

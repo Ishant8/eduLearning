@@ -48,5 +48,12 @@ export class CourseService {
     });
 
   }
+
+  getCoursesBySearch(searchItem:string){
+    return this.httpClient.get<Course[]>("http://localhost:8080/course/search?search="+searchItem,{
+      headers:this.headers,
+      withCredentials:true
+    })
+  }
   
 }
