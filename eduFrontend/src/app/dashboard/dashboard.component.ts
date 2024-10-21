@@ -39,7 +39,7 @@ export class DashboardComponent implements OnInit {
 
           if(resData.length == 0)
             {
-              this.courseService.getAllCourses().subscribe({
+              this.courseService.getAllCourses(1).subscribe({
                 next:(resData2)=>{
                   this.courseService.course.set(resData2);
                   console.log(this.courseService.course());

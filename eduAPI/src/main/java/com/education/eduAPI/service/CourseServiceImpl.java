@@ -111,13 +111,15 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<CourseDTO> findAllCoursesByCategoryAndLevel(List<Category> categories, List<Level> levels) {
+    public List<CourseDTO> findAllCoursesByCategoryAndLevel(List<Category> categories, List<Level> levels, int page, int size) {
 
         List<Category> persistentCategories = categories.stream().map((category)->{
             return categoryRepository.findByCategoryName(category.getCategoryName());
         }).toList();
 
-        return courseRepository.findAllByCategoryInAndLevelIn(persistentCategories, levels).stream().map(c -> courseMapper.toDto(c)).toList();
+        PageRequest pageRequest = PageRequest.of(page,size);
+
+        return courseRepository.findAllByCategoryInAndLevelInOrderByCourseId(persistentCategories, levels,pageRequest).stream().map(c -> courseMapper.toDto(c)).toList();
 
     }
 

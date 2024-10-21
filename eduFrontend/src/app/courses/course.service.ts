@@ -6,12 +6,16 @@ import { reportUnhandledError } from 'rxjs/internal/util/reportUnhandledError';
 import { AddCourse } from '../add-course/add-course.model';
 import { WriteReview } from '../course-detail-page/review.model';
 import { Review } from '../home-page/testomonials/testimonial.model';
+import { BehaviorSubject, debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CourseService {
   course = signal<Course[] | undefined>(undefined);
+  public pageSubject = new BehaviorSubject<number>(1);
+  public pages$ = this.pageSubject.asObservable();
+  pages=signal<number>(0);
 
   httpClient = inject(HttpClient);
   destroyRef = inject(DestroyRef);
@@ -28,9 +32,9 @@ export class CourseService {
       });
   }
 
-  getAllCourses() {
+  getAllCourses(page:number) {
     return this.httpClient
-      .get<Course[]>("http://localhost:8080/course/get");
+      .get<Course[]>("http://localhost:8080/course/get?page="+--page+"&size="+6);
   }
 
 
@@ -39,8 +43,13 @@ export class CourseService {
       .get<string[]>("http://localhost:8080/category/all");
   }
 
-  getFilterCourses(filterData:{categoriesList:string[], levelList:string[]}){
-    return this.httpClient.post<Course[]>("http://localhost:8080/course/filter", filterData);
+  getSizeOfCourses(filterData:{categoriesList:string[], levelList:string[]}){
+    return this.httpClient.post<number>("http://localhost:8080/course/size", filterData);
+
+  }
+
+  getFilterCourses(filterData:{categoriesList:string[], levelList:string[]},page:number){
+    return this.httpClient.post<Course[]>("http://localhost:8080/course/filter?page="+--page+"&size="+6, filterData);
   }
 
   addCourse(courseData:FormData){

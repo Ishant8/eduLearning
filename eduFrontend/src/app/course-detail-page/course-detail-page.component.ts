@@ -64,31 +64,17 @@ export class CourseDetailPageComponent implements OnInit {
 
     console.log("inside course-detail-init");
     
+    this.fetchDetails();
 
-    this.courseId = Number(this.route.snapshot.paramMap.get('courseId'));
+    this.route.paramMap.subscribe(params => {
+      this.courseId = Number(params.get('courseId')); 
+      this.fetchDetails();
+    });
+
     console.log(this.courseId);
         
     
-    if(!this.courseService.course())
-    {
-      
-      console.log("courseService.course() is empty .....");
-      
-      
-      this.courseService.getCourses("http://localhost:8080/course/get").subscribe({
-        next:(resData)=>{
-          this.course.set(resData.find((course)=>course.courseId === this.courseId));
-          this.courseService.course.set(resData)
-          // this.description = this.course()!.courseDescription.split("\n");
-        }
-      })
-    }
-    else{
-      console.log("courses are already set \n",this.courseService.course());
-      
-      this.course.set(this.courseService.course()?.find((course)=>course.courseId === this.courseId));
-      // this.description = this.course()?.courseDescription.split("\n") as string[];
-    }
+    
     
     
 
@@ -108,6 +94,31 @@ export class CourseDetailPageComponent implements OnInit {
     
     
     
+  }
+
+  fetchDetails(){
+    if(!this.courseService.course())
+      {
+        
+        console.log("courseService.course() is empty .....");
+        
+        
+        this.courseService.getCourses("http://localhost:8080/course/get").subscribe({
+          next:(resData)=>{
+            console.log("Data fetched");
+            
+            this.course.set(resData.find((course)=>course.courseId === this.courseId));
+            this.courseService.course.set(resData)
+            // this.description = this.course()!.courseDescription.split("\n");
+          }
+        })
+      }
+      else{
+        console.log("courses are already set \n",this.courseService.course());
+        
+        this.course.set(this.courseService.course()?.find((course)=>course.courseId === this.courseId));
+        // this.description = this.course()?.courseDescription.split("\n") as string[];
+      }
   }
 
   enrol(theCourseName:string | undefined){

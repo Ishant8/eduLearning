@@ -24,37 +24,38 @@
         }
       </ul>
 
-      <div class="col-lg-6 ps-3 ps-lg-0 ms-auto me-3 mb-3 mb-lg-0 position-relative">
+      <div class="col-lg-6 ps-3 ps-lg-0 ms-auto me-3 mb-3 mb-lg-0 position-relative search-functionality" >
         <div class="input-group ">
           
             <span class="input-group-text rounded-start-pill bg-white border-end-0" id="basic-addon1">
               <i class="bi bi-search"></i>
             </span>
           
-          <input type="text" class="form-control rounded-end-pill border-start-0" placeholder="Search"
-            aria-label="Username" aria-describedby="basic-addon1" name="search" [(ngModel)]="searchString" (keyup)="getCoursesByFilter()" (blur)="hideDropdown()">
+          <input type="text" class="form-control rounded-end-pill border-start-0" placeholder="Search" autocomplete="off"
+            aria-label="Username" aria-describedby="basic-addon1" name="search" [formControl]="searchControl"  >
         </div>
 
-        <div class="custom-dropdown w-100 d-none" id="dropdown-custom">
-          @for (course of courses(); track course.courseId) {
-            <div class="d-flex align-items-center border-bottom">
-              <div class="px-2 m-auto col-2">
-                <img [src]="'data:image/*;base64,'+course.coverImage" alt="working img" class="custom-image">
+        @if(searchControl.value!.length>=3){
+          <div class="custom-dropdown w-100" id="dropdown-custom">
+            @for (course of courses(); track course.courseId) {
+              <a class="d-flex align-items-center border-bottom text-decoration-none" role="button" (click)="navigateToCourse(course.courseId)">
+                <div class="px-2 m-auto col-2">
+                  <img [src]="'data:image/*;base64,'+course.coverImage" alt="working img" class="custom-image">
+                </div>
+                <div class="border-start p-2 col-10">
+                  <p class="truncate fw-bold fs-5 green-txt">{{course.courseName}}</p>
+                  <!-- @for(instructorName of course.instructorDetails | keyvalue;track $index){ -->
+                    <span class="text-black"><strong>Instructors:</strong> {{instructorNames(course.instructorDetails)}} </span>
+                  <!-- } -->
+                </div>
+              </a>
+            }@empty {
+              <div class="d-flex justify-content-center align-items-center">
+                <p class="fs-2">No Data Found</p>
               </div>
-              <div class="border-start p-2 col-10">
-                <p class="truncate fw-bold ">{{course.courseName}}</p>
-                <!-- @for(instructorName of ;track instructorName.id){
-
-                } -->
-                <p class="truncate">{{course.instructorDetails}}</p>
-              </div>
-            </div>
-          }@empty {
-            <div>
-              <p>No Data Found</p>
-            </div>
-          }
-        </div>
+            }
+          </div>
+        }
 
       </div>
 

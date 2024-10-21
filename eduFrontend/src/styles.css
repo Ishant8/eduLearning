@@ -7,10 +7,33 @@
     --secondary-color-dark:#fff8d3;
 }
 
+
 ::selection{
     background-color: #147a55;
     color: white;
 }
+
+/* width */
+::-webkit-scrollbar {
+  width: 3px;
+  height: 0px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
 
 .logo-text{
     font-size: 30px;
@@ -57,3 +80,5 @@
 .bg-color-home{
     background-color: #FFFBE8;
 }
+
+

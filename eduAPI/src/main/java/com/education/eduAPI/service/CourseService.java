@@ -23,7 +23,7 @@ public interface CourseService {
 
     List<CourseDTO> findCoursesByUser();
 
-    List<CourseDTO> findAllCoursesByCategoryAndLevel(List<Category> categoryName, List<Level> levels);
+    List<CourseDTO> findAllCoursesByCategoryAndLevel(List<Category> categoryName, List<Level> levels, int page, int size);
 
     List<CourseDTO> findAllCoursesByCourseNameOrInstructor(String searchItem);
 }
