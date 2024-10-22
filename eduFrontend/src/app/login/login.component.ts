@@ -38,7 +38,7 @@ export class LoginComponent {
       },
       complete: () => {
         setTimeout(()=>{
-          this.router.navigate(['/profile']).then(()=>{
+          this.router.navigate(['/dashboard']).then(()=>{
             window.location.reload();
           });
         },700)
