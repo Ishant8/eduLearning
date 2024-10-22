@@ -38,7 +38,8 @@ public class CourseController {
     }
 
     @GetMapping("/get")
-    public List<CourseDTO> getAllCourses(@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size){
+    public List<CourseDTO> getAllCourses(@RequestParam(defaultValue = "0") int page,
+                                         @RequestParam(defaultValue = ""+Integer.MAX_VALUE) int size){
          return courseService.getAllCourses(page,size);
     }
 
@@ -64,11 +65,21 @@ public class CourseController {
     }
 
     @PostMapping("/filter")
-    public List<CourseDTO> findFilteredCourses(@RequestBody CategoryListDTO categoriesList){
+    public List<CourseDTO> findFilteredCourses(@RequestBody CategoryListDTO categoriesList,
+                                               @RequestParam(defaultValue = "0") int page,
+                                               @RequestParam(defaultValue = ""+Integer.MAX_VALUE) int size){
 
         System.out.println("------------------------------"+categoriesList+"----"+categoriesList.getLevelList());
 
-        return courseService.findAllCoursesByCategoryAndLevel(categoriesList.getCategoriesList(), categoriesList.getLevelList());
+        return courseService.findAllCoursesByCategoryAndLevel(categoriesList.getCategoriesList(), categoriesList.getLevelList(),page,size);
+    }
+
+    @PostMapping("/size")
+    public Integer findAllCourses(@RequestBody CategoryListDTO categoriesList){
+
+
+        return courseService.findAllCoursesByCategoryAndLevel(categoriesList.getCategoriesList(), categoriesList.getLevelList(),0, Integer.MAX_VALUE).size();
+
     }
 
     @GetMapping("/search")

@@ -112,7 +112,7 @@
             }
             
             <div class="m-5 pt-5" id="page-nav">
-                <app-page-nav />
+                <app-page-nav (currentPageEvent)="callFilterCourses($event)"  />
             </div>
         </div>
     </div>
