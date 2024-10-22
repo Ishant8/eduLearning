@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
@@ -61,6 +62,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<CustomErrorResponse> handleNoResourceFoundException(NoResourceFoundException e) {
         CustomErrorResponse customError = new CustomErrorResponse(404,e.getMessage(), new Date(System.currentTimeMillis()));
         return new ResponseEntity<>(customError, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(InternalAuthenticationServiceException.class)
+    public ResponseEntity<CustomErrorResponse> handleNoInternalAuthenticationServiceException(InternalAuthenticationServiceException e) {
+        CustomErrorResponse customError = new CustomErrorResponse(401,e.getMessage(), new Date(System.currentTimeMillis()));
+        return new ResponseEntity<>(customError, HttpStatus.UNAUTHORIZED);
     }
 
 //    @ExceptionHandler(Exception.class)

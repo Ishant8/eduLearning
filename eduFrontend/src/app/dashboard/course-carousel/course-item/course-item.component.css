@@ -24,6 +24,12 @@
     border-right: 3px solid #0d6343;
 } */
 
+.image-format{
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+}
+
 .card{
     border-radius: 0px;
 }

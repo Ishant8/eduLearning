@@ -1,20 +1,25 @@
-import { Component, computed, inject, input, OnChanges, OnInit, signal, SimpleChanges } from '@angular/core';
+import { Component, computed, inject, input, OnChanges, OnInit, signal, SimpleChanges, ViewChild } from '@angular/core';
 import { Profile } from '../profile.model';
 import { Router } from '@angular/router';
 import { ProfileService } from '../profile.service';
 import { FormsModule, NgModel } from '@angular/forms';
 import { first } from 'rxjs';
+import { ToastComponent } from '../../toast/toast.component';
+import { ToastService } from '../../toast/toast.service';
 
 @Component({
   selector: 'app-edit-profile',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, ToastComponent],
   templateUrl: './edit-profile.component.html',
   styleUrl: './edit-profile.component.css',
 })
 export class EditProfileComponent {
  
+  @ViewChild(ToastComponent) toastComponent!: ToastComponent;
+  
   profileService = inject(ProfileService)
+  toastService = inject(ToastService)
   myProfile :any;
 
   firstName = '';
@@ -35,7 +40,16 @@ export class EditProfileComponent {
 
   updateUser(){
     // this.myProfile.update((data:Profile) => {return {...data, firstName:this.firstName, lastName:this.lastName, email: this.email}});
-    this.profileService.setUser({...this.myProfile(), firstName:this.firstName, lastName:this.lastName, email: this.email});
+    this.profileService.setUser({...this.myProfile(), firstName:this.firstName, lastName:this.lastName, email: this.email})
+    .subscribe({
+      next: (resData) => {
+        this.profileService.profile.set(resData);
+        this.toastService.generateToast(this.toastComponent,true,"Updated User Successfully.")
+      },
+      error:()=>{
+        this.toastService.generateToast(this.toastComponent,false,"User Updation Failed")
+      }
+    });;
   }
 
 }

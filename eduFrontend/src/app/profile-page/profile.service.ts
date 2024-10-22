@@ -70,16 +70,12 @@ export class ProfileService {
       'X-Requested-With': 'XMLHttpRequest',
     });
 
-    this.httpClient
+    return this.httpClient
       .put<Profile>('http://localhost:8080/user/profile/update', updatedData, {
         headers: headers,
         withCredentials: true,
-      })
-      .subscribe({
-        next: (resData) => {
-          this.profile.set(resData);
-        },
       });
+      
   }
 
   uploadProfileImage(url:string,imgData:FormData){

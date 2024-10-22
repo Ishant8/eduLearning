@@ -48,6 +48,7 @@ public class UserController {
 
         String JwtToken = eduService.verify(userDTO);
 
+
         if(JwtToken != null)
         {
             Cookie cookie = new Cookie("JwtToken", JwtToken);

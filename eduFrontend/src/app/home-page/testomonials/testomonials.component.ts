@@ -2,7 +2,7 @@ import { Component, ViewChild, ElementRef, Renderer2, HostListener, AfterViewIni
 import { TestimonialComponent } from './testimonial/testimonial.component';
 import { Review } from './testimonial.model';
 import { TestimonialService } from './testimonial.service';
-import { first } from 'rxjs';
+import { BehaviorSubject, first, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-testomonials',
@@ -24,6 +24,9 @@ export class TestomonialsComponent implements AfterViewInit, OnInit {
   testimonialService = inject(TestimonialService)
   reviews = signal<Review[] | undefined>(undefined)
 
+  private reviewsSubject = new BehaviorSubject<Review[] | string>(' default string');
+  public reviews$: Observable<Review[] | string>;
+
   scrollPosition = 0;
   cardWidth = computed(()=>{
     const firstCard = this.carouselInner.nativeElement.querySelector('.carousel-item');
@@ -33,7 +36,9 @@ export class TestomonialsComponent implements AfterViewInit, OnInit {
   visibleCards = 2.5; // cards being displayed, affects scroll
 
 
-  constructor(private renderer: Renderer2, private cdr: ChangeDetectorRef) {}
+  constructor(private renderer: Renderer2, private cdr: ChangeDetectorRef) {
+    this.reviews$ = this.reviewsSubject.asObservable();
+  }
   ngOnInit(): void {
     console.log("In testimonial onInit");
     
@@ -41,7 +46,11 @@ export class TestomonialsComponent implements AfterViewInit, OnInit {
       next:(resData)=>{
         this.reviews.set(resData);
         this.testimonialService.reviews.set(resData);
-      }
+        this.reviewsSubject.next(resData);
+        console.log(this.testimonialService.reviews());
+        
+      },
+      error: (error) => console.error('Error fetching reviews:', error)
     })
   }
 
