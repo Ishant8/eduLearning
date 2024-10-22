@@ -17,11 +17,20 @@
         </app-course-carousel>
     }
     @else {
-        <div class="mx-5 mx-md-0 mt-4">
-            <p class="fs-2 custom-font fw-bold mb-0">Oh no....You're not enrolled in any courses.</p>
-            <p class="custom-font fs-4 fw-medium mb-0">Worry not, here are some of our best courses.</p>
+        <div class="d-flex justify-content-between mx-5 mx-md-0 mt-4">
+            <div>
+                <p class="fs-2 custom-font fw-bold mb-0">Oh no....You're not enrolled in any courses.</p>
+                <p class="custom-font fs-4 fw-medium mb-0">Worry not, here are some of our best courses.</p>
+            </div>
+            @if(role() === "ROLE_ADMIN"){
+                <div><a routerLink="/course/add" class="green-txt fs-5 fw-medium">Create Course</a></div>    
+            }
         </div>
-        <app-course-carousel carouselId="Enrolled" sectionTitle="none" [courses]="this.courseService.course()"/>
+        <app-course-carousel carouselId="Enrolled" sectionTitle="none" [courses]="this.courseService.course()">
+            @if(role() === "ROLE_ADMIN"){
+                <div><a routerLink="/course/add" class="green-txt fs-5 fw-medium">Create Course</a></div>    
+            }
+        </app-course-carousel>
     }
 
     @if(courses()?.length)

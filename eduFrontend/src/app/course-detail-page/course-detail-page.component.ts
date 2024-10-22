@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { AfterViewInit, Component, computed, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { TestomonialsComponent } from "../home-page/testomonials/testomonials.component";
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CourseService } from '../courses/course.service';
@@ -7,42 +7,37 @@ import { ProfileService } from '../profile-page/profile.service';
 import { FormsModule } from '@angular/forms';
 import { Review } from '../home-page/testomonials/testimonial.model';
 import { TestimonialService } from '../home-page/testomonials/testimonial.service';
+import { ToastComponent } from '../toast/toast.component';
+import { ToastService } from '../toast/toast.service';
 
 @Component({
   selector: 'app-course-detail-page',
   standalone: true,
-  imports: [TestomonialsComponent, RouterLink, FormsModule],
+  imports: [TestomonialsComponent, RouterLink, FormsModule, ToastComponent],
   templateUrl: './course-detail-page.component.html',
   styleUrl: './course-detail-page.component.css'
 })
-export class CourseDetailPageComponent implements OnInit {
+export class CourseDetailPageComponent implements OnInit, AfterViewInit {
   
-  courseId:number | undefined
+  
+  @ViewChild(ToastComponent) toastComponent!: ToastComponent;
+  @ViewChild(TestomonialsComponent) set testimonialsComponent(component: TestomonialsComponent) {
+    if (component) {
+      this._testimonialsComponent = component;
+      this.setupTestimonialsSubscription();
+    }
+  }
+  private _testimonialsComponent: TestomonialsComponent | undefined;
+
+
   courseService = inject(CourseService)
   testimonialService = inject(TestimonialService);
   router = inject(Router)
-  course = signal<Course | undefined>(undefined)
-
-  courseName = (() => this.course()!.courseName)
-
-  fullName=''
-  email=''
-  comment=''
-  rating:number=7;
-
-  // isReviewed = computed(() => this.testimonialService
-  // .reviews()
-  // ?.map((aReview) => {
-  //   return aReview.userName;
-  // })
-  // .find((ele) => ele === this.fullName))
-
-  
-
   profileService = inject(ProfileService);
-
+  toastService = inject(ToastService)
+  course = signal<Course | undefined>(undefined)
+  courseName = computed(() => this.course()!.courseName)
   instructor = computed(() => Object.values(this.course()!.instructorDetails)[0])
-  ratingSum: number=0;
   avgRating = computed(() => {
     if (this.course()!.reviews.length != 0) {
       this.course()!.reviews.forEach((review) => {
@@ -53,59 +48,31 @@ export class CourseDetailPageComponent implements OnInit {
     }
     return 0
   });
-
   description = computed(() => this.course()?.courseDescription.split("-----") as string[])
-  // description:string[] = [] ;
 
+  courseId:number | undefined
+  fullName=''
+  email=''
+  comment=''
+  rating:number=7;
+  ratingSum: number=0;
+  isReviewed = false;  
 
   constructor(private route: ActivatedRoute) {}
+
+  ngAfterViewInit(): void {
+
+    if (this._testimonialsComponent) {
+      this.setupTestimonialsSubscription();
+    }
+    
+  }
 
   ngOnInit(){
 
     console.log("inside course-detail-init");
     
-
-    this.courseId = Number(this.route.snapshot.paramMap.get('courseId'));
-    console.log(this.courseId);
-        
-    
-    if(!this.courseService.course())
-    {
-      
-      console.log("courseService.course() is empty .....");
-      
-      
-      this.courseService.getCourses("http://localhost:8080/course/get").subscribe({
-        next:(resData)=>{
-          this.course.set(resData.find((course)=>course.courseId === this.courseId));
-          this.courseService.course.set(resData)
-          // this.description = this.course()!.courseDescription.split("\n");
-        }
-      })
-    }
-    else{
-      console.log("courses are already set \n",this.courseService.course());
-      
-      this.course.set(this.courseService.course()?.find((course)=>course.courseId === this.courseId));
-      // this.description = this.course()?.courseDescription.split("\n") as string[];
-    }
-    
-    
-
-    // this.instructor.set(Object.values(this.course()!.instructorDetails)[0]);
-    
-    // if (this.course()!.reviews.length != 0) {
-    //   this.course()!.reviews.forEach((review) => {
-    //     this.ratingSum += review.rating;
-    //   });
-
-    //   this.avgRating =
-    //     Math.round((this.ratingSum / this.course()!.reviews.length) * 10) / 10;
-    // } else this.avgRating = 0;
-
-    // this.description.set(this.course()?.courseDescription.split("\n") as string[])
-    // console.log(this.description);
-    
+    this.setTheCoruses();
     
     
   }
@@ -139,13 +106,7 @@ export class CourseDetailPageComponent implements OnInit {
     
     
 
-    if (
-      this.testimonialService
-      .reviews()
-      ?.map((aReview) => {
-        return aReview.userName;
-      })
-      .find((ele) => ele === this.fullName))
+    if (this.isReviewed)
     {
       this.courseService
         .sendReview({
@@ -157,10 +118,16 @@ export class CourseDetailPageComponent implements OnInit {
         .subscribe({
           next: (resData) => {
             // console.log(resData);
+            this.toastService.generateToast(this.toastComponent,true,"Review Updated Successfully")
           },
           complete: () => {
-            window.location.reload();
+            setTimeout(()=>{
+              window.location.reload();
+            },700)
           },
+          error:()=>{
+            this.toastService.generateToast(this.toastComponent,false,"Review Updation Failed!")
+          }
         });
     }else{
       this.courseService
@@ -173,13 +140,73 @@ export class CourseDetailPageComponent implements OnInit {
         .subscribe({
           next: (resData) => {
             // console.log(resData);
+            this.toastService.generateToast(this.toastComponent,true,"Review Added Successfully")
           },
           complete: () => {
-            window.location.reload();
+            setTimeout(()=>{
+              window.location.reload();
+            },700)
           },
+          error:()=>{
+            this.toastService.generateToast(this.toastComponent,false,"Review Addition Failed!")
+          }
         });
       
     }
+  }
+
+  checkReview(){
+
+    this.testimonialService.reviews()?.forEach((review)=>{
+      if(review.userId === this.profileService.profile()?.userId)
+      {
+        this.isReviewed = true;
+      }
+    })
+  }
+
+  private setupTestimonialsSubscription() {
+    if (this._testimonialsComponent) {
+      this._testimonialsComponent.reviews$.subscribe({
+        next: (value) => {
+          if (value && value.length > 0) {
+            console.log("Reviews received:", value);
+            this.checkReview();
+          }
+        },
+        error: (error) => console.error('Error in reviews subscription:', error)
+      });
+    }
+  }
+
+  setTheCoruses(){
+    this.courseId = Number(this.route.snapshot.paramMap.get('courseId'));     
+    
+    if(!this.courseService.course())
+    {
+      console.log("courseService.course() is empty .....");
+
+      this.courseService.getCourses("http://localhost:8080/course/get").subscribe({
+        next:(resData)=>{
+          this.course.set(resData.find((course)=>course.courseId === this.courseId));
+          this.courseService.course.set(resData)
+        }
+      })
+    }
+    else{
+      console.log("courses are already set \n",this.courseService.course());
+      
+      this.course.set(this.courseService.course()?.find((course)=>course.courseId === this.courseId));
+    }
+  }
+
+  logTestimonial(){
+      console.log(this.testimonialService.reviews()?.length!=0);
+    console.log(this.testimonialService.reviews()?.length);
+
+    
+    
+  
   }
 
   

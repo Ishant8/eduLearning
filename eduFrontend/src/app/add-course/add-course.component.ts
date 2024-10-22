@@ -1,18 +1,22 @@
-import { Component, inject, OnInit, viewChild } from '@angular/core';
+import { Component, inject, OnInit, ViewChild, viewChild } from '@angular/core';
 import { PhotoComponent } from '../profile-page/photo/photo.component';
 import { ControlContainer, FormsModule, NgModel } from '@angular/forms';
 import { CourseService } from '../courses/course.service';
 import { ProfileService } from '../profile-page/profile.service';
 import { RouterLink } from '@angular/router';
+import { ToastService } from '../toast/toast.service';
+import { ToastComponent } from '../toast/toast.component';
 
 @Component({
   selector: 'app-add-course',
   standalone: true,
-  imports: [PhotoComponent, FormsModule,RouterLink],
+  imports: [PhotoComponent, FormsModule, RouterLink, ToastComponent],
   templateUrl: './add-course.component.html',
   styleUrl: './add-course.component.css',
 })
 export class AddCourseComponent implements OnInit {
+  
+  @ViewChild(ToastComponent) toastComponent!: ToastComponent;
   
   courseName = viewChild<NgModel>('courseName');
   categoryName = viewChild<NgModel>('categoryName');
@@ -28,6 +32,7 @@ export class AddCourseComponent implements OnInit {
 
   private courseService = inject(CourseService);
   private profileService = inject(ProfileService);
+  private toastService = inject(ToastService);
 
   imgSrc: string | ArrayBuffer =
     'https://placehold.co/600x400/fff/20694d?text=Click+here+to+upload';
@@ -97,7 +102,10 @@ export class AddCourseComponent implements OnInit {
     this.courseService.addCourse(formData).subscribe({
       next:(resData)=>{
         console.log(resData);
-        
+        this.toastService.generateToast(this.toastComponent,true,"Created Course Successfully")
+      },
+      error:()=>{
+        this.toastService.generateToast(this.toastComponent,false,"Course Creation Failed")
       }
     })
   }

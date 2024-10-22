@@ -10,7 +10,7 @@
                         <div class="col-md-5 col-lg-6 offset-md-1 d-flex align-items-center">
                             <div class="card-body p-4 p-lg-5 text-black">
 
-                                <form (ngSubmit)="doLogin()" #form="ngForm">
+                                <form (ngSubmit)="doLogin($event)" #form="ngForm">
 
                                     <div class="d-flex align-items-center mb-3 pb-1">
                                         <i class="bi bi-door-open fs-3 d-flex align-items-center me-1"></i>
@@ -68,4 +68,5 @@
             </div>
         </div>
     </div>
+    <app-toast></app-toast>
 </section>

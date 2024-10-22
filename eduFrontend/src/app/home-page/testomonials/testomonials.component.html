@@ -1,4 +1,5 @@
-@if(reviews()?.length != 0){<div class="position-relative">
+@if(testimonialService.reviews()?.length!=0)
+{<div class="position-relative">
     <div #carouselControl>
         <button (click)="scrollPrev()" class="carousel-control-prev me-5" type="button"
             data-bs-target="#carouselExampleControls" data-bs-slide="prev">
@@ -21,7 +22,7 @@
 
             @for (reviewItem of reviews(); track reviewItem.reviewId) {
                 <!-- <app-course-card [course]="courseItem" class="course-card rounded-2 overflow-hidden"/> -->
-                <div class="carousel-item" [class.active]="reviewItem === reviews()![0]" [review]="reviewItem" testimonial></div>
+                <div class="carousel-item" style="min-height: 100%;" [class.active]="reviewItem === reviews()![0]" [review]="reviewItem" testimonial></div>
             } @empty {
                 <li>There are no Courses Available.</li>
             }
