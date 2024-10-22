@@ -13,4 +13,6 @@ import { TestimonialService } from '../testimonial.service';
 export class TestimonialComponent {
   review = input<Review>();
 
+  rating = Array(5).fill(0).map((x,i)=>i+1);
+
 }
