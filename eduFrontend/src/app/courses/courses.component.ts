@@ -1,4 +1,4 @@
-  import { Component, inject, OnInit, signal } from '@angular/core';
+  import { Component, inject, input, OnInit, signal, ViewChild } from '@angular/core';
 import { HeaderComponent } from "../header/header.component";
 import { FooterComponent } from "../footer/footer.component";
 import { JumbotronComponent } from "../home-page/jumbotron/jumbotron.component";
@@ -17,13 +17,19 @@ import { Course } from './course.model';
   styleUrl: './courses.component.css'
 })
 export class CoursesComponent implements OnInit {
-  
+  @ViewChild(PageNavComponent) pageNav!: PageNavComponent;
+
   courseService = inject(CourseService);
   courses = signal<Course[] | undefined>(undefined);
   category = signal<string[]>([])
 
   categoryFilter = signal<string[]>([]);
   levelFilter = signal<string>('');
+  currentPage = 1;
+
+  someFun(){
+    this.pageNav.currentPage=1;
+  }
 
   addCategory(event: Event){
     const checkbox = event.target as HTMLInputElement;
@@ -31,17 +37,18 @@ export class CoursesComponent implements OnInit {
     const isChecked = checkbox.checked;
 
     console.log(value +' is '+isChecked);
+    this.someFun();
 
     if(isChecked)
     {
       this.categoryFilter().push(value);
-      this.callFilterCourses();
+      this.callFilterCourses(this.currentPage);
       console.log(this.categoryFilter());
       
     }
     else{
       this.categoryFilter.set(this.categoryFilter().filter((category)=> category != value));
-      this.callFilterCourses();
+      this.callFilterCourses(this.currentPage);
       // console.log(this.categoryFilter());
     }
     
@@ -50,15 +57,15 @@ export class CoursesComponent implements OnInit {
   addLevel(event: Event){
     const checkbox = event.target as HTMLInputElement;
     const value = checkbox.value;
-
+    this.someFun();
     this.levelFilter.set(value);
-    this.callFilterCourses();
+    this.callFilterCourses(this.currentPage);
     // console.log(this.levelFilter());
 
     
   }
 
-  callFilterCourses(){
+  callFilterCourses(page:number){
     
     let categoryFilterVar:string[];
     let levelFilterVar:string[];
@@ -83,32 +90,60 @@ export class CoursesComponent implements OnInit {
         levelFilterVar.push(this.levelFilter());
       }
     console.log({"categoriesList":categoryFilterVar, "levelList":levelFilterVar});
+    console.log(this.currentPage);
     
-    
-    this.courseService.getFilterCourses({"categoriesList":categoryFilterVar, "levelList":levelFilterVar}).subscribe({
+    this.courseService.getFilterCourses({"categoriesList":categoryFilterVar, "levelList":levelFilterVar},page).subscribe({
       next:(resData)=>{
         this.courses.set(resData);
+        console.log("line 92",resData);
+        
+        // this.courseService.pageSubject.next(Math.ceil(resData.length/2))
+      }
+    })
+
+    this.courseService.getSizeOfCourses({"categoriesList":categoryFilterVar, "levelList":levelFilterVar}).subscribe({
+      next:(resData1)=>{
+        console.log("line 121",resData1);
+        
+        this.courseService.pageSubject.next(Math.ceil(resData1/6))
       }
     })
   }
 
   ngOnInit() {
-    this.courseService.getAllCourses()
+
+    
+
+    this.courseService.getAllCourses(this.currentPage)
     .subscribe({
       next:(resData)=>{
         this.courses.set(resData);
         this.courseService.course.set(resData)
-        
+        // this.courseService.pageSubject.next(Math.ceil(resData.length/2))
       }
     })
+
+    // this.callFilterCourses(1);
 
     this.courseService.getAllCategories().subscribe({
       next:(resData)=>{
         this.category.set(resData);
         console.log(resData);
-        
+        const levelFilterVar = [
+          "Intermediate",
+          "Advanced",
+          "Beginner"
+      ];
+      this.courseService.getSizeOfCourses({"categoriesList":resData, "levelList":levelFilterVar}).subscribe({
+        next:(resData1)=>{
+          console.log("line 121",resData1);
+          
+          this.courseService.pageSubject.next(Math.ceil(resData1/6))
+        }
+      })
       }
     })
+
     
   }
   

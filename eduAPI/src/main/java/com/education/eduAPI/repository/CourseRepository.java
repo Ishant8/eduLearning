@@ -24,13 +24,15 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
 
     List<Course> findAllByCategoryAndUsersNotContaining(Category category, User user);
 
-    List<Course> findAllByCategoryInAndLevelIn(List<Category> categories, List<Level> levels);
+
+//    List<Course> findAllByCategoryInAndLevelIn(List<Category> categories, List<Level> levels);
+    Page<Course> findAllByCategoryInAndLevelInOrderByCourseId(List<Category> categories, List<Level> levels,Pageable pageable);
 
 
     @Query("SELECT c FROM Course c JOIN c.users u JOIN u.role r " +
             "WHERE (LOWER(c.courseName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
-            "OR LOWER(u.firstName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
-            "OR LOWER(u.lastName) LIKE LOWER(CONCAT('%', :searchTerm, '%'))) " +
+            "OR LOWER(u.firstName) LIKE LOWER(CONCAT(:searchTerm, '%')) " +
+            "OR LOWER(u.lastName) LIKE LOWER(CONCAT(:searchTerm, '%'))) " +
             "AND r.role = 'ROLE_ADMIN'")
     List<Course> findByCourseNameAndInstructor(@Param("searchTerm") String searchTerm);
 }
