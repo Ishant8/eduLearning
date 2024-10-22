@@ -10,7 +10,19 @@
         </div>
         <div>
             <p class="fw-bold mb-0 ">{{instructor[0]}}</p>
-            <p class="mb-0  ">{{avgRating}} ⭐⭐⭐⭐<span class="text-secondary">({{course().reviews != undefined?course().reviews.length:0}})</span></p>
+            <p class="mb-0  ">{{avgRating}} 
+                <span class="text-warning">
+                    @for(rate of starRating;track $index){
+                        @if(rate<=avgRating){
+                          <i class="bi bi-star-fill"></i>
+                        }@else if(isHalf(rate)) {
+                          <i class="bi bi-star-half"></i>
+                        }@else {
+                          <i class="bi bi-star"></i>
+                        }
+                      }
+                </span>
+                <span class="text-secondary">({{course().reviews != undefined?course().reviews.length:0}})</span></p>
             <p class="mb-0  fw-medium text-secondary">{{course().hours}} total hours&nbsp; &nbsp;{{course().sections}} Sections</p>
             <div class="d-flex justify-content-between align-items-center mt-3">
                 <a class="btn btn btn-custom" [routerLink]="['/course', course().courseId]">Enroll Now</a>

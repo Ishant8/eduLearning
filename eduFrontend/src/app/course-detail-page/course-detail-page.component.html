@@ -30,11 +30,15 @@
             <div class="d-flex align-items-center gap-2">
               <span class="">{{avgRating()}}</span>
               <div class="text-warning">
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-half"></i>
+                @for(rate of starRating;track $index){
+                  @if(rate<=avgRating()){
+                    <i class="bi bi-star-fill"></i>
+                  }@else if(isHalf(rate)) {
+                    <i class="bi bi-star-half"></i>
+                  }@else {
+                    <i class="bi bi-star"></i>
+                  }
+                }
               </div>
               <span class="text-muted small text-decoration-underline">({{course()!.reviews != undefined?course()!.reviews.length:0}} Ratings)</span>
             </div>

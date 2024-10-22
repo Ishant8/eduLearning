@@ -18,6 +18,11 @@ export class CourseCardComponent implements OnInit{
 
   course = input.required<Course>();
 
+  starRating = Array(5).fill(0).map((x,i)=>i+1);
+  isHalf(rate:number) { 
+    return Math.ceil(this.avgRating)===rate;
+  };
+
   // instructor = computed(()=> Object.values(this.course().instructorDetails)[0]);
   ngOnInit(): void {
     this.instructor = Object.values(this.course().instructorDetails);

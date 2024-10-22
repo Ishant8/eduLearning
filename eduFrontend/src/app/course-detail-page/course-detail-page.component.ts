@@ -43,12 +43,18 @@ export class CourseDetailPageComponent implements OnInit, AfterViewInit {
       this.course()!.reviews.forEach((review) => {
         this.ratingSum += review.rating;
       });
-
+      console.log(this.ratingSum);
+      
       return Math.round((this.ratingSum / this.course()!.reviews.length) * 10) / 10;
     }
     return 0
   });
   description = computed(() => this.course()?.courseDescription.split("-----") as string[])
+
+  starRating = Array(5).fill(0).map((x,i)=>i+1);
+  isHalf(rate:number) { 
+    return  Math.ceil(this.avgRating())===rate;
+  };
 
   courseId:number | undefined
   fullName=''
@@ -71,7 +77,7 @@ export class CourseDetailPageComponent implements OnInit, AfterViewInit {
 
     console.log("inside course-detail-init");
     
-    this.fetchDetails();
+    // this.fetchDetails();
 
     this.route.paramMap.subscribe(params => {
       this.courseId = Number(params.get('courseId')); 

@@ -72,7 +72,7 @@
                   <div class="custom-profile bg-success-subtle fw-bold d-flex align-items-center justify-content-center rounded-pill">{{userDetail()?.firstName?.substring(0,1)}}</div>
               }
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              {{userDetail()!.firstName + " " + userDetail()!.lastName}}
+              {{userDetail()?.firstName + " " + userDetail()?.lastName}}
             </a>
           
           <div class="col-11 col-lg-3">
