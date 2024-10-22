@@ -44,7 +44,9 @@ export class CourseService {
   }
 
   getSizeOfCourses(filterData:{categoriesList:string[], levelList:string[]}){
-    return this.httpClient.post<number>("http://localhost:8080/course/size", filterData);
+    return this.httpClient.post<number>("http://localhost:8080/course/size", filterData,{
+      withCredentials:true
+    });
 
   }
 

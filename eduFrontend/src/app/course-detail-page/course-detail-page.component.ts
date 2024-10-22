@@ -71,7 +71,7 @@ export class CourseDetailPageComponent implements OnInit, AfterViewInit {
 
     console.log("inside course-detail-init");
     
-    this.fetchDetails();
+    // this.fetchDetails();
 
     this.route.paramMap.subscribe(params => {
       this.courseId = Number(params.get('courseId')); 

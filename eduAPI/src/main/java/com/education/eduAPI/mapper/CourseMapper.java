@@ -45,6 +45,7 @@ public class CourseMapper {
         courseDTO.setSections(course.getSections());
         courseDTO.setPrice(course.getPrice());
         courseDTO.setLevel(course.getLevel());
+        courseDTO.setInstructorEmail(course.getInstructorEmail());
 
 
         if(course.getCoverImage() != null)
@@ -66,8 +67,8 @@ public class CourseMapper {
         courseDTO.setUpdateDate(course.getUpdateDate());
         courseDTO.setImageData(null);
         Map<Integer, String> instructorDetails = course.getUsers()==null ? null : course.getUsers().stream()
-//              .filter(user -> user.getRole().getRole().equals("ROLE_USER"))
-                .collect(Collectors.toMap(User::getUserId, user -> user.getFirstName() + " " + user.getLastName()));
+              .filter(user -> user.getEmail().equals(course.getInstructorEmail()))
+              .collect(Collectors.toMap(User::getUserId, user -> user.getFirstName() + " " + user.getLastName()));
 
 
         if(instructorDetails != null)
@@ -127,6 +128,8 @@ public class CourseMapper {
         }else{
             course.setUsers(null);
         }
+
+        course.setInstructorEmail(course.getUsers().get(0).getEmail());
 
         String FILE_PATH = "/home/ishant/Projects/EduLearning/eduFrontend/public/images/common/";
         String[] fileNames = Objects.requireNonNull(courseDTO.getImageData().getOriginalFilename()).split("\\.");

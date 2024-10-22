@@ -23,7 +23,7 @@ export class CourseCardComponent implements OnInit{
     this.instructor = Object.values(this.course().instructorDetails);
     this.description = this.course().courseDescription.split("-----")[0];
 
-    console.log(this.course().instructorDetails);
+    console.log(this.course().instructorDetails, this.course().instructorEmail);
     
     
     if(this.course().reviews.length != 0)
