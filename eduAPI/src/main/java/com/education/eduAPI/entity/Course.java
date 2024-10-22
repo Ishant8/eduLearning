@@ -41,6 +41,9 @@ public class Course {
     @Enumerated(EnumType.STRING)
     private Level level;
 
+    @Column(name="instructor_email")
+    private String instructorEmail;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cover_image_id")
     private Image coverImage;
@@ -65,7 +68,7 @@ public class Course {
     @JoinTable(name = "course_user", joinColumns =@JoinColumn(name = "course_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
      private List<User> users;
 
-    public Course(String courseName, String courseDescription, double hours, int sections, double price, Level level, Image coverImage, Date createDate, Date updateDate, Category category) {
+    public Course(String courseName, String courseDescription, double hours, int sections, double price, Level level, Image coverImage, Date createDate, Date updateDate, Category category, String instructorEmail) {
         this.courseName = courseName;
         this.courseDescription = courseDescription;
         this.hours = hours;
@@ -76,6 +79,7 @@ public class Course {
         this.createDate = createDate;
         this.updateDate = updateDate;
         this.category = category;
+        this.instructorEmail = instructorEmail;
     }
 
     public Course() {
@@ -185,6 +189,14 @@ public class Course {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public String getInstructorEmail() {
+        return instructorEmail;
+    }
+
+    public void setInstructorEmail(String instructorEmail) {
+        this.instructorEmail = instructorEmail;
     }
 
     public void addUser(User user) {

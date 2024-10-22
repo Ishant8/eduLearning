@@ -7,6 +7,7 @@ export interface Course{
     sections: number;
     price: number,
     level: string,
+    instructorEmail:string;
     coverImage: string,
     profileImage:string,
     createDate: string,

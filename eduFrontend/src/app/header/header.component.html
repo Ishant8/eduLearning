@@ -13,9 +13,6 @@
     <div class="collapse navbar-collapse mb-2 mb-lg-0 ms-sm-5 ms-lg-0 me-sm-5 me-lg-0" id="navbarSupportedContent">
 
       <ul class="navbar-nav d-flex gap-lg-2 ms-lg-4 mb-2 mb-lg-0 ">
-
-        <button class="btn btn-custom-light rounded-pill fw-bold ms-2 ms-lg-0 me-auto me-lg-0" type="button" data-bs-toggle="offcanvas"
-          data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Categories</button>
         
         @if(!isLoggedIn()){
           <button class="btn btn-custom-light rounded-pill fw-bold ms-2 ms-lg-0 me-auto me-lg-0" type="button" routerLink="register/instructor" >Be an Instructor</button>
@@ -91,15 +88,3 @@
     </div>
   </div>
 </nav>
-
-
-<div class="offcanvas offcanvas-start w-10" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions"
-  aria-labelledby="offcanvasWithBothOptionsLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Backdrop with scrolling</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body">
-    <p>Try scrolling the</p>
-  </div>
-</div>

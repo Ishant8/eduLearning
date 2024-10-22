@@ -24,6 +24,15 @@
             </div>
             <ng-content/>
             </div>    
+        }@else if(sectionTitle() === 'Instructor'){
+            <div class="d-flex justify-content-between">
+                <div>
+                    <p class="fs-2 custom-font fw-bold mb-0">Welcome Back.</p>
+                    <p class="custom-font fs-4 fw-medium mb-0">Your Courses are as follows.</p>
+                    
+                </div>
+                <ng-content/>
+                </div>    
         }
 
        
@@ -31,7 +40,7 @@
 
             @for (courseItem of courses(); track courseItem.courseId) {
                 <!-- <app-course-card [course]="courseItem" class="course-card rounded-2 overflow-hidden"/> -->
-                <div class="carousel-item" [class.active]="courseItem === courses()![0]" [course]="courseItem" [enrolled]="sectionTitle() === 'Enrolled'" course-item></div>
+                <div class="carousel-item" [class.active]="courseItem === courses()![0]" [course]="courseItem" [enrolled]="sectionTitle() === 'Enrolled' || sectionTitle() === 'Instructor'" course-item></div>
             } @empty {
                 <li>There are no Courses Available.</li>
             }

@@ -91,7 +91,8 @@ export class AddCourseComponent implements OnInit {
       hours: this.hours()?.control.value,
       price: this.price()?.control.value,
       courseDescription: description,
-      instructorDetails
+      instructorDetails,
+      
     };
 
     console.log(description);

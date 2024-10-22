@@ -4,7 +4,7 @@
         <a class="page-link rounded-start-1" (click)="prevPage()">Previous</a>
       </li>
       @for (page of pages(); track $index) {
-        <li class="page-item" [class.active]="page === currentPage" aria-current="page">
+        <li class="page-item" role="button" [class.active]="page === currentPage" aria-current="page">
           <a class="page-link" (click)="eventEmit(page)">{{page}}</a>
         </li>
       }

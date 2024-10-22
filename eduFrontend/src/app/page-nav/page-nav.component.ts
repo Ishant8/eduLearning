@@ -25,17 +25,20 @@ export class PageNavComponent implements OnInit {
   eventEmit(page:number){
     this.currentPageEvent.emit(page);
     this.currentPage=page;
+    window.scrollTo(520, 520);
   }
 
   nextPage(){
     
     this.currentPage++;
     this.eventEmit(this.currentPage);
+    window.scrollTo(520, 520);
   }
 
   prevPage(){
 
     this.currentPage--;
     this.eventEmit(this.currentPage);
+    window.scrollTo(520, 520);
   }
 }

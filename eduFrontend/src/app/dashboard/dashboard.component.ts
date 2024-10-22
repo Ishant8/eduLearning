@@ -30,7 +30,9 @@ export class DashboardComponent implements OnInit {
     }, 1000)
     
 
-    this.courseService
+    // if(this.role() !== "ROLE_ADMIN")
+    // {
+      this.courseService
       .getCourses('http://localhost:8080/course/user')
       .subscribe({
         next: (resData) => {
@@ -57,6 +59,7 @@ export class DashboardComponent implements OnInit {
           }
         },
       });
+    // }
   }
 
   getFilterCourses(categoryName: string) {

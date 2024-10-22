@@ -17,6 +17,7 @@ public class CourseDTO {
     private int sections;
     private double price;
     private Level level;
+    private String instructorEmail;
     private String coverImage;
     private Date createDate;
     private Date updateDate;
@@ -155,5 +156,13 @@ public class CourseDTO {
 
     public void setImageData(MultipartFile imageData) {
         this.imageData = imageData;
+    }
+
+    public String getInstructorEmail() {
+        return instructorEmail;
+    }
+
+    public void setInstructorEmail(String instructorEmail) {
+        this.instructorEmail = instructorEmail;
     }
 }
