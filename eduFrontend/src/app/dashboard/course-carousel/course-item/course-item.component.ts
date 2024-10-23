@@ -16,7 +16,12 @@ export class CourseItemComponent {
   avgRating: number=0;
 
   course = input.required<Course>();
-  enrolled = input.required<boolean>()
+  enrolled = input.required<boolean>();
+
+  starRating = Array(5).fill(0).map((x,i)=>i+1);
+  isHalf(rate:number) { 
+    return  Math.ceil(this.avgRating)===rate;
+  };
 
   // instructor = computed(()=> Object.values(this.course().instructorDetails)[0]);
   ngOnInit(): void {

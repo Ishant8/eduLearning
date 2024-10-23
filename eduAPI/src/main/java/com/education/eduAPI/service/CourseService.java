@@ -17,7 +17,7 @@ public interface CourseService {
 
     CourseDTO getCourseById(int id);
 
-    CourseDTO updateCourse(CourseDTO courseDTO);
+    CourseDTO updateCourse(CourseDTO courseDTO) throws IOException;
 
     List<CourseDTO> findCoursesByCategoryExcludingUser(String categoryName);
 

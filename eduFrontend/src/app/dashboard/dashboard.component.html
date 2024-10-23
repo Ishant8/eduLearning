@@ -1,6 +1,10 @@
 <div class="d-flex my-bg welcome" style="min-height: 20vh;" >
     <div class="d-flex justify-content-end align-items-center">
-        <div class="custom-profile d-flex align-items-center justify-content-center rounded-pill">M</div>
+        @if(userDetails()?.profileImage){
+            <img [src]="'data:image/*;base64,' + userDetails()?.profileImage" width="50px" height="50px" style="object-fit: cover;object-position:top; border-radius: 50%;" alt="">
+            }@else {
+                <div class="custom-profile bg-success-subtle fw-bold d-flex align-items-center justify-content-center rounded-pill">{{userDetails()?.firstName?.substring(0,1)}}</div>
+            }
     </div>
     <div class="d-flex justify-content-start align-items-center">
         <p class="mb-0 ms-3 fs-4 fw-bold">Welcome Back, {{profileService.profile()?.firstName}}</p>
@@ -10,27 +14,29 @@
     @if(courses()?.length)
     {
         
-        @if(role() === "ROLE_ADMIN"){
+        @if(userDetails()?.role === "ROLE_ADMIN"){
             <app-course-carousel carouselId="Enrolled" sectionTitle="Instructor" [courses]="courses()" >
-                <div><a routerLink="/course/add" class="green-txt fs-5 fw-medium">Create Course</a></div>  
+                <div><a routerLink="/course/add" class="btn btn-custom fs-5 fw-medium rounded-1 d-flex gap-2"> <i class="bi bi-plus-square"></i> Create Course</a></div>  
             </app-course-carousel> 
         }@else{
         <app-course-carousel carouselId="Enrolled" sectionTitle="Enrolled" [courses]="courses()" > 
         </app-course-carousel>}
     }
-    @else if(!(role() === "ROLE_ADMIN")){
+    @else if(!(userDetails()?.role === "ROLE_ADMIN")){
         <div class="d-flex justify-content-between mx-5 mx-md-0 mt-4">
             <div>
                 <p class="fs-2 custom-font fw-bold mb-0">Oh no....You're not enrolled in any courses.</p>
                 <p class="custom-font fs-4 fw-medium mb-0">Worry not, here are some of our best courses.</p>
             </div>
-            @if(role() === "ROLE_ADMIN"){
-                <div><a routerLink="/course/add" class="green-txt fs-5 fw-medium">Create Course</a></div>    
+            @if(userDetails()?.role === "ROLE_ADMIN"){
+                <div><a routerLink="/course/add" class="btn btn-custom fs-5 fw-medium rounded-1 d-flex gap-2"> <i class="bi bi-plus-square"></i> Create Course</a></div>  
+   
             }
         </div>
         <app-course-carousel carouselId="Enrolled" sectionTitle="none" [courses]="this.courseService.course()">
-            @if(role() === "ROLE_ADMIN"){
-                <div><a routerLink="/course/add" class="green-txt fs-5 fw-medium">Create Course</a></div>    
+            @if(userDetails()?.role === "ROLE_ADMIN"){
+                <div><a routerLink="/course/add" class="btn btn-custom fs-5 fw-medium rounded-1 d-flex gap-2"> <i class="bi bi-plus-square"></i> Create Course</a></div>  
+   
             }
         </app-course-carousel>
     }
@@ -39,7 +45,7 @@
     {<div class="mx-md-5">
     
         <div>
-            @if((role() === "ROLE_ADMIN")){<div class="mx-5 mx-md-0">
+            @if((userDetails()?.role === "ROLE_ADMIN")){<div class="mx-5 mx-md-0">
                 <p class="custom-font fs-4 fw-medium fw-bold">Some Courses that might interest you</p>
             </div>}
             @else{
