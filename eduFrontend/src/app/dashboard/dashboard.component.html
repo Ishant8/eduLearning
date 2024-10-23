@@ -35,7 +35,7 @@
         [courses]="this.courseService.course()"></app-course-carousel>
     }}
     
-    @if(userDetails()?.role === "ROLE_ADMIN")
+    @if(userDetails()?.role !== "ROLE_ADMIN")
     {@if(courses()?.length)
     {
     
@@ -55,7 +55,7 @@
     }}
     
 
-    @if(courses()?.length && role() != "ROLE_ADMIN")
+    @if(courses()?.length && userDetails()?.role != "ROLE_ADMIN")
     {<div class="mx-md-5">
         <div>
 
