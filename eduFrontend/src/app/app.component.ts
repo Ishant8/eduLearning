@@ -9,11 +9,12 @@ import { FooterComponent } from './footer/footer.component';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { CoursePathComponent } from "./course-path/course-path.component";
+import { CourseContentComponent } from "./course-content/course-content.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [HomePageComponent, LoginComponent, RegisterComponent, CoursesComponent, CourseCardComponent, HeaderComponent, FooterComponent, RouterOutlet, DashboardComponent, CoursePathComponent],
+  imports: [HomePageComponent, LoginComponent, RegisterComponent, CoursesComponent, CourseCardComponent, HeaderComponent, FooterComponent, RouterOutlet, DashboardComponent, CoursePathComponent, CourseContentComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
