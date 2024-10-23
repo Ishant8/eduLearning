@@ -129,4 +129,9 @@ public class CourseServiceImpl implements CourseService {
         return courses.stream().map(c-> courseMapper.toDto(c)).toList();
     }
 
+    @Override
+    public List<CourseDTO> findAllCoursesByInstructor(String instructorEmail) {
+        return courseRepository.findAllByInstructorEmail(instructorEmail).stream().map(c-> courseMapper.toDto(c)).toList();
+    }
+
 }

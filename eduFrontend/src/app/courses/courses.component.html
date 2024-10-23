@@ -105,7 +105,7 @@
             @if(courses()) {
                 <div class="d-flex flex-wrap gap-5 py-4" id="cards-inner">
                     @for (courseItem of courses(); track courseItem.courseId) {
-                        <app-course-card [course]="courseItem" class="course-card rounded-2 overflow-hidden"/>
+                        <app-course-card [role]="profileService.profile()?.role" [course]="courseItem" class="course-card rounded-2 overflow-hidden"/>
                     } @empty {
                         <li>There are no Courses Available.</li>
                     }

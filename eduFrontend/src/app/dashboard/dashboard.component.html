@@ -7,46 +7,54 @@
     </div>
 </div>
 <div class="mx-md-5">
-    @if(courses()?.length)
-    {
-        
-        @if(role() === "ROLE_ADMIN"){
-            <app-course-carousel carouselId="Enrolled" sectionTitle="Instructor" [courses]="courses()" >
-                <div><a routerLink="/course/add" class="green-txt fs-5 fw-medium">Create Course</a></div>  
-            </app-course-carousel> 
-        }@else{
-        <app-course-carousel carouselId="Enrolled" sectionTitle="Enrolled" [courses]="courses()" > 
-        </app-course-carousel>}
-    }
-    @else if(!(role() === "ROLE_ADMIN")){
-        <div class="d-flex justify-content-between mx-5 mx-md-0 mt-4">
-            <div>
-                <p class="fs-2 custom-font fw-bold mb-0">Oh no....You're not enrolled in any courses.</p>
-                <p class="custom-font fs-4 fw-medium mb-0">Worry not, here are some of our best courses.</p>
-            </div>
-            @if(role() === "ROLE_ADMIN"){
-                <div><a routerLink="/course/add" class="green-txt fs-5 fw-medium">Create Course</a></div>    
-            }
-        </div>
-        <app-course-carousel carouselId="Enrolled" sectionTitle="none" [courses]="this.courseService.course()">
-            @if(role() === "ROLE_ADMIN"){
-                <div><a routerLink="/course/add" class="green-txt fs-5 fw-medium">Create Course</a></div>    
-            }
-        </app-course-carousel>
-    }
-
-    @if(courses()?.length)
-    {<div class="mx-md-5">
     
+    
+    @if(role() == "ROLE_ADMIN")
+    {@if(instructorCourses()?.length)
+    {
+    <app-course-carousel carouselId="Enrolled" sectionTitle="Instructor" [courses]="instructorCourses()">
+        <div><a routerLink="/course/add" class="green-txt fs-5 fw-medium">Create Course</a></div>
+    </app-course-carousel>
+    }@else {
+    
+    <div class="d-flex justify-content-between mx-5 mx-md-0 mt-4">
         <div>
-            @if((role() === "ROLE_ADMIN")){<div class="mx-5 mx-md-0">
-                <p class="custom-font fs-4 fw-medium fw-bold">Some Courses that might interest you</p>
-            </div>}
-            @else{
+            <p class="fs-2 custom-font fw-bold mb-0">Go Ahead and Create you first Course!</p>
+            <p class="custom-font fs-4 fw-medium mb-0">Meanwhile here are some interesting courses.</p>
+        </div>
+    
+        <div><a routerLink="/course/add" class="green-txt fs-5 fw-medium">Create Course</a></div>
+    
+    </div>
+    <app-course-carousel carouselId="Enrolled" sectionTitle="InstructorSuggest"
+        [courses]="this.courseService.course()"></app-course-carousel>
+    }}
+    
+    @if(role() != "ROLE_ADMIN")
+    {@if(courses()?.length)
+    {
+    
+    <app-course-carousel carouselId="Enrolled" sectionTitle="Enrolled" [courses]="courses()">
+    </app-course-carousel>
+    }
+    @else {
+    <div class="d-flex justify-content-between mx-5 mx-md-0 mt-4">
+        <div>
+            <p class="fs-2 custom-font fw-bold mb-0">Oh no....You're not enrolled in any courses.</p>
+            <p class="custom-font fs-4 fw-medium mb-0">Worry not, here are some of our best courses.</p>
+        </div>
+    </div>
+    <app-course-carousel carouselId="Enrolled" sectionTitle="none"
+        [courses]="this.courseService.course()"></app-course-carousel>
+    }}
+    
+
+    @if(courses()?.length && role() != "ROLE_ADMIN")
+    {<div class="mx-md-5">
+        <div>
                 <div class="mx-5 mx-md-0">
                     <p class="custom-font fs-4 fw-medium fw-bold">Based on your skill interests, we recommend</p>
                 </div> 
-            }
             <div class="mx-5 mx-md-0">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     @for(category of categories(); track category)

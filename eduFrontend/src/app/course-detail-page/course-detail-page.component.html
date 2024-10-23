@@ -116,7 +116,10 @@
             </div>
           </div>
           <hr />
-          @if(!profileService.profile()?.courseNames?.includes(courseName()))
+          @if(profileService.profile()?.role == "ROLE_ADMIN"){
+            <p class="mb-0 text-center fw-medium green-txt">Instructors Can't Enroll</p>
+          }
+          @else if(!profileService.profile()?.courseNames?.includes(courseName()))
           {<button class="btn fs-6 px-3 btn-custom d-block m-auto" (click)="enrol(course()?.courseName)">Enroll</button>}
           @else {
             <p class="mb-0 text-center fw-medium green-txt">Already Enrolled</p>
@@ -178,6 +181,11 @@
       </form>
     </div>
   </div>
+</div>
+}
+@else{
+  <div class="loading d-flex justify-content-center align-items-center vh-100">
+    <img src="images/loading/loading-elephant.gif" height="50%" alt="loader">
 </div>
 }
 <app-toast></app-toast>

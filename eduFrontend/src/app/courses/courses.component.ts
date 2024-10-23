@@ -8,6 +8,7 @@ import { CourseCardComponent } from "../course-card/course-card.component";
 import { PageNavComponent } from "../page-nav/page-nav.component";
 import { CourseService } from './course.service';
 import { Course } from './course.model';
+import { ProfileService } from '../profile-page/profile.service';
 
 @Component({
   selector: 'app-courses',
@@ -20,6 +21,7 @@ export class CoursesComponent implements OnInit {
   @ViewChild(PageNavComponent) pageNav!: PageNavComponent;
 
   courseService = inject(CourseService);
+  profileService = inject(ProfileService)
   courses = signal<Course[] | undefined>(undefined);
   category = signal<string[]>([])
 

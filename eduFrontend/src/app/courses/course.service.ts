@@ -85,5 +85,12 @@ export class CourseService {
       withCredentials:true
     })
   }
+
+  getInstructorCourses(instructorEmail:string){
+    return this.httpClient.get<Course[]>("http://localhost:8080/course/instructor?instructor="+instructorEmail,{
+      headers:this.headers,
+      withCredentials:true
+    })
+  }
   
 }

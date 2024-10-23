@@ -62,6 +62,7 @@ public class CourseMapper {
             }
         }
         else courseDTO.setCoverImage(null);
+//        courseDTO.setCoverImage(null);
 
         courseDTO.setCreateDate(course.getCreateDate());
         courseDTO.setUpdateDate(course.getUpdateDate());
@@ -87,8 +88,11 @@ public class CourseMapper {
             } else courseDTO.setProfileImage(null);
         }else courseDTO.setProfileImage(null);
 
+//        courseDTO.setProfileImage(null);
+
         courseDTO.setInstructorDetails(instructorDetails);
         courseDTO.setReviews(course.getReviews() != null?course.getReviews().stream().map(reviewMapper::toDto).toList():null);
+//        courseDTO.setReviews(null);
 
         return courseDTO;
 

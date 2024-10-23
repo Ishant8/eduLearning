@@ -40,7 +40,7 @@
 
             @for (courseItem of courses(); track courseItem.courseId) {
                 <!-- <app-course-card [course]="courseItem" class="course-card rounded-2 overflow-hidden"/> -->
-                <div class="carousel-item" [class.active]="courseItem === courses()![0]" [course]="courseItem" [enrolled]="sectionTitle() === 'Enrolled' || sectionTitle() === 'Instructor'" course-item></div>
+                <div class="carousel-item" [class.active]="courseItem === courses()![0]" [course]="courseItem" [enrolled]="sectionTitle() === 'Enrolled' || sectionTitle() === 'Instructor' || sectionTitle() === 'InstructorSuggest'" course-item></div>
             } @empty {
                 <li>There are no Courses Available.</li>
             }
