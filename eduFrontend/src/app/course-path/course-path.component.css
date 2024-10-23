@@ -1,0 +1,9 @@
+.main-margin{
+    margin-inline: 26rem;
+    /* border: 2px solid black; */
+}
+
+.custom-font{
+    font-family: 'Inter';
+    font-weight: 500;
+}

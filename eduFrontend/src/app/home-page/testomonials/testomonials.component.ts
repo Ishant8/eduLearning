@@ -3,6 +3,7 @@ import { TestimonialComponent } from './testimonial/testimonial.component';
 import { Review } from './testimonial.model';
 import { TestimonialService } from './testimonial.service';
 import { BehaviorSubject, first, Observable } from 'rxjs';
+import { ProfileService } from '../../profile-page/profile.service';
 
 @Component({
   selector: 'app-testomonials',
@@ -22,6 +23,7 @@ export class TestomonialsComponent implements AfterViewInit, OnInit {
   url = input.required<string>();
 
   testimonialService = inject(TestimonialService)
+  profileService = inject(ProfileService);
   reviews = signal<Review[] | undefined>(undefined)
 
   private reviewsSubject = new BehaviorSubject<Review[] | string>(' default string');

@@ -35,4 +35,6 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
             "OR LOWER(u.lastName) LIKE LOWER(CONCAT(:searchTerm, '%'))) " +
             "AND r.role = 'ROLE_ADMIN'")
     List<Course> findByCourseNameAndInstructor(@Param("searchTerm") String searchTerm);
+
+    List<Course> findAllByInstructorEmail(String instructorEmail);
 }

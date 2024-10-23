@@ -129,6 +129,8 @@ public class EduServiceImpl implements EduService{
             throw new CustomEntityNotFoundException("No Such user with provided email");
         }
 
+        System.out.println(userDTO);
+
         if(userDTO.getFirstName() != null) user.setFirstName(userDTO.getFirstName());
         if(userDTO.getLastName() != null) user.setLastName(userDTO.getLastName());
         if(userDTO.getEmail() != null) user.setEmail(userDTO.getEmail());

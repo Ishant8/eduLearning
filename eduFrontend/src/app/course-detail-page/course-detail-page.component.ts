@@ -92,8 +92,24 @@ export class CourseDetailPageComponent implements OnInit, AfterViewInit {
   fetchDetails(){
     if(!this.courseService.course())
       {
+        this.fetchRequest();        
+      }
+      else{
+        console.log("courses are already set \n",this.courseService.course());
         
-        console.log("courseService.course() is empty .....");
+        let course:Course = this.courseService.course()?.find((course)=>course.courseId === this.courseId) as Course;
+
+        if(course)
+        {this.course.set(course)}
+        else{
+          this.fetchRequest(); 
+        }
+        // this.description = this.course()?.courseDescription.split("\n") as string[];
+      }
+  }
+
+  fetchRequest(){
+    console.log("courseService.course() is empty .....");
         
         
         this.courseService.getCourses("http://localhost:8080/course/get").subscribe({
@@ -105,14 +121,9 @@ export class CourseDetailPageComponent implements OnInit, AfterViewInit {
             // this.description = this.course()!.courseDescription.split("\n");
           }
         })
-      }
-      else{
-        console.log("courses are already set \n",this.courseService.course());
-        
-        this.course.set(this.courseService.course()?.find((course)=>course.courseId === this.courseId));
-        // this.description = this.course()?.courseDescription.split("\n") as string[];
-      }
   }
+
+
 
   enrol(theCourseName:string | undefined){
     this.courseService.enrolCourse(theCourseName).subscribe({
@@ -141,6 +152,9 @@ export class CourseDetailPageComponent implements OnInit, AfterViewInit {
       })
       .find((ele) => ele === this.fullName));
     
+    this.checkReview();
+    
+    
     
 
     if (this.isReviewed)
@@ -154,7 +168,7 @@ export class CourseDetailPageComponent implements OnInit, AfterViewInit {
         },"http://localhost:8080/review/updateReview")
         .subscribe({
           next: (resData) => {
-            // console.log(resData);
+            console.log('updating');
             this.toastService.generateToast(this.toastComponent,true,"Review Updated Successfully")
           },
           complete: () => {
@@ -176,7 +190,7 @@ export class CourseDetailPageComponent implements OnInit, AfterViewInit {
         }, "http://localhost:8080/review/addReview")
         .subscribe({
           next: (resData) => {
-            // console.log(resData);
+            console.log('addReview');
             this.toastService.generateToast(this.toastComponent,true,"Review Added Successfully")
           },
           complete: () => {
@@ -194,12 +208,19 @@ export class CourseDetailPageComponent implements OnInit, AfterViewInit {
 
   checkReview(){
 
-    this.testimonialService.reviews()?.forEach((review)=>{
-      if(review.userId === this.profileService.profile()?.userId)
-      {
-        this.isReviewed = true;
-      }
-    })
+    console.log(this.testimonialService.reviews());
+    
+    if (this.testimonialService.reviews()?.length != 0) {
+      this.testimonialService.reviews()?.forEach((review) => {
+        if (review.userId === this.profileService.profile()?.userId) {
+          this.isReviewed = true;
+        }
+      });
+    }else{
+      this.isReviewed = false;
+    }
+    
+    
   }
 
   private setupTestimonialsSubscription() {
@@ -207,7 +228,9 @@ export class CourseDetailPageComponent implements OnInit, AfterViewInit {
       this._testimonialsComponent.reviews$.subscribe({
         next: (value) => {
           if (value && value.length > 0) {
-            console.log("Reviews received:", value);
+            console.log("Reviews received:");
+            console.log("Value is"+value);
+            
             this.checkReview();
           }
         },

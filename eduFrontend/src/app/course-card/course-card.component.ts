@@ -15,6 +15,8 @@ export class CourseCardComponent implements OnInit{
   description: string=''
   ratingSum: number=0;
   avgRating: number=0;
+  role = input<string>();
+
 
   course = input.required<Course>();
 
@@ -27,6 +29,7 @@ export class CourseCardComponent implements OnInit{
   ngOnInit(): void {
     this.instructor = Object.values(this.course().instructorDetails);
     this.description = this.course().courseDescription.split("-----")[0];
+    console.log(this.role());
 
     console.log(this.course().instructorDetails, this.course().instructorEmail);
     

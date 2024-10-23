@@ -96,6 +96,11 @@ public class CourseController {
         return courseService.findAllCoursesByCourseNameOrInstructor(keyword);
     }
 
+    @GetMapping("/instructor")
+    public List<CourseDTO> findCourseByInstructor(@RequestParam("instructor") String instructor){
+        return courseService.findAllCoursesByInstructor(instructor);
+    }
+
 
 
 
