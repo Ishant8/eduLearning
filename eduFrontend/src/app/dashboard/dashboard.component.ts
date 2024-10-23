@@ -33,10 +33,10 @@ export class DashboardComponent implements OnInit {
 
     setTimeout(()=>{
       console.log(this.profileService.profile());
-      console.log(this.role());
+      console.log(this.userDetails()?.role);
     }, 1000)
 
-    console.log(this.role());
+    console.log(this.userDetails()?.role);
     
 
     // if(this.role() !== "ROLE_ADMIN")
@@ -72,12 +72,12 @@ export class DashboardComponent implements OnInit {
     //   this.getInstructorCourses()
     // }
 
-    toObservable(this.role, { injector: this.injector })
+    toObservable(this.userDetails, { injector: this.injector })
       .pipe(
-        filter((role) => role !== undefined), // Wait until role is available
-        tap((role) => {
+        filter((userDetails) => userDetails !== undefined), // Wait until userdetails is available
+        tap((userDetails) => {
           
-          if (role == 'ROLE_ADMIN') {
+          if (this.userDetails()?.role == 'ROLE_ADMIN') {
             this.getInstructorCourses();
           }
           this.courseService
