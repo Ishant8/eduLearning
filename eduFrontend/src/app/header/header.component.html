@@ -32,7 +32,7 @@
             aria-label="Username" aria-describedby="basic-addon1" name="search" [formControl]="searchControl"  >
         </div>
 
-        @if(searchControl.value!.length>=3){
+        @if(searchControl.value!.length>=1){
           <div class="custom-dropdown w-100" id="dropdown-custom">
             @for (course of courses(); track course.courseId) {
               <a class="d-flex align-items-center border-bottom text-decoration-none" role="button" (click)="navigateToCourse(course.courseId)">

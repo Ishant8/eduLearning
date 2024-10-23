@@ -45,7 +45,6 @@ export class HeaderComponent {
       .pipe(
         debounceTime(500),
         distinctUntilChanged(),
-        filter((query) => query!.length >= 3),
         switchMap((query) =>
           this.courseService.getCoursesBySearch(query as string)
         )
