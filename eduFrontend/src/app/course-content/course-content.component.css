@@ -1,0 +1,32 @@
+.main-margin{
+    margin-inline: 9rem;
+    /* border: 2px solid black; */
+}
+
+.custom-font{
+    font-family: 'Inter';
+    font-weight: 500;
+}
+
+#list-example {
+    position: sticky;
+    top: 120px;
+    bottom: 100px;
+}
+
+.list-group{
+    border-radius: 0;
+    
+}
+
+.list-group-item{
+    border: none;
+    border-left: 3px solid lightgray;
+}
+
+.list-group-item.active{
+    background-color: var(--secondary-color);
+    color: var(--primary-color-dark);
+    font-weight: bold;
+    border-left: 3px solid var(--primary-color-dark);
+}

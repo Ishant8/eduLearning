@@ -14,22 +14,14 @@ import { NotFoundComponent } from "./not-found/not-found.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { PhotoComponent } from "./profile-page/photo/photo.component";
 import { AddCourseComponent } from "./add-course/add-course.component";
+import { CoursePathComponent } from "./course-path/course-path.component";
+import { CourseContentComponent } from "./course-content/course-content.component";
 
 
 export const routes:Routes=[
     {
         path:'',
         component:HomePageComponent
-    },
-    {
-        path:'course/add',
-        component:AddCourseComponent,
-        canActivate:[LoggedIn]
-    },
-    {
-        path:'course/:courseId',
-        component:CourseDetailPageComponent,
-        canActivate:[LoggedIn],
     },
     {
         path:'profile',
@@ -78,6 +70,24 @@ export const routes:Routes=[
         path:'register/:role',
         component:RegisterComponent,
         canActivate:[AuthGuard]
+    },
+    {
+        path:'course/add',
+        component:AddCourseComponent,
+        canActivate:[LoggedIn]
+    },
+    {
+        path:'course/path',
+        component:CoursePathComponent
+    },
+    {
+        path:'course/content',
+        component:CourseContentComponent
+    },
+    {
+        path:'course/:courseId',
+        component:CourseDetailPageComponent,
+        canActivate:[LoggedIn],
     },
     {
         path:'course/edit/:courseId',
