@@ -61,6 +61,14 @@ export class CourseService {
     });
 
   }
+  
+  updateCourse(courseData:FormData){
+    return this.httpClient.put("http://localhost:8080/course/update",courseData,{
+      headers:this.headers,
+      withCredentials:true
+    });
+
+  }
 
 
   enrolCourse(courseName:string|undefined){

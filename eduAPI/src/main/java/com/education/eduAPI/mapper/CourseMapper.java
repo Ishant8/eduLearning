@@ -135,7 +135,8 @@ public class CourseMapper {
 
         course.setInstructorEmail(course.getUsers().get(0).getEmail());
 
-        String FILE_PATH = "/home/ishant/Projects/EduLearning/eduFrontend/public/images/common/";
+//        String FILE_PATH = "/home/ishant/Projects/EduLearning/eduFrontend/public/images/common/";
+        String FILE_PATH = "/home/anant/Projects/eduLearning/eduFrontend/public/images/common/";
         String[] fileNames = Objects.requireNonNull(courseDTO.getImageData().getOriginalFilename()).split("\\.");
         String fileName =fileNames[0]+ "_" + Instant.now().getEpochSecond()+"."+fileNames[1];
         String filePath = FILE_PATH + fileName;

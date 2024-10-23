@@ -23,7 +23,7 @@ export class DashboardComponent implements OnInit {
   instructorCourses = signal<Course[] | undefined>(undefined);
   firstElement = signal<string>('Photography');
 
-  role = computed(() => this.profileService.profile()?.role);
+  userDetails = computed(() => this.profileService.profile());
 
   
   constructor(private injector: Injector){}

@@ -4,12 +4,12 @@
       <li class="breadcrumb-item">
         <a class="text-decoration-none" routerLink="/dashboard">Dashboard</a>
       </li>
-      <li class="breadcrumb-item active" aria-current="page">Add Course</li>
+      <li class="breadcrumb-item active" aria-current="page">{{title}}</li>
     </ol>
   </nav>
 
   <main class="mt-5">
-    <form class="row col-11 gap-4 mx-auto" (ngSubmit)="handleSubmit()">
+    <form class="row col-11 gap-4 mx-auto" (ngSubmit)="handleSubmit()" [formGroup]="courseDetails">
       <div class="input-group custom-width">
         <label
           for="course-name"
@@ -24,8 +24,7 @@
           id="course-name"
           aria-describedby="courseName"
           placeholder="Enter course name"
-          ngModel
-          #courseName = "ngModel"
+          formControlName="courseName"
         />
       </div>
 
@@ -40,9 +39,8 @@
           name="categoryName"
           id="course-category"
           aria-label="Default select example"
-          ngModel
-          #categoryName = "ngModel"
-          required
+          formControlName="categoryName"
+
         >
           <option value="" selected disabled>Select a category</option>
           @for(category of categories; track category){
@@ -63,9 +61,8 @@
           name="level"
           id="course-level"
           aria-label="Default select example"
-          ngModel
-          #level = "ngModel"
-          required
+          formControlName="level"
+
         >
           <option value="" selected disabled>Select course level</option>
           <option value="Beginner">Beginner</option>
@@ -88,9 +85,8 @@
           id="course-section"
           aria-describedby="courseName"
           placeholder="Enter no. of sections"
-          ngModel
-          #sections = "ngModel"
-          required
+          formControlName="sections"
+
         />
       </div>
 
@@ -108,9 +104,8 @@
           id="course-hour"
           aria-describedby="courseName"
           placeholder="Enter hours"
-          ngModel
-          #hours = "ngModel"
-          required
+          formControlName="hours"
+
         />
       </div>
 
@@ -128,9 +123,8 @@
           id="course-price"
           aria-describedby="courseName"
           placeholder="Enter price"
-          ngModel
-          #price = "ngModel"
-          required
+          formControlName="price"
+
         />
       </div>
 
@@ -148,9 +142,8 @@
           style="resize: none"
           aria-label="With textarea"
           placeholder="Enter description about course..."
-          ngModel
-          #description = "ngModel"
-          required
+          formControlName="description"
+
         ></textarea>
       </div>
 
@@ -168,9 +161,8 @@
           style="resize: none"
           aria-label="With textarea"
           placeholder="Enter curriculam about course..."
-          ngModel
-          #curriculum = "ngModel"
-          required
+          formControlName="curriculum"
+
         ></textarea>
       </div>
       <div class="input-group d-flex flex-column custom-width">
@@ -187,9 +179,8 @@
           style="resize: none"
           aria-label="With textarea"
           placeholder="Enter about you..."
-          ngModel
-          #courseReview = "ngModel"
-          required
+          formControlName="courseReview"
+          
         ></textarea>
       </div>
       <div class="input-group d-flex flex-column custom-width">
@@ -197,7 +188,7 @@
           <p class="fw-medium p-2 border-bottom bg-color-home green-txt">
             Add Course Image
           </p>
-          <img [src]="imgSrc" alt="" class="custom-image mb-3" />
+          <img [src]="imgSrc()" alt="" class="custom-image mb-3" />
         </label>
         <input
           type="file"
@@ -205,16 +196,16 @@
           name="coverImage"
           class="d-none"
           (change)="imgDetails($event)"
-          ngModel
-          #coverImage = "ngModel"
-          required
+          formControlName="coverImage"
+
         />
       </div>
 
-      <div>
-        <button type="submit" class="btn btn-custom btn-lg rounded-1">
-          Add Course
+      <div >
+        <button type="submit" [disabled]="!(courseDetails.dirty && courseDetails.valid)" class="btn btn-custom btn-lg rounded-1">
+          {{title}} 
         </button>
+        {{courseDetails.get('coverImage')?.value | json}}
       </div>
     </form>
     <app-toast></app-toast>

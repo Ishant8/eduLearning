@@ -3,6 +3,7 @@ package com.education.eduAPI.service;
 import com.education.eduAPI.dto.CourseDTO;
 import com.education.eduAPI.entity.Category;
 import com.education.eduAPI.entity.Course;
+import com.education.eduAPI.entity.Image;
 import com.education.eduAPI.entity.User;
 import com.education.eduAPI.enums.Level;
 import com.education.eduAPI.exception.CustomEntityNotFoundException;
@@ -19,7 +20,10 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Instant;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 
 @Service
@@ -76,13 +80,50 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public CourseDTO updateCourse(CourseDTO courseDTO) {
+    public CourseDTO updateCourse(CourseDTO courseDTO) throws IOException {
+        Course course = courseRepository.findById(courseDTO.getCourseId()).orElseThrow(() -> new CustomEntityNotFoundException("Requested Course Not Found."));
+//        Course course = courseMapper.toEntity(courseDTO);
+        course.setCourseName(courseDTO.getCourseName());
+        course.setCourseDescription(courseDTO.getCourseDescription());
+        course.setHours(courseDTO.getHours());
+        course.setSections(courseDTO.getSections());
+        course.setPrice(courseDTO.getPrice());
+//        course.setCreateDate(courseDTO.getCreateDate());
+        course.setLevel(courseDTO.getLevel());
 
-        Course course = courseMapper.toEntity(courseDTO);
+        if(courseDTO.getCategoryName() != null) {
+            Category category = categoryRepository.findByCategoryName(courseDTO.getCategoryName());
+//            System.out.println(category);
+            if (category != null) {
+                course.setCategory(category);
+            }
+        }
+
+        if(courseDTO.getImageData() != null) {
+            String FILE_PATH = "/home/anant/Projects/eduLearning/eduFrontend/public/images/common/";
+            String[] fileNames = Objects.requireNonNull(courseDTO.getImageData().getOriginalFilename()).split("\\.");
+            System.out.println(Arrays.toString(fileNames));
+
+            String fileName = fileNames[0] + "_" + Instant.now().getEpochSecond() + "." + fileNames[fileNames.length - 1];
+            String filePath = FILE_PATH + fileName;
+
+            Image image = new Image();
+
+
+            image.setName(fileName);
+            image.setType(courseDTO.getImageData().getContentType());
+            image.setFilePath(filePath);
+
+            course.setCoverImage(image);
+        }
+
 
         course = courseRepository.save(course);
 
+        courseDTO.getImageData().transferTo(new File(course.getCoverImage().getFilePath()));
+
         return courseMapper.toDto(course);
+//        return new CourseDTO();
     }
 
     @Override

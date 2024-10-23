@@ -5,6 +5,8 @@ import com.education.eduAPI.dto.CategoryListDTO;
 import com.education.eduAPI.dto.CourseDTO;
 import com.education.eduAPI.service.CourseService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,6 +17,7 @@ import java.util.List;
 @RequestMapping("/course")
 public class CourseController {
 
+    private static final Logger log = LoggerFactory.getLogger(CourseController.class);
     private final ObjectMapper jacksonObjectMapper;
     CourseService courseService;
 
@@ -50,8 +53,14 @@ public class CourseController {
     }
 
     @PutMapping("/update")
-    public CourseDTO updateCourse(@RequestBody CourseDTO courseDTO){
+    public CourseDTO updateCourse(@RequestParam(value = "imageData", required = false) MultipartFile file, @RequestParam("instructorData") String instructorData) throws IOException {
+        CourseDTO courseDTO = jacksonObjectMapper.readValue(instructorData, CourseDTO.class);
+//        System.out.println(file);
+        courseDTO.setImageData(file);
+//        System.out.println(file);
         return courseService.updateCourse(courseDTO);
+
+//        return courseService.createCourseUsingDto(courseDTO);
     }
 
     @GetMapping("/notenrolled/{categoryName}")

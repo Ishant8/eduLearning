@@ -1,13 +1,13 @@
 @if(courses()?.length != 0){
-    <div class="position-relative">
+<div class="position-relative">
     <div #carouselControl>
         <button (click)="scrollPrev()" class="carousel-control-prev me-5" type="button"
-        [attr.data-bs-target]="'#'+carouselId()" data-bs-slide="prev">
+            [attr.data-bs-target]="'#'+carouselId()" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Previous</span>
         </button>
         <button (click)="scrollNext()" class="carousel-control-next ms-5" type="button"
-        [attr.data-bs-target]="'#'+carouselId()" data-bs-slide="next">
+            [attr.data-bs-target]="'#'+carouselId()" data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
         </button>
@@ -15,36 +15,44 @@
     <div #carouselContainer [id]="carouselId()" class="carousel p-5 light-bg">
 
         @if(sectionTitle() === 'Enrolled')
-        {   
-            <div class="d-flex justify-content-between">
+        {
+        <div class="d-flex justify-content-between">
             <div>
                 <p class="fs-2 custom-font fw-bold mb-0">Continue Learning.</p>
                 <p class="custom-font fs-4 fw-medium mb-0">You're Enrolled in the following Courses</p>
-                
+
             </div>
-            <ng-content/>
-            </div>    
+            <ng-content />
+        </div>
         }@else if(sectionTitle() === 'Instructor'){
-            <div class="d-flex justify-content-between">
-                <div>
-                    <p class="fs-2 custom-font fw-bold mb-0">Welcome Back.</p>
-                    <p class="custom-font fs-4 fw-medium mb-0">Your Courses are as follows.</p>
-                    
-                </div>
-                <ng-content/>
-                </div>    
+        <div class="d-flex justify-content-between">
+            <div>
+                <p class="fs-2 custom-font fw-bold mb-0">Welcome Back.</p>
+                <p class="custom-font fs-4 fw-medium mb-0">Your Courses are as follows.</p>
+
+            </div>
+            <ng-content />
+        </div>
         }
 
-       
+
         <div #carouselInner class="carousel-inner pt-4">
 
             @for (courseItem of courses(); track courseItem.courseId) {
+
                 <!-- <app-course-card [course]="courseItem" class="course-card rounded-2 overflow-hidden"/> -->
-                <div class="carousel-item" [class.active]="courseItem === courses()![0]" [course]="courseItem" [enrolled]="sectionTitle() === 'Enrolled' || sectionTitle() === 'Instructor' || sectionTitle() === 'InstructorSuggest'" course-item></div>
+                <div class="carousel-item" [class.active]="courseItem === courses()![0]" [course]="courseItem" [enrolled]="sectionTitle() === 'Enrolled' || sectionTitle() === 'Instructor' || sectionTitle() === 'InstructorSuggest'" course-item>
+                @if(sectionTitle() === 'Instructor'){
+
+                <!-- <button class="btn border border-black rounded-pill"><i class="bi bi-pencil"></i></button> -->
+                <a class="btn btn-custom rounded-0" style="font-size: 15px;" [routerLink]="['/course/edit',courseItem.courseId]" >Edit</a>
+                }
+            </div>
+
             } @empty {
-                <li>There are no Courses Available.</li>
+            <li>There are no Courses Available.</li>
             }
-            
+
         </div>
 
     </div>
