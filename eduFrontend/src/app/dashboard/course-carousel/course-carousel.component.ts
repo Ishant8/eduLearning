@@ -3,11 +3,12 @@ import { first } from 'rxjs';
 import { CourseItemComponent } from './course-item/course-item.component';
 import { Course } from '../../courses/course.model';
 import { CourseService } from '../../courses/course.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-course-carousel',
   standalone: true,
-  imports: [CourseItemComponent],
+  imports: [CourseItemComponent,RouterLink],
   templateUrl: './course-carousel.component.html',
   styleUrl: './course-carousel.component.css',
   encapsulation: ViewEncapsulation.None

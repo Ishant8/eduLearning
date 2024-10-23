@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
   filterCourses = signal<Course[] | undefined>(undefined);
   firstElement = signal<string>('Photography');
 
-  role = computed(() => this.profileService.profile()?.role);
+  userDetails = computed(() => this.profileService.profile());
 
   ngOnInit(): void {
     console.log('In testimonial onInit');

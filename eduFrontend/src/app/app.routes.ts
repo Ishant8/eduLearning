@@ -80,6 +80,11 @@ export const routes:Routes=[
         canActivate:[AuthGuard]
     },
     {
+        path:'course/edit/:courseId',
+        component:AddCourseComponent,
+        canActivate:[LoggedIn]
+    },
+    {
         path:'**',
         component:NotFoundComponent
     }
