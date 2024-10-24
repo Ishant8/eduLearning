@@ -1,11 +1,41 @@
+.negative-top{
+    margin-top: -5px;
+}
+
 .main-margin{
-    margin-inline: 9rem;
+    margin-left: 17rem;
+    margin-right: 6rem;
+    margin-bottom: 7rem;
     /* border: 2px solid black; */
+}
+
+.course-btn-custom, .course-btn-custom:disabled{
+    background-color: #fff8d3;
+    color: #0d6343;
+}
+
+.course-btn-custom:hover{
+    background-color: #fff4c0;
+    color: #0d6343;
+}
+
+.course-btn-custom:focus{
+    background-color: #0d6343;
+    color: white;
 }
 
 .custom-font{
     font-family: 'Inter';
     font-weight: 500;
+}
+
+.btn-padding{
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+}
+
+.muted-green{
+    color: #147a55a2;
 }
 
 #list-example {
