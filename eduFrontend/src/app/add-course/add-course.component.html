@@ -2,68 +2,48 @@
   <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb" class="ms-5 ps-4">
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
-        <a class="text-decoration-none" routerLink="/dashboard">Dashboard</a>
+        <a class="text-decoration-none text-success" routerLink="/dashboard">Dashboard</a>
       </li>
-      <li class="breadcrumb-item active" aria-current="page">{{title}}</li>
+      @if(formStep==0){
+        <li class="breadcrumb-item active" aria-current="page">{{title}} Course</li>
+      }
+      @if(formStep===1){
+        <li class="breadcrumb-item active text-success" aria-current="page" (click)="prevStep()" role="button">{{title}} Course</li>
+      <li class="breadcrumb-item active" aria-current="page">{{title}} Sections</li>
+      }
     </ol>
   </nav>
 
   <main class="mt-5">
     <form class="row col-11 gap-4 mx-auto" (ngSubmit)="handleSubmit()" [formGroup]="courseDetails">
+      @if(formStep===0){
+
       <div class="input-group custom-width">
-        <label
-          for="course-name"
-          class="input-group-text rounded-start-1 w-25 bg-color-home green-txt fw-medium"
-        >
+        <label for="course-name" class="input-group-text rounded-start-1 w-25 bg-color-home green-txt fw-medium">
           Course name
         </label>
-        <input
-          type="text"
-          class="form-control p-2 rounded-end-1 shadow-none"
-          name="courseName"
-          id="course-name"
-          aria-describedby="courseName"
-          placeholder="Enter course name"
-          formControlName="courseName"
-        />
+        <input type="text" class="form-control p-2 rounded-end-1 shadow-none" name="courseName" id="course-name"
+          aria-describedby="courseName" placeholder="Enter course name" formControlName="courseName" />
       </div>
 
       <div class="input-group custom-width">
-        <label
-          for="course-category"
-          class="input-group-text rounded-start-1 w-25 bg-color-home green-txt fw-medium"
-          >Category</label
-        >
-        <select
-          class="form-select p-2 rounded-end-1 shadow-none"
-          name="categoryName"
-          id="course-category"
-          aria-label="Default select example"
-          formControlName="categoryName"
-
-        >
+        <label for="course-category"
+          class="input-group-text rounded-start-1 w-25 bg-color-home green-txt fw-medium">Category</label>
+        <select class="form-select p-2 rounded-end-1 shadow-none" name="categoryName" id="course-category"
+          aria-label="Default select example" formControlName="categoryName">
           <option value="" selected disabled>Select a category</option>
           @for(category of categories; track category){
-              <option [value]="category">{{category}}</option>
+          <option [value]="category">{{category}}</option>
           }
-          
+
         </select>
       </div>
 
       <div class="input-group" style="width: 23%">
-        <label
-          for="course-level"
-          class="input-group-text rounded-start-1 bg-color-home green-txt fw-medium"
-          >Level</label
-        >
-        <select
-          class="form-select p-2 rounded-end-1 shadow-none"
-          name="level"
-          id="course-level"
-          aria-label="Default select example"
-          formControlName="level"
-
-        >
+        <label for="course-level"
+          class="input-group-text rounded-start-1 bg-color-home green-txt fw-medium">Level</label>
+        <select class="form-select p-2 rounded-end-1 shadow-none" name="level" id="course-level"
+          aria-label="Default select example" formControlName="level">
           <option value="" selected disabled>Select course level</option>
           <option value="Beginner">Beginner</option>
           <option value="Intermediate">Intermediate</option>
@@ -72,116 +52,55 @@
       </div>
 
       <div class="input-group" style="width: 22.25%">
-        <label
-          for="course-section"
-          class="input-group-text rounded-start-1 d-flex justify-content-between bg-color-home fw-medium green-txt"
-        >
+        <label for="course-section"
+          class="input-group-text rounded-start-1 d-flex justify-content-between bg-color-home fw-medium green-txt">
           <span>Sections</span>
         </label>
-        <input
-          type="number"
-          name="sections"
-          class="form-control p-2 shadow-none rounded-end-1"
-          id="course-section"
-          aria-describedby="courseName"
-          placeholder="Enter no. of sections"
-          formControlName="sections"
-
-        />
+        <input type="number" name="sections" class="form-control p-2 shadow-none rounded-end-1" id="course-section"
+          aria-describedby="courseName" placeholder="Enter no. of sections" formControlName="sections" />
       </div>
 
       <div class="input-group" style="width: 22%">
-        <label
-          for="course-hour"
-          class="input-group-text rounded-start-1 w-50 bg-color-home green-txt fw-medium"
-        >
+        <label for="course-hour" class="input-group-text rounded-start-1 w-50 bg-color-home green-txt fw-medium">
           <span>Hours</span>
         </label>
-        <input
-          type="number"
-          class="form-control p-2 shadow-none rounded-end-1"
-          name="hours"
-          id="course-hour"
-          aria-describedby="courseName"
-          placeholder="Enter hours"
-          formControlName="hours"
-
-        />
+        <input type="number" class="form-control p-2 shadow-none rounded-end-1" name="hours" id="course-hour"
+          aria-describedby="courseName" placeholder="Enter hours" formControlName="hours" />
       </div>
 
       <div class="input-group" style="width: 23%">
-        <label
-          for="course-price"
-          class="input-group-text rounded-start-1 w-50 d-flex justify-content-between bg-color-home green-txt fw-medium"
-        >
+        <label for="course-price"
+          class="input-group-text rounded-start-1 w-50 d-flex justify-content-between bg-color-home green-txt fw-medium">
           <span>Price</span><span>$</span>
         </label>
-        <input
-          type="number"
-          class="form-control p-2 shadow-none rounded-end-1"
-          name="price"
-          id="course-price"
-          aria-describedby="courseName"
-          placeholder="Enter price"
-          formControlName="price"
-
-        />
+        <input type="number" class="form-control p-2 shadow-none rounded-end-1" name="price" id="course-price"
+          aria-describedby="courseName" placeholder="Enter price" formControlName="price" />
       </div>
 
       <div class="input-group d-flex flex-column custom-width">
-        <label
-          for="course-description"
-          class="input-group-text rounded-0 rounded-top-1 border-bottom-0 p-2 bg-color-home green-txt fw-medium"
-          >Description</label
-        >
-        <textarea
-          id="course-description"
-          name="description"
-          class="form-control w-100 rounded-0 rounded-bottom-1 shadow-none"
-          rows="8"
-          style="resize: none"
-          aria-label="With textarea"
-          placeholder="Enter description about course..."
-          formControlName="description"
-
-        ></textarea>
+        <label for="course-description"
+          class="input-group-text rounded-0 rounded-top-1 border-bottom-0 p-2 bg-color-home green-txt fw-medium">Description</label>
+        <textarea id="course-description" name="description"
+          class="form-control w-100 rounded-0 rounded-bottom-1 shadow-none" rows="8" style="resize: none"
+          aria-label="With textarea" placeholder="Enter description about course..."
+          formControlName="description"></textarea>
       </div>
 
       <div class="input-group d-flex flex-column custom-width">
-        <label
-          for="course-curriculum"
-          class="input-group-text rounded-0 rounded-top-1 border-bottom-0 p-2 bg-color-home green-txt fw-medium"
-          >Curriculum</label
-        >
-        <textarea
-          id="course-curriculum"
-          name="curriculam"
-          class="form-control w-100 rounded-0 rounded-bottom-1 shadow-none"
-          rows="8"
-          style="resize: none"
-          aria-label="With textarea"
-          placeholder="Enter curriculam about course..."
-          formControlName="curriculum"
-
-        ></textarea>
+        <label for="course-curriculum"
+          class="input-group-text rounded-0 rounded-top-1 border-bottom-0 p-2 bg-color-home green-txt fw-medium">Curriculum</label>
+        <textarea id="course-curriculum" name="curriculam"
+          class="form-control w-100 rounded-0 rounded-bottom-1 shadow-none" rows="8" style="resize: none"
+          aria-label="With textarea" placeholder="Enter curriculam about course..."
+          formControlName="curriculum"></textarea>
       </div>
       <div class="input-group d-flex flex-column custom-width">
-        <label
-          for="course-review"
-          class="input-group-text rounded-0 rounded-top-1 border-bottom-0 p-2 bg-color-home green-txt fw-medium"
-          >About You</label
-        >
-        <textarea
-          id="course-review"
-          name="review"
-          class="form-control w-100 rounded-0 rounded-bottom-1 shadow-none"
-          rows="8"
-          style="resize: none"
-          aria-label="With textarea"
-          placeholder="Enter about you..."
-          formControlName="courseReview"
-          
-        ></textarea>
+        <label for="course-review"
+          class="input-group-text rounded-0 rounded-top-1 border-bottom-0 p-2 bg-color-home green-txt fw-medium">About
+          You</label>
+        <textarea id="course-review" name="review" class="form-control w-100 rounded-0 rounded-bottom-1 shadow-none"
+          rows="8" style="resize: none" aria-label="With textarea" placeholder="Enter about you..."
+          formControlName="courseReview"></textarea>
       </div>
       <div class="input-group d-flex flex-column custom-width">
         <label for="course-image" class="border rounded-1">
@@ -190,22 +109,159 @@
           </p>
           <img [src]="imgSrc()" alt="" class="custom-image mb-3" />
         </label>
-        <input
-          type="file"
-          id="course-image"
-          name="coverImage"
-          class="d-none"
-          (change)="imgDetails($event)"
-          formControlName="coverImage"
-
-        />
+        <input type="file" id="course-image" name="coverImage" class="d-none" (change)="imgDetails($event)"
+          formControlName="coverImage" />
       </div>
 
-      <div >
-        <button type="submit" [disabled]="!(courseDetails.dirty && courseDetails.valid)" class="btn btn-custom btn-lg rounded-1">
-          {{title}} 
+      }@else if (formStep==1) {
+
+        
+        <div class="accordion" id="sectionAccordion">
+      @for (item of sectionArray; track $index; let i = $index) {
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed shadow-none bg-color-home fw-bold green-txt" type="button"
+                data-bs-toggle="collapse" [attr.data-bs-target]="'#collapseSection'+$index" aria-expanded="true"
+                [attr.aria-controls]="'collapseSection'+$index">
+                {{item.sectionName}}
+              </button>
+            </h2>
+            <div [id]="'collapseSection'+$index" class="accordion-collapse collapse" data-bs-parent="#sectionAccordion">
+              <div class="accordion-body">
+                <div>
+                  {{item.sectionDescription}}
+                </div>
+                <div class="accordion mx-auto my-2" [id]="'subSectionArrayAccordion'+i">
+                  @for (items of item.subSections; track $index) {
+                    <div class="accordion-item">
+                      <h2 class="accordion-header">
+                        <button class="accordion-button collapsed shadow-none bg-color-home fw-bold green-txt" type="button"
+                          data-bs-toggle="collapse" [attr.data-bs-target]="'#collapseSubSectionArray'+i+$index" aria-expanded="true"
+                          [attr.aria-controls]="'collapseSubSectionArray'+i+$index">
+                          {{items.subSectionTitle}}
+                        </button>
+                      </h2>
+                      <div [id]="'collapseSubSectionArray'+i+$index" class="accordion-collapse collapse" [attr.data-bs-parent]="'#subSectionArrayAccordion'+i">
+                        <div class="accordion-body">
+                          {{items.subSectionContent}}
+                        </div>
+                      </div>
+                    </div>
+                    
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        }
+      </div>
+    
+      @if(sectionArray.length){
+        <hr>
+      }
+
+      <div class="input-group ">
+        <label for="section-name" class="input-group-text rounded-start-1 bg-color-home green-txt fw-medium">
+          Section Name
+        </label>
+        <input type="text" class="form-control p-2 rounded-end-1 shadow-none" name="sectionName" id="section-name"
+          aria-describedby="sectionName" placeholder="Enter section name" formControlName="sectionName" />
+      </div>
+
+      <div class="input-group d-flex flex-column">
+        <label for="section-description"
+          class="input-group-text rounded-0 rounded-top-1 border-bottom-0 p-2 bg-color-home green-txt fw-medium">Section
+          Description</label>
+        <textarea id="section-description" name="review"
+          class="form-control w-100 rounded-0 rounded-bottom-1 shadow-none" rows="8" style="resize: none"
+          aria-label="With textarea" placeholder="Enter section description..."
+          formControlName="sectionDescription"></textarea>
+      </div>
+
+      <div class=" py-3 custom-sub-section">
+        <div class="accordion col-11 mx-auto my-2" id="subSectionAccordion">
+        @for (items of subSectionArray; track $index) {
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed shadow-none bg-color-home fw-bold green-txt" type="button"
+                data-bs-toggle="collapse" [attr.data-bs-target]="'#collapseOne'+$index" aria-expanded="true"
+                [attr.aria-controls]="'collapseOne'+$index">
+                {{items.subSectionTitle}}
+              </button>
+            </h2>
+            <div [id]="'collapseOne'+$index" class="accordion-collapse collapse" data-bs-parent="#subSectionAccordion">
+              <div class="accordion-body">
+                <div class="custom-sub-section-content">
+                  {{items.subSectionContent}}
+                </div>
+                <div class="d-flex gap-3 mt-3">
+                  <button type="button" class="btn btn-custom" (click)="populateSubSection($index)" >Edit</button>
+                  <button type="button" class="btn btn-danger" >Delete</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        }
+      </div>
+
+      @if(subSectionArray.length){
+        <hr class="border border-success">
+      }
+        <div class="col-11 m-auto d-flex flex-column gap-3 mt-3">
+          <div class="input-group ">
+            <label for="sub-section-title" class="input-group-text rounded-start-1 bg-color-home green-txt fw-medium">
+              Sub Section Title
+            </label>
+            <input type="text" class="form-control p-2 rounded-end-1 shadow-none" name="sectionName"
+              id="sub-section-name" aria-describedby="subSectionTitle" placeholder="Enter section title"
+              formControlName="subSectionTitle" />
+          </div>
+
+          <div class="input-group d-flex flex-column">
+            <label for="sub-section-description"
+              class="input-group-text rounded-0 rounded-top-1 border-bottom-0 p-2 bg-color-home green-txt fw-medium">
+              Sub Section Content</label>
+            <textarea id="sub-section-content" name="review"
+              class="form-control w-100 rounded-0 rounded-bottom-1 shadow-none" rows="8" style="resize: none"
+              aria-label="With textarea" placeholder="Enter sub-section content..."
+              formControlName="subSectionContent"></textarea>
+          </div>
+
+          <button type="button"
+            class="btn btn-custom rounded-1 fw-medium border border-black border-opacity-10 col-2 ms-auto"
+            (click)="subSectionState=='Add'? addSubSection(): editSubSection()" [disabled]="isSubSectionValid()" >{{subSectionState}} Sub Section</button>
+        </div>
+
+
+      </div>
+
+
+      <button type="button"
+        class="btn add-section-btn-custom rounded-1 fw-medium border border-black border-opacity-10 col-2 ms-auto me-2"
+        (click)="addSection()" [disabled]="isSectionValid()" >Add Section</button>
+      }
+
+
+
+      <div>
+        @if(formStep>0){
+        <button (click)="prevStep()" class="btn btn-custom btn-lg rounded-1">
+          Previous
         </button>
-        {{courseDetails.get('coverImage')?.value | json}}
+        }
+        @if(formStep == 0){
+        <button [disabled]="!isStepValid(formStep)" (click)="nextStep()" class="btn btn-custom btn-lg rounded-1">
+          Next
+        </button>
+        }
+        @if(formStep == 1){
+        <button type="submit" [disabled]="!(courseDetails.dirty && courseDetails.valid) && sectionArray.length === 0 && !isStepValid(0)"
+          class="btn btn-custom btn-lg rounded-1">
+          {{title}} Course
+        </button>
+        }
       </div>
     </form>
     <app-toast></app-toast>

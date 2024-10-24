@@ -8,3 +8,31 @@
     object-fit: contain;
     object-position: center;
 }
+
+.add-section-btn-custom, .add-section-btn-custom:disabled{
+    background-color: #fff1ac;
+    color: #0d6343;
+}
+
+.add-section-btn-custom:hover{
+    background-color: #fff4c0;
+    color: #0d6343;
+}
+
+.custom-sub-section{
+    width: 98.5%;
+    margin: auto;
+    border-radius: 5px;
+    background-color: #147A5555;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: #fff1ac;
+    color: #0d6343;
+}
+
+.custom-sub-section-content{
+    white-space: pre-line;
+    overflow: scroll;
+    max-height: 200px;
+}
