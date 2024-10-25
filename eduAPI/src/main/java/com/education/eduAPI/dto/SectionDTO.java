@@ -1,19 +1,17 @@
 package com.education.eduAPI.dto;
 
-import com.education.eduAPI.entity.SubSection;
-
 import java.util.List;
 
 public class SectionDTO {
     private String sectionName;
     private String sectionDescription;
     private String courseName;
-    private List<SubSection> subSections;
+    private List<SubSectionDTO> subSections;
 
     public SectionDTO() {
     }
 
-    public SectionDTO(String sectionName, String sectionDescription, String courseName, List<SubSection> subSections) {
+    public SectionDTO(String sectionName, String sectionDescription, String courseName, List<SubSectionDTO> subSections) {
         this.sectionName = sectionName;
         this.sectionDescription = sectionDescription;
         this.courseName = courseName;
@@ -44,11 +42,11 @@ public class SectionDTO {
         this.courseName = courseName;
     }
 
-    public List<SubSection> getSubSections() {
+    public List<SubSectionDTO> getSubSections() {
         return subSections;
     }
 
-    public void setSubSections(List<SubSection> subSections) {
+    public void setSubSections(List<SubSectionDTO> subSections) {
         this.subSections = subSections;
     }
 

@@ -1,5 +1,6 @@
 package com.education.eduAPI.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "section")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Section {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +22,7 @@ public class Section {
     private String sectionDescription;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "course_id")
+    @JoinColumn(name = "id_course")
     private Course course;
 
     @OneToMany(mappedBy = "section", cascade = CascadeType.ALL)

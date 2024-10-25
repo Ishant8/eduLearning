@@ -8,10 +8,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class SectionMapper {
 
+    private final SubSectionMapper subSectionMapper;
     CourseRepository courseRepository;
 
-    public SectionMapper(CourseRepository courseRepository) {
+    public SectionMapper(CourseRepository courseRepository, SubSectionMapper subSectionMapper) {
         this.courseRepository = courseRepository;
+        this.subSectionMapper = subSectionMapper;
     }
 
     public SectionDTO toDto(Section section) {
@@ -19,7 +21,9 @@ public class SectionMapper {
         sectionDTO.setSectionName(section.getSectionName());
         sectionDTO.setSectionDescription(section.getSectionDescription());
         sectionDTO.setCourseName(section.getCourse().getCourseName());
-        sectionDTO.setSubSections(section.getSubSections());
+        if(section.getSubSections() != null) {
+            sectionDTO.setSubSections(section.getSubSections().stream().map(subSectionMapper::toDto).toList());
+        }
 
         return sectionDTO;
     }
@@ -29,8 +33,15 @@ public class SectionMapper {
 
         section.setSectionName(sectionDTO.getSectionName());
         section.setSectionDescription(sectionDTO.getSectionDescription());
-        section.setSubSections(sectionDTO.getSubSections());
+
+        if(sectionDTO.getSubSections() != null) {
+            section.setSubSections(sectionDTO.getSubSections().stream().map(subSectionMapper::toEntity).toList());
+        }else {
+            section.setSubSections(null);
+        }
+
         if(sectionDTO.getCourseName() != null){
+            System.out.println("=========Mapper Fetch Called============");
             section.setCourse(courseRepository.findCourseByCourseName(sectionDTO.getCourseName()));
 
         }
