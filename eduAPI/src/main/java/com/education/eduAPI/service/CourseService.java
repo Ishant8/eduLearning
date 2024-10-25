@@ -1,6 +1,7 @@
 package com.education.eduAPI.service;
 
 import com.education.eduAPI.dto.CourseDTO;
+import com.education.eduAPI.dto.SectionDTO;
 import com.education.eduAPI.entity.Category;
 import com.education.eduAPI.enums.Level;
 
@@ -9,7 +10,7 @@ import java.util.List;
 
 public interface CourseService {
 
-    CourseDTO createCourseUsingDto(CourseDTO courseDTO) throws IOException;
+    CourseDTO createCourseUsingDto(CourseDTO courseDTO, List<SectionDTO> sectionList) throws IOException;
 
     String deleteCourseById(CourseDTO courseDTO);
 

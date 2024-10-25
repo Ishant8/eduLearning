@@ -141,13 +141,13 @@
                         <button class="accordion-button collapsed shadow-none bg-color-home fw-bold green-txt" type="button"
                           data-bs-toggle="collapse" [attr.data-bs-target]="'#collapseSubSectionArray'+i+$index" aria-expanded="true"
                           [attr.aria-controls]="'collapseSubSectionArray'+i+$index">
-                          {{items.subSectionTitle}}
+                          {{items.subSectionName}}
                         </button>
                       </h2>
                       <div [id]="'collapseSubSectionArray'+i+$index" class="accordion-collapse collapse" [attr.data-bs-parent]="'#subSectionArrayAccordion'+i">
                         <div class="accordion-body custom-sub-section-content">
                           
-                          {{items.subSectionContent}}
+                          {{items.content}}
                         </div>
                       </div>
                     </div>
@@ -196,13 +196,13 @@
               <button class="accordion-button collapsed shadow-none bg-color-home fw-bold green-txt" type="button"
                 data-bs-toggle="collapse" [attr.data-bs-target]="'#collapseOne'+$index" aria-expanded="true"
                 [attr.aria-controls]="'collapseOne'+$index">
-                {{items.subSectionTitle}}
+                {{items.subSectionName}}
               </button>
             </h2>
             <div [id]="'collapseOne'+$index" class="accordion-collapse collapse" data-bs-parent="#subSectionAccordion">
               <div class="accordion-body">
                 <div class="custom-sub-section-content">
-                  {{items.subSectionContent}}
+                  {{items.content}}
                 </div>
                 <div class="d-flex gap-3 mt-3">
                   <button type="button" class="btn btn-success btn-custom" (click)="populateSubSection($index)" >Edit</button>

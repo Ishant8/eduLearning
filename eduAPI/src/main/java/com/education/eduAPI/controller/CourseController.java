@@ -3,7 +3,10 @@ package com.education.eduAPI.controller;
 
 import com.education.eduAPI.dto.CategoryListDTO;
 import com.education.eduAPI.dto.CourseDTO;
+import com.education.eduAPI.dto.SectionDTO;
+import com.education.eduAPI.dto.SectionsWrapper;
 import com.education.eduAPI.service.CourseService;
+import com.education.eduAPI.service.SectionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,19 +23,34 @@ public class CourseController {
     private static final Logger log = LoggerFactory.getLogger(CourseController.class);
     private final ObjectMapper jacksonObjectMapper;
     CourseService courseService;
+    private SectionService sectionService;
 
-    public CourseController(CourseService courseService, ObjectMapper jacksonObjectMapper){
+    public CourseController(CourseService courseService, ObjectMapper jacksonObjectMapper, SectionService sectionService){
         this.courseService = courseService;
         this.jacksonObjectMapper = jacksonObjectMapper;
+        this.sectionService = sectionService;
     }
 
     @PostMapping("/create")
-    public CourseDTO createCourse(@RequestParam("imageData") MultipartFile file, @RequestParam("instructorData") String instructorData) throws IOException {
+    public CourseDTO createCourse(@RequestParam("imageData") MultipartFile file,
+                                  @RequestParam("instructorData") String instructorData,
+                                  @RequestParam("sections") String sectionData) throws IOException {
 
         CourseDTO courseDTO = jacksonObjectMapper.readValue(instructorData, CourseDTO.class);
         courseDTO.setImageData(file);
 
-        return courseService.createCourseUsingDto(courseDTO);
+        SectionsWrapper sectionsWrapper = jacksonObjectMapper.readValue(sectionData, SectionsWrapper.class);
+        List<SectionDTO> sectionDTOList = sectionsWrapper.getSectionList();
+
+        System.out.println(sectionsWrapper.getSectionList());
+
+//        jacksonObjectMapper.readValue(sectionData);
+
+        CourseDTO savedCourseDTO = courseService.createCourseUsingDto(courseDTO,sectionDTOList);
+
+        List<SectionDTO> sectionDTOS = sectionService.addSectionList(sectionDTOList,savedCourseDTO.getCourseName());
+
+        return savedCourseDTO;
     }
 
     @DeleteMapping("/delete")
