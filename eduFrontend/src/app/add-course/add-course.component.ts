@@ -44,19 +44,20 @@ export class AddCourseComponent implements OnInit {
 
   title = 'Add';
 
-  formStep = 1;
+  formStep = 0;
   sectionArray: AddSection[] = [];
   subSectionArray: AddSubSection[] = [];
 
   editIndex:number=-1;
+  editSectionIndex:number=-1;
 
   courseDetails = new FormGroup({
     courseName: new FormControl('', [Validators.required]),
     categoryName: new FormControl('', [Validators.required]),
     level: new FormControl('', [Validators.required]),
-    sections: new FormControl<number>(0, [Validators.required]),
-    hours: new FormControl(0, [Validators.required]),
-    price: new FormControl(0, [Validators.required]),
+    sections: new FormControl<number>(0, [Validators.required,Validators.min(1)]),
+    hours: new FormControl<number>(0, [Validators.required,Validators.min(1)]),
+    price: new FormControl<number>(0, [Validators.required,Validators.min(1)]),
     description: new FormControl('', [Validators.required]),
     curriculum: new FormControl('', [Validators.required]),
     courseReview: new FormControl('', [Validators.required]),
@@ -83,6 +84,7 @@ export class AddCourseComponent implements OnInit {
   categories: string[] = [];
 
   subSectionState = "Add";
+  sectionState = "Add";
 
   ngOnInit(): void {
     this.courseService.getAllCategories().subscribe({
@@ -142,7 +144,7 @@ export class AddCourseComponent implements OnInit {
   }
 
   isStepValid(step: number) {
-    if (step == 0) {
+    if (step === 0) {
       return (
         this.courseDetails.get('courseName')?.valid &&
         this.courseDetails.get('categoryName')?.valid &&
@@ -160,12 +162,35 @@ export class AddCourseComponent implements OnInit {
     return true;
   }
 
+  populateSection(index:number) {
+
+    this.courseDetails.get('sectionName')?.setValue(this.sectionArray[index].sectionName);
+    this.courseDetails.get('sectionDescription')?.setValue(this.sectionArray[index].sectionDescription);
+    this.subSectionArray = this.sectionArray[index].subSections;
+    this.sectionState = "Edit"
+    this.editSectionIndex = index;
+  }
+
   populateSubSection(index:number) {
 
     this.courseDetails.get('subSectionTitle')?.setValue(this.subSectionArray[index].subSectionTitle);
     this.courseDetails.get('subSectionContent')?.setValue(this.subSectionArray[index].subSectionContent);
     this.subSectionState = "Edit"
     this.editIndex = index;
+  }
+
+  editSection() {
+    this.sectionArray[this.editSectionIndex] = {
+      sectionName:this.courseDetails.get("sectionName")?.value as string,
+      sectionDescription:this.courseDetails.get("sectionDescription")?.value as string,
+      subSections:this.subSectionArray
+    }
+    
+    this.courseDetails.get("sectionName")?.setValue('');
+    this.courseDetails.get("sectionDescription")?.setValue('');
+    this.subSectionArray = [];
+    this.editSectionIndex = -1;
+    this.sectionState = "Add"
   }
 
   editSubSection(){
@@ -178,6 +203,14 @@ export class AddCourseComponent implements OnInit {
     this.courseDetails.get("subSectionContent")?.setValue('');
     this.editIndex = -1;
     this.subSectionState = "Add"
+  }
+
+  deleteSubSection(index:number) {
+    this.subSectionArray = this.subSectionArray.filter((x,i)=>i!==index);
+  }
+  
+  deleteSection(index:number) {
+    this.sectionArray = this.sectionArray.filter((x,i)=>i!==index);
   }
 
   fetchDetails() {
@@ -292,14 +325,20 @@ export class AddCourseComponent implements OnInit {
       instructorDetails,
     };
 
-    // console.log(description);
+    const sectionData = {
+      sections:this.sectionArray
+    }
 
+    // console.log(description);
+    
     // console.log(courseData);
     console.log(this.courseDetails.valid);
 
     if (this.courseDetails.valid) {
+      formData.append('sections', JSON.stringify(sectionData))
       if (!this.courseId()) {
         formData.append('instructorData', JSON.stringify(courseData));
+        
         this.courseService.addCourse(formData).subscribe({
           next: (resData) => {
             console.log(resData);

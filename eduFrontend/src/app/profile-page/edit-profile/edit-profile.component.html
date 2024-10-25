@@ -8,7 +8,7 @@
         <form (ngSubmit)="updateUser()" #form="ngForm" class="d-flex align-items-start flex-column gap-4">
             <div class="d-flex gap-4 w-100">
                 <div class="form-floating mb-3 w-100 position-relative text-secondary">
-                    <input type="email" class="form-control shadow-none rounded-1 custom-form" [class.is-invalid]="checkInputStatus(fName)" id="floatingInput" [(ngModel)]="firstName" name="firstName"
+                    <input autocomplete="off" type="email" class="form-control shadow-none rounded-1 custom-form" [class.is-invalid]="checkInputStatus(fName)" id="floatingInput" [(ngModel)]="firstName" name="firstName"
                         placeholder="" #fName="ngModel" required>
                     <label for="floatingInput ">First Name</label>
                     @if (fName.hasError('required') && (fName.touched || fName.dirty)) {
@@ -18,7 +18,7 @@
                     }
                 </div>
                 <div class="form-floating mb-3 w-100 position-relative text-secondary">
-                    <input type="email" class="form-control shadow-none rounded-1 custom-form" [class.is-invalid]="checkInputStatus(lName)"
+                    <input autocomplete="off" type="email" class="form-control shadow-none rounded-1 custom-form" [class.is-invalid]="checkInputStatus(lName)"
                         [(ngModel)]="lastName" id="floatingInput" name="lastName" placeholder="" #lName="ngModel" required>
                     <label for="floatingInput  ">Last Name</label>
                     @if (lName.hasError('required') && (lName.touched || lName.dirty)) {
@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="form-floating mb-3 w-100 text-secondary">
-                <input type="email" class="form-control shadow-none rounded-1 custom-form" [class.is-invalid]="checkInputStatus(mail)" [(ngModel)]="email" name="email" id="floatingInput" placeholder="" #mail="ngModel" required email>
+                <input autocomplete="off" type="email" class="form-control shadow-none rounded-1 custom-form" [class.is-invalid]="checkInputStatus(mail)" [(ngModel)]="email" name="email" id="floatingInput" placeholder="" #mail="ngModel" required email>
                 <label for="floatingInput">Email</label>
                 @if (mail.hasError('required') && (mail.touched || mail.dirty)) {
                 <div class="position-absolute ms-1 mt-1 small text-danger">

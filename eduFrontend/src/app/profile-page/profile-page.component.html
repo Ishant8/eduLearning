@@ -10,7 +10,7 @@
                         <div class="custom-profile bg-success-subtle d-flex align-items-center justify-content-center rounded-pill">{{profile()?.firstName?.substring(0,1)}}</div>
                     }
                     <!-- <img src="images/common/stock2.jpeg" width="100px" height="100px" style="object-fit: cover;object-position:top; border-radius: 50%;" alt=""> -->
-                    <button class="rounded-4 border-0 position-absolute custom-edit-btn"><i class="bi bi-pencil-fill small"></i></button>
+                    <button class="rounded-4 border-0 position-absolute custom-edit-btn" routerLink="edit-photo"><i class="bi bi-pencil-fill small"></i></button>
                 </div>
                 <p class="fs-4 fw-bold">{{profile()?.firstName + ' ' + profile()?.lastName}}</p>
             </div>

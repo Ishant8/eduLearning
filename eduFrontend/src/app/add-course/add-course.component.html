@@ -22,7 +22,7 @@
         <label for="course-name" class="input-group-text rounded-start-1 w-25 bg-color-home green-txt fw-medium">
           Course name
         </label>
-        <input type="text" class="form-control p-2 rounded-end-1 shadow-none" name="courseName" id="course-name"
+        <input autocomplete="off" type="text" class="form-control p-2 rounded-end-1 shadow-none" name="courseName" id="course-name"
           aria-describedby="courseName" placeholder="Enter course name" formControlName="courseName" />
       </div>
 
@@ -56,7 +56,7 @@
           class="input-group-text rounded-start-1 d-flex justify-content-between bg-color-home fw-medium green-txt">
           <span>Sections</span>
         </label>
-        <input type="number" name="sections" class="form-control p-2 shadow-none rounded-end-1" id="course-section"
+        <input autocomplete="off" type="number" name="sections" class="form-control p-2 shadow-none rounded-end-1" id="course-section"
           aria-describedby="courseName" placeholder="Enter no. of sections" formControlName="sections" />
       </div>
 
@@ -64,7 +64,7 @@
         <label for="course-hour" class="input-group-text rounded-start-1 w-50 bg-color-home green-txt fw-medium">
           <span>Hours</span>
         </label>
-        <input type="number" class="form-control p-2 shadow-none rounded-end-1" name="hours" id="course-hour"
+        <input autocomplete="off" type="number" class="form-control p-2 shadow-none rounded-end-1" name="hours" id="course-hour"
           aria-describedby="courseName" placeholder="Enter hours" formControlName="hours" />
       </div>
 
@@ -73,7 +73,7 @@
           class="input-group-text rounded-start-1 w-50 d-flex justify-content-between bg-color-home green-txt fw-medium">
           <span>Price</span><span>$</span>
         </label>
-        <input type="number" class="form-control p-2 shadow-none rounded-end-1" name="price" id="course-price"
+        <input autocomplete="off" type="number" class="form-control p-2 shadow-none rounded-end-1" name="price" id="course-price"
           aria-describedby="courseName" placeholder="Enter price" formControlName="price" />
       </div>
 
@@ -109,7 +109,7 @@
           </p>
           <img [src]="imgSrc()" alt="" class="custom-image mb-3" />
         </label>
-        <input type="file" id="course-image" name="coverImage" class="d-none" (change)="imgDetails($event)"
+        <input autocomplete="off" type="file" id="course-image" name="coverImage" class="d-none" (change)="imgDetails($event)"
           formControlName="coverImage" />
       </div>
 
@@ -129,7 +129,10 @@
             <div [id]="'collapseSection'+$index" class="accordion-collapse collapse" data-bs-parent="#sectionAccordion">
               <div class="accordion-body">
                 <div>
+                  <div class="custom-sub-section-content">
                   {{item.sectionDescription}}
+                </div>
+                  
                 </div>
                 <div class="accordion mx-auto my-2" [id]="'subSectionArrayAccordion'+i">
                   @for (items of item.subSections; track $index) {
@@ -142,13 +145,19 @@
                         </button>
                       </h2>
                       <div [id]="'collapseSubSectionArray'+i+$index" class="accordion-collapse collapse" [attr.data-bs-parent]="'#subSectionArrayAccordion'+i">
-                        <div class="accordion-body">
+                        <div class="accordion-body custom-sub-section-content">
+                          
                           {{items.subSectionContent}}
                         </div>
                       </div>
                     </div>
                     
                   }
+
+                </div>
+                <div class="d-flex gap-3 mt-3">
+                  <button type="button" class="btn btn-custom" (click)="populateSection($index)" >Edit</button>
+                  <button type="button" class="btn btn-danger" (click)="deleteSection($index)" >Delete</button>
                 </div>
               </div>
             </div>
@@ -165,7 +174,7 @@
         <label for="section-name" class="input-group-text rounded-start-1 bg-color-home green-txt fw-medium">
           Section Name
         </label>
-        <input type="text" class="form-control p-2 rounded-end-1 shadow-none" name="sectionName" id="section-name"
+        <input autocomplete="off" type="text" class="form-control p-2 rounded-end-1 shadow-none" name="sectionName" id="section-name"
           aria-describedby="sectionName" placeholder="Enter section name" formControlName="sectionName" />
       </div>
 
@@ -196,8 +205,8 @@
                   {{items.subSectionContent}}
                 </div>
                 <div class="d-flex gap-3 mt-3">
-                  <button type="button" class="btn btn-custom" (click)="populateSubSection($index)" >Edit</button>
-                  <button type="button" class="btn btn-danger" >Delete</button>
+                  <button type="button" class="btn btn-success btn-custom" (click)="populateSubSection($index)" >Edit</button>
+                  <button type="button" class="btn btn-danger" (click)="deleteSubSection($index)" >Delete</button>
                 </div>
               </div>
             </div>
@@ -214,7 +223,7 @@
             <label for="sub-section-title" class="input-group-text rounded-start-1 bg-color-home green-txt fw-medium">
               Sub Section Title
             </label>
-            <input type="text" class="form-control p-2 rounded-end-1 shadow-none" name="sectionName"
+            <input autocomplete="off" type="text" class="form-control p-2 rounded-end-1 shadow-none" name="sectionName"
               id="sub-section-name" aria-describedby="subSectionTitle" placeholder="Enter section title"
               formControlName="subSectionTitle" />
           </div>
@@ -240,7 +249,7 @@
 
       <button type="button"
         class="btn add-section-btn-custom rounded-1 fw-medium border border-black border-opacity-10 col-2 ms-auto me-2"
-        (click)="addSection()" [disabled]="isSectionValid()" >Add Section</button>
+        (click)="sectionState=='Add'? addSection(): editSection()" [disabled]="isSectionValid()" >{{sectionState}} Section</button>
       }
 
 
@@ -257,8 +266,8 @@
         </button>
         }
         @if(formStep == 1){
-        <button type="submit" [disabled]="!(courseDetails.dirty && courseDetails.valid) && sectionArray.length === 0 && !isStepValid(0)"
-          class="btn btn-custom btn-lg rounded-1">
+        <button type="submit" [disabled]="!(courseDetails.dirty && courseDetails.valid) || sectionArray.length === 0 || !isStepValid(0)"
+          class="btn btn-custom btn-lg ms-3 rounded-1">
           {{title}} Course
         </button>
         }
