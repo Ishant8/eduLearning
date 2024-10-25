@@ -17,26 +17,27 @@ public class SectionController {
         this.sectionService = sectionService;
     }
 
-    @GetMapping
+    @GetMapping("/get")
     public SectionDTO getSectionByName(@RequestBody String sectionName)
     {
         return sectionService.getSectionByName(sectionName);
     }
 
-    @GetMapping
+    @GetMapping("/get/course")
     public List<SectionDTO> getSectionsByCourseName(@RequestBody String courseName)
     {
         return sectionService.getSectionListByCourse(courseName);
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public SectionDTO addSection(@RequestBody SectionDTO sectionDTO)
     {
+        System.out.println("----------------------------------------------Hello");
         return sectionService.addSection(sectionDTO);
     }
 
-    @PostMapping
-    public List<SectionDTO> addSectionList(@RequestBody List<SectionDTO> sectionDTOList, String courseName)
+    @PostMapping("/add/list")
+    public List<SectionDTO> addSectionList(@RequestBody List<SectionDTO> sectionDTOList,@RequestParam("courseName") String courseName)
     {
         return sectionService.addSectionList(sectionDTOList, courseName);
     }
@@ -46,15 +47,16 @@ public class SectionController {
         return sectionService.getSubSectionListBySection(sectionName);
     }
 
-    @PostMapping
+    @PostMapping("/subsection/add")
     public SubSectionDTO addSubSection(SubSectionDTO SubSectionDTO)
     {
         return sectionService.setSubSection(SubSectionDTO);
     }
 
-    @PostMapping
+    @PostMapping("/subsection/list")
     public List<SubSectionDTO> addSubSectionList(@RequestBody List<SubSectionDTO> subSectionDTOList, String sectionName){
-        return sectionService.addSubSectionList(subSectionDTOList, sectionName);
+//        return sectionService.add(subSectionDTOList, sectionName);
+        return null;
     }
 
 

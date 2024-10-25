@@ -28,7 +28,8 @@ public class SubSectionMapper {
         subSection.setSubSectionName(subSectionDTO.getSubSectionName());
         subSection.setContent(subSectionDTO.getContent());
         if(subSectionDTO.getSubSectionName() != null){
-            subSection.setSection(sectionRepository.findBySectionName(subSectionDTO.getSubSectionName()));
+            System.out.println("=========Mapper Fetch Called============");
+            subSection.setSection(sectionRepository.findBySectionName(subSectionDTO.getSectionName()));
         }
         else{
             subSection.setSection(null);

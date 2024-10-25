@@ -16,7 +16,7 @@ public class SubSection {
     @Column(name = "content")
     private String content;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "section_id")
     private Section section;
 
