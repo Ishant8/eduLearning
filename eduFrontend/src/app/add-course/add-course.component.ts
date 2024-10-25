@@ -116,7 +116,8 @@ export class AddCourseComponent implements OnInit {
     this.sectionArray.push({
       sectionName:this.courseDetails.get("sectionName")?.value as string,
       sectionDescription:this.courseDetails.get("sectionDescription")?.value as string,
-      subSections:this.subSectionArray
+      subSections:this.subSectionArray,
+      courseName:null
     })
 
     this.courseDetails.get("sectionName")?.setValue('');
@@ -126,8 +127,9 @@ export class AddCourseComponent implements OnInit {
 
   addSubSection() {
     this.subSectionArray.push({
-      subSectionTitle:this.courseDetails.get("subSectionTitle")?.value as string,
-      subSectionContent:this.courseDetails.get("subSectionContent")?.value as string
+      subSectionName:this.courseDetails.get("subSectionTitle")?.value as string,
+      content:this.courseDetails.get("subSectionContent")?.value as string,
+      sectionName:null
     })
 
     this.courseDetails.get("subSectionTitle")?.setValue('');
@@ -173,8 +175,8 @@ export class AddCourseComponent implements OnInit {
 
   populateSubSection(index:number) {
 
-    this.courseDetails.get('subSectionTitle')?.setValue(this.subSectionArray[index].subSectionTitle);
-    this.courseDetails.get('subSectionContent')?.setValue(this.subSectionArray[index].subSectionContent);
+    this.courseDetails.get('subSectionTitle')?.setValue(this.subSectionArray[index].subSectionName);
+    this.courseDetails.get('subSectionContent')?.setValue(this.subSectionArray[index].content);
     this.subSectionState = "Edit"
     this.editIndex = index;
   }
@@ -183,7 +185,8 @@ export class AddCourseComponent implements OnInit {
     this.sectionArray[this.editSectionIndex] = {
       sectionName:this.courseDetails.get("sectionName")?.value as string,
       sectionDescription:this.courseDetails.get("sectionDescription")?.value as string,
-      subSections:this.subSectionArray
+      subSections:this.subSectionArray,
+      courseName:null,
     }
     
     this.courseDetails.get("sectionName")?.setValue('');
@@ -195,8 +198,9 @@ export class AddCourseComponent implements OnInit {
 
   editSubSection(){
     this.subSectionArray[this.editIndex] = {
-      subSectionTitle:this.courseDetails.get("subSectionTitle")?.value as string,
-      subSectionContent:this.courseDetails.get("subSectionContent")?.value as string
+      subSectionName:this.courseDetails.get("subSectionTitle")?.value as string,
+      content:this.courseDetails.get("subSectionContent")?.value as string,
+      sectionName:null
     }
     
     this.courseDetails.get("subSectionTitle")?.setValue('');
@@ -336,6 +340,8 @@ export class AddCourseComponent implements OnInit {
 
     if (this.courseDetails.valid) {
       formData.append('sections', JSON.stringify(sectionData))
+      console.log(formData.get('sections'));
+      
       if (!this.courseId()) {
         formData.append('instructorData', JSON.stringify(courseData));
         

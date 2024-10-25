@@ -12,12 +12,14 @@ export interface AddCourse {
 }
 
 export interface AddSubSection {
-  subSectionTitle: string;
-  subSectionContent: string;
+  subSectionName: string;
+  content: string;
+  sectionName:null;
 }
 
 export interface AddSection {
   sectionName: string;
   sectionDescription: string;
+  courseName:null;
   subSections: AddSubSection[];
 }

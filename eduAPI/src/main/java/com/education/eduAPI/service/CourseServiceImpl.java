@@ -1,6 +1,7 @@
 package com.education.eduAPI.service;
 
 import com.education.eduAPI.dto.CourseDTO;
+import com.education.eduAPI.dto.SectionDTO;
 import com.education.eduAPI.entity.Category;
 import com.education.eduAPI.entity.Course;
 import com.education.eduAPI.entity.Image;
@@ -43,7 +44,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public CourseDTO createCourseUsingDto(CourseDTO courseDTO ) throws IOException {
+    public CourseDTO createCourseUsingDto(CourseDTO courseDTO, List<SectionDTO> sectionList) throws IOException {
 
         Course course = courseMapper.toEntity(courseDTO);
 
