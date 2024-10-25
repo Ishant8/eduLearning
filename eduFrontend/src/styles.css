@@ -56,6 +56,11 @@
     color: white;
 }
 
+.btn-custom.active{
+    background-color: #014d31;
+    color: white;
+}
+
 .btn-custom:focus{
     background-color: #0d6343;
     color: white;
