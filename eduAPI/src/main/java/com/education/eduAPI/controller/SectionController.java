@@ -24,7 +24,7 @@ public class SectionController {
     }
 
     @GetMapping("/get/course")
-    public List<SectionDTO> getSectionsByCourseName(@RequestBody String courseName)
+    public List<SectionDTO> getSectionsByCourseName(@RequestParam String courseName)
     {
         return sectionService.getSectionListByCourse(courseName);
     }

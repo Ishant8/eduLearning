@@ -3,16 +3,17 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { getCookie, setCookie } from '../utils/cookie.util';
 import { Course } from './course.model';
 import { reportUnhandledError } from 'rxjs/internal/util/reportUnhandledError';
-import { AddCourse } from '../add-course/add-course.model';
+import { AddCourse, AddSection } from '../add-course/add-course.model';
 import { WriteReview } from '../course-detail-page/review.model';
 import { Review } from '../home-page/testomonials/testimonial.model';
-import { BehaviorSubject, debounceTime, distinctUntilChanged } from 'rxjs';
+import { BehaviorSubject, debounceTime, distinctUntilChanged, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CourseService {
   course = signal<Course[] | undefined>(undefined);
+  sections = signal<AddSection[]>([]);
   public pageSubject = new BehaviorSubject<number>(1);
   public pages$ = this.pageSubject.asObservable();
   pages=signal<number>(0);
@@ -99,6 +100,15 @@ export class CourseService {
       headers:this.headers,
       withCredentials:true
     })
+  }
+
+  getSections(courseName:string){
+    return this.httpClient.get<AddSection[]>("http://localhost:8080/section/get/course?courseName="+courseName,{
+      headers:this.headers,
+      withCredentials:true
+    }).pipe(tap((resData)=>{
+      this.sections.set(resData);
+    }))
   }
   
 }

@@ -95,6 +95,10 @@ export const routes:Routes=[
         canActivate:[LoggedIn]
     },
     {
+        path:'section/get/course',
+        component:CoursePathComponent
+    },
+    {
         path:'**',
         component:NotFoundComponent
     }
