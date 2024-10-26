@@ -44,8 +44,13 @@
     bottom: 100px;
 }
 
+.list-item{
+    min-height: 500px;
+}
+
 .list-group{
     border-radius: 0;
+
     
 }
 

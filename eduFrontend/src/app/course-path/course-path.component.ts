@@ -1,12 +1,12 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CourseService } from '../courses/course.service';
 import { AddSection } from '../add-course/add-course.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-course-path',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './course-path.component.html',
   styleUrl: './course-path.component.css'
 })
