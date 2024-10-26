@@ -102,6 +102,7 @@ export class CourseService {
     })
   }
 
+
   getSections(courseName:string){
     return this.httpClient.get<AddSection[]>("http://localhost:8080/section/get/course?courseName="+courseName,{
       headers:this.headers,
@@ -109,6 +110,13 @@ export class CourseService {
     }).pipe(tap((resData)=>{
       this.sections.set(resData);
     }))
+
+  getLevels(){
+    return this.httpClient.get<[]>("http://localhost:8080/course/levels",{
+      headers:this.headers,
+      withCredentials:true
+    })
+
   }
   
 }

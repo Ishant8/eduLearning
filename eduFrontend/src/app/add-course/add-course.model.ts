@@ -1,9 +1,7 @@
-
-
 export interface AddCourse {
   courseName: string;
   categoryName: string;
-  level: 'Beginner' | 'Intermediate' | 'Advanced';
+  level: string;
   sections: number;
   hours: number;
   price: number;
@@ -14,12 +12,12 @@ export interface AddCourse {
 export interface AddSubSection {
   subSectionName: string;
   content: string;
-  sectionName:null;
+  sectionName:string|null;
 }
 
 export interface AddSection {
   sectionName: string;
   sectionDescription: string;
-  courseName:null;
+  courseName:string|null;
   subSections: AddSubSection[];
 }

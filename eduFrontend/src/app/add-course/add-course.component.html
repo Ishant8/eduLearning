@@ -45,9 +45,9 @@
         <select class="form-select p-2 rounded-end-1 shadow-none" name="level" id="course-level"
           aria-label="Default select example" formControlName="level">
           <option value="" selected disabled>Select course level</option>
-          <option value="Beginner">Beginner</option>
-          <option value="Intermediate">Intermediate</option>
-          <option value="Advanced">Advanced</option>
+          @for(level of levels; track $index){
+            <option [value]="level">{{level}}</option>
+            }
         </select>
       </div>
 
