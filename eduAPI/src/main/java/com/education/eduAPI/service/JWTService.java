@@ -85,6 +85,17 @@ public class JWTService {
         return (userName.equalsIgnoreCase(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
+    public boolean isTokenValid(String token) {
+        try {
+            // This will verify the signature and check if token is expired
+            Claims claims = extractAllClaims(token);
+            return !isTokenExpired(token);
+        } catch (Exception e) {
+            // If any exception occurs during validation (invalid signature, expired, malformed, etc)
+            return false;
+        }
+    }
+
     private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }

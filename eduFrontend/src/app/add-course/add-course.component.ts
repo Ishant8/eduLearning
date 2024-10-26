@@ -113,10 +113,15 @@ export class AddCourseComponent implements OnInit {
 
   nextStep() {
     this.formStep++;
+    if(this.title === "Edit"){
+      this.fetchSections();
+    }
+    window.scroll(0,0);
   }
 
   prevStep() {
     this.formStep--;
+    window.scroll(0,0);
   }
 
   addSection() {
@@ -281,6 +286,15 @@ export class AddCourseComponent implements OnInit {
 
       this.imgSrc.set('data:image/*;base64,' + course?.coverImage);
     }
+  }
+
+  fetchSections() {
+    const courseName = this.courseDetails.get("courseName")?.value;
+    this.courseService.getSections(courseName as string).subscribe({
+      next:(resData)=>{
+        this.sectionArray = resData;
+      }
+    })
   }
 
   imgDetails(event: Event) {
