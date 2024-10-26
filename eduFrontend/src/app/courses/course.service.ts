@@ -110,6 +110,7 @@ export class CourseService {
     }).pipe(tap((resData)=>{
       this.sections.set(resData);
     }))
+  }
 
   getLevels(){
     return this.httpClient.get<[]>("http://localhost:8080/course/levels",{
