@@ -101,7 +101,7 @@ public class CourseServiceImpl implements CourseService {
         }
 
         if(courseDTO.getImageData() != null) {
-            String FILE_PATH = "/home/anant/Projects/eduLearning/eduFrontend/public/images/common/";
+            String FILE_PATH = "/home/ishant/Projects/EduLearning/eduFrontend/public/images/common/";
             String[] fileNames = Objects.requireNonNull(courseDTO.getImageData().getOriginalFilename()).split("\\.");
             System.out.println(Arrays.toString(fileNames));
 
