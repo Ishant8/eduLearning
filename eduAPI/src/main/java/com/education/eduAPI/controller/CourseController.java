@@ -5,6 +5,7 @@ import com.education.eduAPI.dto.CategoryListDTO;
 import com.education.eduAPI.dto.CourseDTO;
 import com.education.eduAPI.dto.SectionDTO;
 import com.education.eduAPI.dto.SectionsWrapper;
+import com.education.eduAPI.enums.Level;
 import com.education.eduAPI.service.CourseService;
 import com.education.eduAPI.service.SectionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -119,6 +120,10 @@ public class CourseController {
         return courseService.findAllCoursesByInstructor(instructor);
     }
 
+    @GetMapping("/levels")
+    public List<Level> findAllLevels(){
+        return List.of(Level.values());
+    }
 
 
 

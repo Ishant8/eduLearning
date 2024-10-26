@@ -82,6 +82,7 @@ export class AddCourseComponent implements OnInit {
   );
 
   categories: string[] = [];
+  levels: string[] = [];
 
   subSectionState = "Add";
   sectionState = "Add";
@@ -90,6 +91,12 @@ export class AddCourseComponent implements OnInit {
     this.courseService.getAllCategories().subscribe({
       next: (resData) => {
         this.categories = resData;
+      },
+    });
+
+    this.courseService.getLevels().subscribe({
+      next: (resData) => {
+        this.levels = resData;
       },
     });
 
