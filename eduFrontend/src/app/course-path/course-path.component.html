@@ -1,34 +1,38 @@
-<div class="main-margin py-5" style="min-height: 80vh;">
+@if(courseSections().length != 0){<div class="main-margin py-5" style="min-height: 80vh;">
     <div class="d-flex flex-column align-items-center">
         <img src="images/logo.png" alt="Logo" width="100" height="100">
-        <p class="fs-2 custom-font green-txt">Foundations Course</p>
+        <div class="fs-2 custom-font green-txt text-center" style="width: 70%;">{{courseSections()[0].courseName}}</div>
     </div>
     <div>
-        <div class="mt-2">
+        <div class="mt-5">
             <p class="fw-medium fs-5 green-txt">Overview</p>
             <p class="fw-medium text-muted fs-6">This is where it all begins! A hands-on introduction to all of the essential tools you'll need to build real, working websites. You'll learn what web developers actually do the foundations you'll need for later courses.</p>
         </div>
         <div class="mt-5">
-            <div class="border border-black border-bottom-0 border-opacity-25 fw-medium fs-5 rounded-top-3 py-3 px-4 green-txt bg-color-home"> Introduction</div>
-            <div class="border border-black border-opacity-25 fs-6 px-4 py-3 bg-color-home" >
-                <div class="d-flex gap-2 p-1 justify-content-between align-items-center">
-                    <span class="d-flex align-items-center"><i class="bi bi-journal-text fs-4 pe-3"></i>How This Course Will Work</span><i class="bi bi-check-circle-fill green-txt fs-4"></i>
-                </div>
-                <div class="d-flex gap-2 p-1 justify-content-between align-items-center">
-                    <span class="d-flex align-items-center"><i class="bi bi-journal-text fs-4 pe-3"></i>Introduction to Web Development</span><i class="bi bi-check-circle-fill green-txt text-muted fs-4"></i>
-                </div>
-                <div class="d-flex gap-2 p-1 justify-content-between align-items-center">
-                    <span class="d-flex align-items-center"><i class="bi bi-journal-text fs-4 pe-3"></i>Motivation and Mindset</span><i class="bi bi-check-circle-fill green-txt text-muted fs-4"></i>
-                </div>
-                <div class="d-flex gap-2 p-1 justify-content-between align-items-center">
-                    <span class="d-flex align-items-center"><i class="bi bi-journal-text fs-4 pe-3"></i>Asking For Help</span><i class="bi bi-check-circle-fill green-txt fs-4"></i>
-                </div>
-                <div class="d-flex gap-2 p-1 justify-content-between align-items-center">
-                    <span class="d-flex align-items-center"><i class="bi bi-journal-text fs-4 pe-3"></i>Join the Odin Community</span><i class="bi bi-check-circle-fill green-txt fs-4"></i>
-                </div>
+            
+            @for (courseSection of courseSections(); track $index) {
+            <div
+                class="d-flex justify-content-between align-items-center border border-black border-bottom-0 border-opacity-25 fw-medium fs-5 mt-5 rounded-top-3 py-3 px-4 green-txt bg-color-home">
+                {{courseSection.sectionName}} <i
+                class="bi bi-check-circle-fill green-txt fs-4"></i></div>
+            <div class="border border-black border-opacity-25 fs-6 px-4 py-3 bg-color-home">
+            
+                @for (subSection of courseSection.subSections; track $index) {
+                <div class="d-flex gap-2 p-1 align-items-center">
+                    <span class="d-flex align-items-center"><i
+                            class="bi bi-journal-text fs-4 pe-3"></i>
+                            <a routerLink='/course/content' class="text-decoration-none green-txt" [queryParams]="{ courseName: courseSection.courseName ,secName: subSection.sectionName }">{{subSection.subSectionName}}</a>
+                        </span>
+                </div>}
             </div>
+            }
         </div>
     </div>
-</div>
+</div>}
+@else{
+    <div class="loading d-flex justify-content-center align-items-center vh-100">
+        <img src="images/loading/loading-elephant.gif" height="50%" alt="loader" />
+    </div>
+}
 
         
