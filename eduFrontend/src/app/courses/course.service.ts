@@ -100,5 +100,12 @@ export class CourseService {
       withCredentials:true
     })
   }
+
+  getLevels(){
+    return this.httpClient.get<[]>("http://localhost:8080/course/levels",{
+      headers:this.headers,
+      withCredentials:true
+    })
+  }
   
 }
