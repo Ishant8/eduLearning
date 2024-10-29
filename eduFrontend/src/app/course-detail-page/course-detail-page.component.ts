@@ -139,6 +139,10 @@ export class CourseDetailPageComponent implements OnInit, AfterViewInit {
     
   }
 
+  navigateToSections(courseName:string|undefined){
+    this.router.navigate(['/course','section'],{queryParams:{courseName}});
+  }
+
   addReview(){
     console.log(
       this.fullName + ' ' + this.comment + ' ' + this.email + ' ' + this.rating

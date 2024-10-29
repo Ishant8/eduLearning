@@ -119,10 +119,12 @@
           @if(profileService.profile()?.role == "ROLE_ADMIN"){
             <p class="mb-0 text-center fw-medium green-txt">Instructors Can't Enroll</p>
           }
-          @else if(!profileService.profile()?.courseNames?.includes(courseName()))
-          {<button class="btn fs-6 px-3 btn-custom d-block m-auto" (click)="enrol(course()?.courseName)">Enroll</button>}
+          @else if(!profileService.profile()?.courseNames?.includes(courseName())){
+            <button class="btn fs-6 px-3 btn-custom d-block m-auto" (click)="enrol(course()?.courseName)">Enroll</button>
+          }
           @else {
-            <p class="mb-0 text-center fw-medium green-txt">Already Enrolled</p>
+            <button class="btn fs-6 px-3 btn-custom d-block m-auto" (click)="navigateToSections(course()?.courseName)" >Start Learning</button>
+            <!-- <p class="mb-0 text-center fw-medium green-txt">Already Enrolled</p> -->
           }
         </div>
       </div>

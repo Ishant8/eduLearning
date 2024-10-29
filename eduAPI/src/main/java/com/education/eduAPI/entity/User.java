@@ -47,6 +47,10 @@ public class User {
     @JoinTable(name = "course_user", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "course_id"))
     private List<Course> courses;
 
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @JoinTable(name = "user_progress", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "section_id"))
+    private List<Section> sections;
+
     public User(){
 
     }
@@ -127,6 +131,14 @@ public class User {
 
     public void setProfileImage(Image profileImage) {
         this.profileImage = profileImage;
+    }
+
+    public List<Section> getSections() {
+        return sections;
+    }
+
+    public void setSections(List<Section> sections) {
+        this.sections = sections;
     }
 
     public void addCourse(Course course){

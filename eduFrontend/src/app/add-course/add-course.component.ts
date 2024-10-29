@@ -126,6 +126,7 @@ export class AddCourseComponent implements OnInit {
 
   addSection() {
     this.sectionArray.push({
+      sectionId:0,
       sectionName:this.courseDetails.get("sectionName")?.value as string,
       sectionDescription:this.courseDetails.get("sectionDescription")?.value as string,
       subSections:this.subSectionArray,
@@ -195,6 +196,7 @@ export class AddCourseComponent implements OnInit {
 
   editSection() {
     this.sectionArray[this.editSectionIndex] = {
+      sectionId:0,
       sectionName:this.courseDetails.get("sectionName")?.value as string,
       sectionDescription:this.courseDetails.get("sectionDescription")?.value as string,
       subSections:this.subSectionArray,

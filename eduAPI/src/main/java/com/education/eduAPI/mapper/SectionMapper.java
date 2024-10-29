@@ -18,6 +18,7 @@ public class SectionMapper {
 
     public SectionDTO toDto(Section section) {
         SectionDTO sectionDTO = new SectionDTO();
+        sectionDTO.setSectionId(section.getId());
         sectionDTO.setSectionName(section.getSectionName());
         sectionDTO.setSectionDescription(section.getSectionDescription());
         sectionDTO.setCourseName(section.getCourse().getCourseName());
@@ -30,7 +31,7 @@ public class SectionMapper {
 
     public Section toEntity(SectionDTO sectionDTO) {
         Section section = new Section();
-
+        section.setId(sectionDTO.getSectionId());
         section.setSectionName(sectionDTO.getSectionName());
         section.setSectionDescription(sectionDTO.getSectionDescription());
 

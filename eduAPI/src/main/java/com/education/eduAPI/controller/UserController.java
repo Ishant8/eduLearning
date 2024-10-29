@@ -1,6 +1,8 @@
 package com.education.eduAPI.controller;
 
 import com.education.eduAPI.dto.PasswordDTO;
+import com.education.eduAPI.dto.ProgressDTO;
+import com.education.eduAPI.dto.SectionDTO;
 import com.education.eduAPI.dto.UserDTO;
 import com.education.eduAPI.exception.CustomErrorResponse;
 import com.education.eduAPI.mapper.UserMapper;
@@ -153,7 +155,15 @@ public class UserController {
         return eduService.enrolUser(courseName);
     }
 
+    @PostMapping("/complete")
+    public boolean completeSection(@RequestBody ProgressDTO progressDTO){
+        return eduService.sectionCompletion(progressDTO);
+    }
 
+    @GetMapping("/sections")
+    public List<SectionDTO> getSections(){
+        return eduService.getAllSections();
+    }
 
 
 

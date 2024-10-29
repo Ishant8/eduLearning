@@ -21,7 +21,7 @@
                                     </h5>
 
                                     <div class="form-floating mb-4 pb-3 position-relative">
-                                        <input type="email" id="floatingInputEmail" [class.is-invalid]="checkInputStatus(email)"
+                                        <input autocomplete="off" type="email" id="floatingInputEmail" [class.is-invalid]="checkInputStatus(email)"
                                             class="form-control shadow-none rounded-1 form-control-lg" [(ngModel)]="username" name="username"
                                             placeholder="name@example.com" #email="ngModel" required email />
                                         <label class="form-label text-secondary" for="floatingInputEmail">Email address</label>
@@ -39,7 +39,7 @@
                                     </div>
 
                                     <div class="form-floating mb-4 position-relative">
-                                        <input type="password" id="floatingInputEmailPassword" class="form-control shadow-none rounded-1 form-control-lg"
+                                        <input autocomplete="off" type="password" id="floatingInputEmailPassword" class="form-control shadow-none rounded-1 form-control-lg"
                                             [class.is-invalid]="checkInputStatus(pass)" [(ngModel)]="password" name="password" placeholder="Password" #pass="ngModel" required/>
                                         <label class="form-label text-secondary" for="floatingInputPassword">Password</label>
 

@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { CourseService } from '../courses/course.service';
 import { AddSection } from '../add-course/add-course.model';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -15,6 +15,8 @@ export class CoursePathComponent implements OnInit {
   courseService = inject(CourseService);
   courseSections = signal<AddSection[]>([]);
   courseName:string='';
+  completedSectionsIds = signal<number[]>([]);
+  isCompleted = (id:number) => computed(()=>this.completedSectionsIds().includes(id));
 
   constructor(private route: ActivatedRoute) {}
   
@@ -23,6 +25,7 @@ export class CoursePathComponent implements OnInit {
     this.route.queryParamMap.subscribe(params => {
       this.courseName = params.get('courseName') as string; 
       this.fetchSections();
+      this.fetchCompletedSections();
     });
     
 
@@ -38,5 +41,17 @@ export class CoursePathComponent implements OnInit {
       }
     })
   }
+
+  fetchCompletedSections(){
+    this.courseService.getAllCompletedSections().subscribe({
+      next:(resData:AddSection[])=>{
+        for(let completedSection of resData){
+          this.completedSectionsIds().push(completedSection.sectionId);
+        }
+      }
+    })
+  }
+
+ 
 
 }

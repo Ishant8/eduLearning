@@ -3,6 +3,7 @@ package com.education.eduAPI.dto;
 import java.util.List;
 
 public class SectionDTO {
+    private int sectionId;
     private String sectionName;
     private String sectionDescription;
     private String courseName;
@@ -11,11 +12,20 @@ public class SectionDTO {
     public SectionDTO() {
     }
 
-    public SectionDTO(String sectionName, String sectionDescription, String courseName, List<SubSectionDTO> subSections) {
+    public SectionDTO(int sectionId, String sectionName, String sectionDescription, String courseName, List<SubSectionDTO> subSections) {
+        this.sectionId = sectionId;
         this.sectionName = sectionName;
         this.sectionDescription = sectionDescription;
         this.courseName = courseName;
         this.subSections = subSections;
+    }
+
+    public int getSectionId() {
+        return sectionId;
+    }
+
+    public void setSectionId(int sectionId) {
+        this.sectionId = sectionId;
     }
 
     public String getSectionName() {

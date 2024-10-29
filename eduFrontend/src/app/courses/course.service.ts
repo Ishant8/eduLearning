@@ -14,6 +14,7 @@ import { BehaviorSubject, debounceTime, distinctUntilChanged, tap } from 'rxjs';
 export class CourseService {
   course = signal<Course[] | undefined>(undefined);
   sections = signal<AddSection[]>([]);
+  completedSections = signal<AddSection[]>([]);
   public pageSubject = new BehaviorSubject<number>(1);
   public pages$ = this.pageSubject.asObservable();
   pages=signal<number>(0);
@@ -110,6 +111,22 @@ export class CourseService {
     }).pipe(tap((resData)=>{
       this.sections.set(resData);
     }))
+  }
+
+  getAllCompletedSections() {
+    return this.httpClient.get<AddSection[]>("http://localhost:8080/user/sections",{
+      headers:this.headers,
+      withCredentials:true
+    }).pipe(tap((resData)=>{
+      this.completedSections.set(resData);
+    }))
+  }
+
+  completeSection(progressData: {userId:number,sectionId:number}){
+    return this.httpClient.post("http://localhost:8080/user/complete",progressData,{
+      headers:this.headers,
+      withCredentials:true
+    })
   }
 
   getLevels(){

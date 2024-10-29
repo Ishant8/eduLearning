@@ -1,4 +1,4 @@
-import { CanActivate, Router } from "@angular/router";
+import { ActivatedRouteSnapshot, CanActivate, Resolve, Router, RouterStateSnapshot } from "@angular/router";
 import { ProfileService } from "./profile-page/profile.service";
 import { Injectable } from "@angular/core";
 import { deleteCookie, getCookie } from "./utils/cookie.util";
@@ -79,3 +79,4 @@ export class AuthGuard implements CanActivate {
       window.location.reload();
     }
   }
+

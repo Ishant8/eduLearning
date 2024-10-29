@@ -1,6 +1,8 @@
 package com.education.eduAPI.service;
 
 import com.education.eduAPI.dto.PasswordDTO;
+import com.education.eduAPI.dto.ProgressDTO;
+import com.education.eduAPI.dto.SectionDTO;
 import com.education.eduAPI.dto.UserDTO;
 
 import java.util.List;
@@ -31,7 +33,9 @@ public interface EduService {
 
     UserDTO enrolUser(String courseName);
 
+    boolean sectionCompletion(ProgressDTO progressDTO);
 
+    List<SectionDTO> getAllSections();
 
 
 //    User createUser(User user);

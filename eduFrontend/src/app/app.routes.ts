@@ -1,4 +1,4 @@
-import { Routes } from "@angular/router";
+import { ActivatedRouteSnapshot, Router, Routes } from "@angular/router";
 import { HomePageComponent } from "./home-page/home-page.component";
 import { CourseDetailPageComponent } from "./course-detail-page/course-detail-page.component";
 import { ProfilePageComponent } from "./profile-page/profile-page.component";
@@ -77,26 +77,24 @@ export const routes:Routes=[
         canActivate:[LoggedIn]
     },
     {
-        path:'course/path',
-        component:CoursePathComponent
+        path:'course/content',
+        component:CourseContentComponent,
+        canActivate:[LoggedIn]
     },
     {
-        path:'course/content',
-        component:CourseContentComponent
+        path:'course/section',
+        component:CoursePathComponent,
+        canActivate:[LoggedIn]
     },
     {
         path:'course/:courseId',
         component:CourseDetailPageComponent,
-        canActivate:[LoggedIn],
+        canActivate:[LoggedIn]
     },
     {
         path:'course/edit/:courseId',
         component:AddCourseComponent,
         canActivate:[LoggedIn]
-    },
-    {
-        path:'section/get/course',
-        component:CoursePathComponent
     },
     {
         path:'**',
