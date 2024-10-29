@@ -16,6 +16,7 @@ export interface AddSubSection {
 }
 
 export interface AddSection {
+  sectionId:number;
   sectionName: string;
   sectionDescription: string;
   courseName:string|null;

@@ -1,8 +1,9 @@
-import { AfterViewInit, Component, computed, ElementRef, inject, NgZone, OnInit, signal, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, computed, ElementRef, inject, NgZone, OnInit, output, signal, ViewChild } from '@angular/core';
 import { AchievementsComponent } from "../home-page/achievements/achievements.component";
 import { CourseService } from '../courses/course.service';
 import { ActivatedRoute, NavigationEnd, Router, RouterLink } from '@angular/router';
 import { AddSection, AddSubSection } from '../add-course/add-course.model';
+import { ProfileService } from '../profile-page/profile.service';
 
 @Component({
   selector: 'app-course-content',
@@ -16,15 +17,25 @@ export class CourseContentComponent implements OnInit, AfterViewInit {
   @ViewChild('scrollSpyContainer') scrollContainer: ElementRef | undefined;
   
   courseService = inject(CourseService);
+  profileService = inject(ProfileService);
 
   private scrollSpy: any;
   sectionName:string = ''
   courseName:string = ''
+
+  emitNextSection = output();
   
   section = signal<AddSection | undefined>(undefined)
   subSections = computed(() => {
     return this.section()?.subSections
   })
+
+  currentSectionIndex = signal<number>(-1);
+  sectionsLength = signal<number>(0);
+
+  completedSectionsIds = signal<number[]>([]);
+  currentSectionCompleted = signal<boolean>(false);
+
 
   constructor(private route: ActivatedRoute, private router: Router,
     private elementRef: ElementRef) {}
@@ -50,11 +61,24 @@ export class CourseContentComponent implements OnInit, AfterViewInit {
           })[0]
         );
 
+        this.currentSectionIndex.set(this.courseService.sections().indexOf(this.section() as AddSection));
+        this.sectionsLength.set(this.courseService.sections().length);
+
         console.log(this.subSections());
+
+        const isPresent = this.courseService.completedSections().find(c => c.sectionId === this.section()?.sectionId)
+        console.log(isPresent);
+        
+        if(!isPresent){
+          this.currentSectionCompleted.set(true);
+        }else{
+          this.currentSectionCompleted.set(false);
+        }
         
 
       } else {
         this.fetchSections();
+        // this.fetchCompletedSections();
       }
     });
     
@@ -70,6 +94,21 @@ export class CourseContentComponent implements OnInit, AfterViewInit {
     }
   }
 
+  navigateToCourse(courseName:string | null | undefined) {
+    if(courseName)
+      this.router.navigate(['/course','section'],{queryParams:{courseName}});
+  }
+
+  nextSection(){
+    // const index = this.courseService.sections().indexOf(this.section() as AddSection);
+    // const nextCourseName = this.courseService.sections()[index+1].courseName;
+    const nextSecName = this.courseService.sections()[this.currentSectionIndex()+1].sectionName;
+    this.router.navigate(['/course','content'],{queryParams:{courseName:this.courseName,secName:nextSecName}});
+    
+  }
+
+
+
   fetchSections(){
     this.courseService.getSections(this.courseName)
     .subscribe({
@@ -79,13 +118,47 @@ export class CourseContentComponent implements OnInit, AfterViewInit {
           return sec.sectionName == this.sectionName;
         })[0])
         
+        this.currentSectionIndex.set(resData.indexOf(this.section() as AddSection));
+        this.sectionsLength.set(resData.length);
+
         console.log(this.section());
         
         
+      },
+      complete:()=>{
+        this.fetchCompletedSections();
       }
     })
   }
 
+  fetchCompletedSections(){
+    this.courseService.getAllCompletedSections().subscribe({
+      next:(resData:AddSection[])=>{
+        for(let completedSection of resData){
+          this.completedSectionsIds().push(completedSection.sectionId);
+        }
+        console.log(this.completedSectionsIds().includes(this.section()?.sectionId as number));
+        
+        this.currentSectionCompleted.set(!this.completedSectionsIds().includes(this.section()?.sectionId as number))
+      }
+    })
+  }
+
+
+  markComplete() {
+    this.courseService.completeSection({
+                userId:this.profileService.profile()?.userId as number, 
+                sectionId:this.section()?.sectionId as number
+              }).subscribe({
+                next:(resdata)=>{
+                  if(resdata){
+                    this.completedSectionsIds().push(this.section()?.sectionId as number);
+                    this.courseService.completedSections().push(this.section() as AddSection);
+                    this.currentSectionCompleted.set(false);
+                  }
+                },
+              })
+  }
 
 
 }

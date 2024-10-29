@@ -1,14 +1,19 @@
 package com.education.eduAPI.service;
 
 import com.education.eduAPI.dto.PasswordDTO;
+import com.education.eduAPI.dto.ProgressDTO;
+import com.education.eduAPI.dto.SectionDTO;
 import com.education.eduAPI.dto.UserDTO;
 import com.education.eduAPI.entity.Course;
 import com.education.eduAPI.entity.JwtToken;
+import com.education.eduAPI.entity.Section;
 import com.education.eduAPI.entity.User;
 import com.education.eduAPI.exception.CustomEntityNotFoundException;
 import com.education.eduAPI.mapper.CourseMapper;
+import com.education.eduAPI.mapper.SectionMapper;
 import com.education.eduAPI.mapper.UserMapper;
 import com.education.eduAPI.repository.CourseRepository;
+import com.education.eduAPI.repository.SectionRepository;
 import com.education.eduAPI.repository.UserRepository;
 import jakarta.persistence.EntityManager;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,6 +29,8 @@ import java.util.List;
 @Service
 public class EduServiceImpl implements EduService{
 
+    private final SectionRepository sectionRepository;
+    private final SectionMapper sectionMapper;
     UserRepository userRepository;
     CourseRepository courseRepository;
     EntityManager entityManager;
@@ -36,7 +43,7 @@ public class EduServiceImpl implements EduService{
 
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
-    public EduServiceImpl(JWTService jwtService, AuthenticationManager authManager, UserRepository userRepository, EntityManager entityManager, CourseRepository courseRepository, UserMapper userMapper, CourseMapper courseMapper){
+    public EduServiceImpl(JWTService jwtService, AuthenticationManager authManager, UserRepository userRepository, EntityManager entityManager, CourseRepository courseRepository, UserMapper userMapper, CourseMapper courseMapper, SectionRepository sectionRepository, SectionMapper sectionMapper){
         this.userRepository = userRepository;
         this.entityManager = entityManager;
         this.courseRepository = courseRepository;
@@ -44,6 +51,8 @@ public class EduServiceImpl implements EduService{
         this.courseMapper = courseMapper;
         this.authManager = authManager;
         this.jwtService = jwtService;
+        this.sectionRepository = sectionRepository;
+        this.sectionMapper = sectionMapper;
     }
 
 
@@ -185,6 +194,25 @@ public class EduServiceImpl implements EduService{
 
 
         return userMapper.toDTO(userRepository.save(user));
+    }
+
+    @Override
+    public boolean sectionCompletion(ProgressDTO progressDTO) {
+        User user = userRepository.findById(progressDTO.getUserId()).orElseThrow(() -> new CustomEntityNotFoundException("No User with id " + progressDTO.getUserId()));
+        List<Section> existingSections = user.getSections();
+        Section section = sectionRepository.findById(progressDTO.getSectionId()).orElse(null);
+        existingSections.add(section);
+        user.setSections(existingSections);
+        user = userRepository.save(user);
+        return user.getSections() != null;
+    }
+
+    @Override
+    public List<SectionDTO> getAllSections() {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String email = userDetails.getUsername();
+        User user = userRepository.findUserByEmail(email);
+        return user.getSections().stream().map(sectionMapper::toDto).toList();
     }
 
 

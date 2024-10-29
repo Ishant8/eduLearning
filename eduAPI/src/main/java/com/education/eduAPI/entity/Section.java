@@ -28,6 +28,10 @@ public class Section {
     @OneToMany(mappedBy = "section", cascade = CascadeType.ALL)
     private List<SubSection> subSections;
 
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @JoinTable(name = "user_progress", inverseJoinColumns = @JoinColumn(name = "user_id"), joinColumns = @JoinColumn(name = "section_id"))
+    private List<User> users;
+
     public Section() {
     }
 
@@ -83,6 +87,14 @@ public class Section {
         }
 
         subSections.add(subSection);
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 
     @Override

@@ -14,7 +14,7 @@
                     <div class="d-flex flex-row align-items-center mb-2 position-relative">
                       <i class="bi icon-custom me-3 bi-person-fill"></i>
                       <div class="form-floating mt-3 flex-fill mb-3">
-                        <input type="text" [class.is-invalid]="checkInputStatus(nameInput)"
+                        <input autocomplete="off" type="text" [class.is-invalid]="checkInputStatus(nameInput)"
                           [class.border-black]="!checkInputStatus(nameInput)" [class.border-opacity-25]="!checkInputStatus(nameInput)" class="form-control rounded-1 shadow-none" id="fullname"
                           [(ngModel)]="fullName" name="fullname" placeholder="name" #nameInput="ngModel" required>
                         <label class="text-secondary placeholder-font" for="floatingInput">Full Name</label>
@@ -29,7 +29,7 @@
                     <div class="d-flex flex-row align-items-center mb-2 position-relative">
                       <i class="bi icon-custom me-3 bi-envelope-fill"></i>
                       <div class="form-floating mt-3 flex-fill mb-3">
-                        <input type="email" [class.is-invalid]="checkInputStatus(email)"
+                        <input autocomplete="off" type="email" [class.is-invalid]="checkInputStatus(email)"
                           [class.border-black]="!checkInputStatus(email)" [class.border-opacity-25]="!checkInputStatus(email)"
                           class="form-control rounded-1 shadow-none border-black border-opacity-25" id="email" [(ngModel)]="userDetails.email"
                           name="email" placeholder="email" #email="ngModel" required email>
@@ -51,7 +51,7 @@
                     <div class="d-flex flex-row align-items-center mb-2 position-relative">
                       <i class="bi icon-custom me-3 bi-lock-fill"></i>
                       <div class="form-floating mt-3 flex-fill mb-3">
-                        <input type="password" #pass="ngModel" [class.is-invalid]="checkInputStatus(pass)"
+                        <input autocomplete="off" type="password" #pass="ngModel" [class.is-invalid]="checkInputStatus(pass)"
                           [class.border-black]="!checkInputStatus(pass)" [class.border-opacity-25]="!checkInputStatus(pass)" required
                           minlength="2" class="form-control rounded-1 shadow-none " [(ngModel)]="userDetails.password" name="password" id="password"
                           placeholder="password">
@@ -73,7 +73,7 @@
                     <div class="d-flex flex-row align-items-center mb-3 position-relative">
                         <i class="bi icon-custom me-3 bi-key-fill"></i>
                         <div class="form-floating mt-3 flex-fill mb-3 my-class">
-                            <input type="password" required [class.is-invalid]="checkInputStatus(confPass) || (confPass.control.value != pass.control.value && (confPass.dirty || confPass.touched))"
+                            <input autocomplete="off" type="password" required [class.is-invalid]="checkInputStatus(confPass) || (confPass.control.value != pass.control.value && (confPass.dirty || confPass.touched))"
                               [class.border-black]="!checkInputStatus(confPass) && (confirmPassword == userDetails.password && !(confPass.dirty || confPass.touched))"
                               [class.border-opacity-25]="!checkInputStatus(confPass) && (confirmPassword == userDetails.password && !(confPass.dirty || confPass.touched))" #confPass='ngModel'
                               class="form-control rounded-1 shadow-none" id="repassword" [(ngModel)]="confirmPassword" name="confirmPassword"
@@ -94,7 +94,7 @@
                     
   
                     <div class="form-check d-flex justify-content-end mb-4 mb-lg-5">
-                      <input class="form-check-input me-2 border-black border-opacity-50" [(ngModel)]="agree" name="agree" type="checkbox" value="" id="serviceTerms" />
+                      <input autocomplete="off" class="form-check-input me-2 border-black border-opacity-50" [(ngModel)]="agree" name="agree" type="checkbox" value="" id="serviceTerms" />
                       <label class="form-check-label" for="form2Example3">
                         I agree to all conditions in <a href="#!">Terms of service</a>
                       </label>
