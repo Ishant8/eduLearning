@@ -66,6 +66,27 @@
     color: white;
 }
 
+.btn-outline-custom, .btn-outline-custom:disabled{
+    color: #147a55;
+    background-color: white;
+    border: 1px solid #147a55;
+}
+
+.btn-outline-custom:hover{
+    background-color: #0d6343;
+    color: white;
+}
+
+.btn-outline-custom.active{
+    color: #014d31;
+    background-color: white;
+}
+
+.btn-outline-custom:focus{
+    color: #0d6343;
+    background-color: white;
+}
+
 .small-txt{
     font-size: 13px;
 }
@@ -84,6 +105,10 @@
 
 .bg-color-home{
     background-color: #FFFBE8;
+}
+
+.txt-color-home{
+    color: #FFFBE8;
 }
 
 
