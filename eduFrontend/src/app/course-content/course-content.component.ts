@@ -158,6 +158,8 @@ export class CourseContentComponent implements OnInit, AfterViewInit {
                   }
                 },
               })
+
+              window.scroll(0,0);
   }
 
 

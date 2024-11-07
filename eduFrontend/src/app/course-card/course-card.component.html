@@ -27,8 +27,12 @@
             
             @if(role() != "ROLE_ADMIN")
             {<div class="d-flex justify-content-between align-items-center mt-3">
-                <a class="btn btn btn-custom" [routerLink]="['/course', course().courseId]">Enroll Now</a>
-                <p class=" mb-0 text-secondary">${{course().price}}</p>
+                @if((profileService.profile() && profileService.profile()!.courseNames.includes(course().courseName))){
+                    <a class="btn btn btn-outline-custom" (click)="$event.stopPropagation()" [routerLink]="['/course','section']" [queryParams]="{courseName: course().courseName}">Start Learning</a>
+                }@else {
+                    <a class="btn btn btn-custom" [routerLink]="['/course', course().courseId]">Enroll Now</a>
+                    <p class=" mb-0 text-secondary">${{course().price}}</p>
+                }
             </div>}
         </div>
     </div>

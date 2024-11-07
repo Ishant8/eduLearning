@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { AfterViewChecked, Component, computed, ElementRef, inject, OnInit, Renderer2, signal, viewChild } from '@angular/core';
 import { CourseService } from '../courses/course.service';
 import { AddSection } from '../add-course/add-course.model';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -14,18 +14,33 @@ export class CoursePathComponent implements OnInit {
   
   courseService = inject(CourseService);
   courseSections = signal<AddSection[]>([]);
+  isHovered = signal<Boolean>(false);
   courseName:string='';
   completedSectionsIds = signal<number[]>([]);
   isCompleted = (id:number) => computed(()=>this.completedSectionsIds().includes(id));
+  progress = signal<number>(0);
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private renderer:Renderer2) {}
+
+  hoverTimeout: any;
+
+  onMouseOver() {
+    this.hoverTimeout = setTimeout(() => {
+      this.isHovered.set(true);
+    }, 100); // Adjust delay as needed (100ms here)
+  }
+
+  onMouseLeave() {
+    clearTimeout(this.hoverTimeout);
+    this.isHovered.set(false);
+  }
   
   ngOnInit() {
     
     this.route.queryParamMap.subscribe(params => {
       this.courseName = params.get('courseName') as string; 
       this.fetchSections();
-      this.fetchCompletedSections();
+      
     });
     
 
@@ -38,6 +53,9 @@ export class CoursePathComponent implements OnInit {
         this.courseSections.set(resData);
         console.log(this.courseSections());
         
+      },
+      complete:()=>{
+        this.fetchCompletedSections();
       }
     })
   }
@@ -48,10 +66,72 @@ export class CoursePathComponent implements OnInit {
         for(let completedSection of resData){
           this.completedSectionsIds().push(completedSection.sectionId);
         }
+      },
+      complete:()=>{
+        const progress = (this.completedSectionsIds().length / this.courseSections().length)*100;
+        // console.log("line 72",this.completedSectionsIds.length);
+        
+
+        this.css3RadialProgressBar(parseFloat(progress.toFixed(1)));
       }
     })
   }
 
+  css3RadialProgressBar(xvaluenow:number) {
+    /* Vars */
+    // var xvaluenow = Math.floor((Math.random() * 100) + 0); //Generates a random number (0-100) only for demonstration
+    //var xvaluenow = 0; //Insert here a specific number (0-100) and remove the comment this var, and the above code
+    var rotatenum = 'rotate(' + xvaluenow * 1.8 + 'deg)';
+    // var progress = document.getElementById('progress');
+    var progress_circle = document.getElementById('progress-circle');
+    let progress_style = document.getElementById('progress-style') as HTMLStyleElement;
+
+    // console.log(this.progressStyle());
+    // console.log(progress);
+    
+    
+    /* Fix: Cover gap with shadow */
+    if (xvaluenow == 0) {
+      var shadowfix = "0";
+    }
+    else {
+      var shadowfix = "1px";
+    }
+    
+    /* Inserting values */
+    // progress!.innerHTML = xvaluenow + '%';
+    this.progress.set(xvaluenow);
+    progress_circle!.setAttribute("aria-valuenow", ""+xvaluenow);  
+  //   progress_style!.innerHTML = " \
+  // .p-h:before, .p-f, .p-f:before{ \
+  // -moz-transform: " + rotatenum + "; \
+  // -webkit-transform: " + rotatenum + "; \
+  // -o-transform: " + rotatenum + "; \
+  // -ms-transform: " + rotatenum + "; \
+  // transform: " + rotatenum + "; \
+  // -webkit-box-shadow: 0 0 0 " + shadowfix + " #828282; \
+  //   box-shadow: 0 0 0 " + shadowfix + " #828282;}\
+  // \ ";
+
+
+  const styleElement = this.renderer.createElement('style');
+    this.renderer.appendChild(styleElement, this.renderer.createText(`
+      .p-h:before, .p-f, .p-f:before{ 
+        -moz-transform: ${rotatenum}; 
+        -webkit-transform: ${rotatenum};
+        -o-transform: ${rotatenum};
+        -ms-transform: ${rotatenum};
+        transform: ${rotatenum};
+        -webkit-box-shadow: 0 0 0 ${shadowfix} #828282;
+        box-shadow: 0 0 0 ${shadowfix} #828282;
+      }
+    `));
+    this.renderer.appendChild(document.head, styleElement);
+  // console.log(this.progressStyle());
+
+  }
+  
+  // document.body.onload = function() {};
  
 
 }

@@ -1,15 +1,23 @@
 @if(subSections()){<div class="main-margin">
     <div class="d-flex pt-5">
-                <img src="images/logo.png" alt="Logo" width="120" height="120">
-                <div class="d-flex flex-column justify-content-center ms-2">
-                    <p class="fs-3 custom-font green-txt fw-medium mb-0 mt-3">{{sectionName}}</p>
-                    <p class="fs-5 custom-font muted-green negative-top">{{courseName}}</p>
-                </div>
+        <img src="images/logo.png" alt="Logo" width="120" height="120">
+        <div class="d-flex flex-column justify-content-center ms-2">
+
+            <p class="fs-3 custom-font green-txt fw-medium mb-0 mt-3">
+                {{sectionName}} 
+                @if(!currentSectionCompleted()){
+                    <i class="bi bi-patch-check-fill text-warning fs-4"></i> 
+
+                }
+            </p>
+            <p class="fs-5 custom-font muted-green negative-top">{{courseName}}</p>
+        </div>
     </div>
     <div class="mt-2 mb-5 d-flex" style="min-height: 80vh;">
         <div class=" col-8">
-            <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
-                
+            <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true"
+                class="scrollspy-example" tabindex="0">
+
                 @for (subsection of subSections(); track $index){
                 <div [id]="'item-'+$index" class="list-item" class="mt-5">
                     <h4 class="fw-bold">{{subsection.subSectionName}}</h4>
@@ -22,26 +30,31 @@
             <div id="list-example" class="list-group">
                 <div class="fw-medium green-txt mb-2">Lesson contents</div>
                 @for (subsection of subSections(); track $index) {
-                    <a class="list-group-item list-group-item-action" [href]="'#item-'+$index" (click)="scrollToSection($event, 'item-'+$index)">{{subsection.subSectionName}}</a>
+                <a class="list-group-item list-group-item-action" [href]="'#item-'+$index"
+                    (click)="scrollToSection($event, 'item-'+$index)">{{subsection.subSectionName}}</a>
                 }
             </div>
         </div>
     </div>
     <div class="d-flex my-5">
-            <div class="col-8 d-flex align-items-center justify-content-around">
-                <a class="btn course-btn-custom py-2 border border-black border-opacity-10 fw-medium" (click)="navigateToCourse(section()?.courseName)"><i class="bi bi-journal-richtext pe-2 fs-6" style="-webkit-text-stroke: 0.3px;"></i>View Course</a>
-                @if(currentSectionCompleted()){
-                    <a class="btn btn-custom btn-padding px-5 fw-medium" (click)="markComplete()">Mark Complete</a>
+        <div class="col-8 d-flex align-items-center justify-content-around">
+            <a class="btn course-btn-custom py-2 border border-black border-opacity-10 fw-medium"
+                (click)="navigateToCourse(section()?.courseName)"><i class="bi bi-journal-richtext pe-2 fs-6"
+                    style="-webkit-text-stroke: 0.3px;"></i>View Course</a>
+            @if(currentSectionCompleted()){
+            <a class="btn btn-custom btn-padding px-5 fw-medium" (click)="markComplete()">Mark Complete</a>
+            }
+            @if(currentSectionIndex() < sectionsLength()-1){ <a
+                class="btn course-btn-custom py-2 border border-black border-opacity-10 fw-medium"
+                (click)="nextSection()"><i class="bi bi-arrow-right-circle pe-2 fs-6"
+                    style="-webkit-text-stroke: 0.3px;"></i>Next Section</a>
                 }
-                @if(currentSectionIndex() < sectionsLength()-1){
-                    <a class="btn course-btn-custom py-2 border border-black border-opacity-10 fw-medium" (click)="nextSection()"><i class="bi bi-arrow-right-circle pe-2 fs-6" style="-webkit-text-stroke: 0.3px;"></i>Next Section</a>
-                }
-            </div>
+        </div>
     </div>
 </div>
-<app-achievements/>}
+<app-achievements />}
 @else {
-    <div class="loading d-flex justify-content-center align-items-center vh-100">
-        <img src="images/loading/loading-elephant.gif" height="50%" alt="loader" />
-    </div>
+<div class="loading d-flex justify-content-center align-items-center vh-100">
+    <img src="images/loading/loading-elephant.gif" height="50%" alt="loader" />
+</div>
 }

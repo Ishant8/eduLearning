@@ -1,6 +1,7 @@
-import { Component, computed, input, OnInit } from '@angular/core';
+import { Component, computed, inject, input, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Course } from '../courses/course.model';
+import { ProfileService } from '../profile-page/profile.service';
 
 @Component({
   selector: 'app-course-card',
@@ -16,6 +17,8 @@ export class CourseCardComponent implements OnInit{
   ratingSum: number=0;
   avgRating: number=0;
   role = input<string>();
+
+  profileService = inject(ProfileService);
 
 
   course = input.required<Course>();
