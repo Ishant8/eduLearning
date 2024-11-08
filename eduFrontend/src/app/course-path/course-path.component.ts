@@ -50,8 +50,12 @@ export class CoursePathComponent implements OnInit {
     this.courseService.getSections(this.courseName)
     .subscribe({
       next:(resData:AddSection[])=>{
-        this.courseSections.set(resData);
-        console.log(this.courseSections());
+        for(let section of resData){
+          if(section.courseName === this.courseName){
+            this.courseSections().push(section);
+          }
+        }
+        console.log("line 58",this.courseSections());
         
       },
       complete:()=>{
@@ -64,7 +68,9 @@ export class CoursePathComponent implements OnInit {
     this.courseService.getAllCompletedSections().subscribe({
       next:(resData:AddSection[])=>{
         for(let completedSection of resData){
-          this.completedSectionsIds().push(completedSection.sectionId);
+          if(completedSection.courseName === this.courseName){
+            this.completedSectionsIds().push(completedSection.sectionId);
+          }
         }
       },
       complete:()=>{

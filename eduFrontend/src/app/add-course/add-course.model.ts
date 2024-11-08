@@ -10,6 +10,7 @@ export interface AddCourse {
 }
 
 export interface AddSubSection {
+  id:number;
   subSectionName: string;
   content: string;
   sectionName:string|null;

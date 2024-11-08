@@ -2,11 +2,13 @@ package com.education.eduAPI.dto;
 
 public class SubSectionDTO {
 
+    private int id;
     private String subSectionName;
     private String content;
     private String sectionName;
 
-    public SubSectionDTO(String subSectionName, String content, String sectionName) {
+    public SubSectionDTO(int id, String subSectionName, String content, String sectionName) {
+        this.id = id;
         this.subSectionName = subSectionName;
         this.content = content;
         this.sectionName = sectionName;
@@ -14,6 +16,14 @@ public class SubSectionDTO {
 
     public SubSectionDTO(){
 
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getSubSectionName() {

@@ -72,13 +72,21 @@ public class CourseController {
     }
 
     @PutMapping("/update")
-    public CourseDTO updateCourse(@RequestParam(value = "imageData", required = false) MultipartFile file, @RequestParam("instructorData") String instructorData) throws IOException {
+    public CourseDTO updateCourse(@RequestParam(value = "imageData", required = false) MultipartFile file,
+                                  @RequestParam("instructorData") String instructorData,
+                                  @RequestParam("sections") String sectionData) throws IOException {
         CourseDTO courseDTO = jacksonObjectMapper.readValue(instructorData, CourseDTO.class);
 //        System.out.println(file);
         courseDTO.setImageData(file);
-//        System.out.println(file);
-        return courseService.updateCourse(courseDTO);
 
+        CourseDTO savedCourseDTO = courseService.updateCourse(courseDTO);
+
+        SectionsWrapper sectionsWrapper = jacksonObjectMapper.readValue(sectionData, SectionsWrapper.class);
+        List<SectionDTO> sectionDTOList = sectionsWrapper.getSectionList();
+//        System.out.println(file);
+
+        List<SectionDTO> sectionDTOS = sectionService.updateSectionList(sectionDTOList,savedCourseDTO.getCourseName());
+        return savedCourseDTO;
 //        return courseService.createCourseUsingDto(courseDTO);
     }
 

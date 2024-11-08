@@ -2,6 +2,7 @@ package com.education.eduAPI.service;
 
 import com.education.eduAPI.dto.SectionDTO;
 import com.education.eduAPI.dto.SubSectionDTO;
+import com.education.eduAPI.entity.Course;
 import com.education.eduAPI.entity.Section;
 import com.education.eduAPI.entity.SubSection;
 
@@ -24,5 +25,8 @@ public interface SectionService {
 
     List<SubSection> addSubSections(List<SubSectionDTO> subSectionDTOList, Section section);
 
+    List<SectionDTO> updateSectionList(List<SectionDTO> sectionDTOList, String courseName);
+
+    SectionDTO updateSection(SectionDTO section, Course course);
 
 }
