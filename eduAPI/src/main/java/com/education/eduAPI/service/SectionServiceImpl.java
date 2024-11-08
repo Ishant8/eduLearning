@@ -12,7 +12,6 @@ import com.education.eduAPI.repository.SectionRepository;
 import com.education.eduAPI.repository.SubSectionRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -93,6 +92,7 @@ public class SectionServiceImpl implements SectionService {
     @Override
     public List<SectionDTO> addSectionList(List<SectionDTO> sectionDTOList, String courseName) {
         Course course = courseRepository.findCourseByCourseName(courseName);
+
         return sectionDTOList.stream()
                 .map(secDto -> {
                     secDto.setCourseName(courseName);
@@ -108,6 +108,7 @@ public class SectionServiceImpl implements SectionService {
         sectionDTO.setSubSections(null);
 
         // Save section first
+        System.out.println(sectionDTO);
         Section section = sectionRepository.save(sectionMapper.toEntity(sectionDTO));
 
         // Add subsections using the actual section entity
@@ -177,6 +178,56 @@ public class SectionServiceImpl implements SectionService {
                 .collect(Collectors.toList());
 
         return subSectionRepository.saveAll(subSections);
+    }
+
+    @Override
+    public List<SectionDTO> updateSectionList(List<SectionDTO> sectionDTOList, String courseName) {
+        Course course = courseRepository.findCourseByCourseName(courseName);
+
+
+        List<SectionDTO> sectionDTOS = sectionDTOList.stream()
+                .map(section-> {
+                    if(section.getSectionId()!=0){
+                        return updateSection(section,course);
+                    } else{
+                        section.setCourseName(course.getCourseName());
+                        return addSection(section);
+                    }
+                }).toList();
+        return sectionDTOS;
+    }
+
+    @Override
+    public SectionDTO updateSection(SectionDTO sectionDTO,Course course) {
+        List<Section> sections = sectionRepository.findAllByCourse(course);
+        Section existingSection = sections.stream()
+                .filter(sect -> sect.getId() == sectionDTO.getSectionId())
+                .findFirst().orElse(null);
+
+//        System.out.println("------------__--__________--------"+sectionDTO);
+
+        if (existingSection != null) {
+            existingSection.setSectionName(sectionDTO.getSectionName());
+            existingSection.setSectionDescription(sectionDTO.getSectionDescription());
+            existingSection.setSubSections(
+                    sectionDTO.getSubSections().stream()
+                    .map(subSectionDTO -> {
+                        if(subSectionDTO.getId()!=0){
+                            return subSectionMapper.toEntity(subSectionDTO);
+                        }else{
+                            subSectionDTO.setSectionName(sectionDTO.getSectionName());
+                            return subSectionMapper.toEntity(setSubSection(subSectionDTO));
+                        }
+                    })
+                    .collect(Collectors.toList())
+            );
+            sectionRepository.save(existingSection);
+            return sectionMapper.toDto(existingSection);
+        }
+
+
+
+        return null;
     }
 
 

@@ -16,6 +16,7 @@ public class SubSectionMapper {
 
     public SubSectionDTO toDto(SubSection subSection){
         SubSectionDTO subSectionDTO = new SubSectionDTO();
+        subSectionDTO.setId(subSection.getId());
         subSectionDTO.setSubSectionName(subSection.getSubSectionName());
         subSectionDTO.setContent(subSection.getContent());
         subSectionDTO.setSectionName(subSection.getSection().getSectionName());
@@ -25,9 +26,10 @@ public class SubSectionMapper {
 
     public SubSection toEntity(SubSectionDTO subSectionDTO){
         SubSection subSection = new SubSection();
+        subSection.setId(subSectionDTO.getId());
         subSection.setSubSectionName(subSectionDTO.getSubSectionName());
         subSection.setContent(subSectionDTO.getContent());
-        if(subSectionDTO.getSubSectionName() != null){
+        if(subSectionDTO.getSectionName() != null){
             System.out.println("=========Mapper Fetch Called============");
             subSection.setSection(sectionRepository.findBySectionName(subSectionDTO.getSectionName()));
         }

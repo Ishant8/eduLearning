@@ -63,6 +63,7 @@ public class SectionDTO {
     @Override
     public String toString() {
         return "SectionDTO{" +
+                "id=" + sectionId +
                 "sectionName='" + sectionName + '\'' +
                 ", sectionDescription='" + sectionDescription + '\'' +
                 ", courseName='" + courseName + '\'' +

@@ -101,7 +101,8 @@ public class CourseServiceImpl implements CourseService {
         }
 
         if(courseDTO.getImageData() != null) {
-            String FILE_PATH = "/home/ishant/Projects/EduLearning/eduFrontend/public/images/common/";
+//            String FILE_PATH = "/home/ishant/Projects/EduLearning/eduFrontend/public/images/common/";
+            String FILE_PATH = "/home/anant/Projects/eduLearning/eduFrontend/public/images/common/";
             String[] fileNames = Objects.requireNonNull(courseDTO.getImageData().getOriginalFilename()).split("\\.");
             System.out.println(Arrays.toString(fileNames));
 
@@ -120,8 +121,9 @@ public class CourseServiceImpl implements CourseService {
 
 
         course = courseRepository.save(course);
-
-        courseDTO.getImageData().transferTo(new File(course.getCoverImage().getFilePath()));
+        if(courseDTO.getImageData()!= null){
+            courseDTO.getImageData().transferTo(new File(course.getCoverImage().getFilePath()));
+        }
 
         return courseMapper.toDto(course);
 //        return new CourseDTO();

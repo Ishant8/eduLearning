@@ -25,7 +25,7 @@ public class Section {
     @JoinColumn(name = "id_course")
     private Course course;
 
-    @OneToMany(mappedBy = "section", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "section", cascade = CascadeType.ALL)
     private List<SubSection> subSections;
 
     @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
