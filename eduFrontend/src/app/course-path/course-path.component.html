@@ -28,28 +28,30 @@
             
             @for (courseSection of courseSections(); track $index) {
 
-                <div routerLink='/course/content' 
-                [queryParams]="{ courseName: courseSection.courseName ,secName: courseSection.sectionName}" style="cursor: pointer;">
+                
                     <div
                         class="d-flex justify-content-between align-items-center border border-black border-bottom-0 border-opacity-25 fw-medium fs-5 mt-5 rounded-top-3 py-3 px-4 green-txt bg-color-home">
-                        {{courseSection.sectionName}}
+                        <div routerLink='/course/content'
+                            [queryParams]="{ courseName: courseSection.courseName ,secName: courseSection.sectionName, subSecIndex: -1}"
+                            style="cursor: pointer;">
+                            {{courseSection.sectionName}}
+                        </div>
                         @if(isCompleted(courseSection.sectionId)()){
-                            <i class="bi bi-check-circle-fill green-txt fs-4"></i>
+                        <i class="bi bi-check-circle-fill green-txt fs-4"></i>
                         }@else{
-                            <i class="bi bi-check-circle-fill text-secondary fs-4"></i>
+                        <i class="bi bi-check-circle-fill text-secondary fs-4"></i>
                         }
                     </div>
                     <div class="border border-black border-opacity-25 fs-6 px-4 py-3 bg-color-home rounded-bottom-3">
                     
                         @for (subSection of courseSection.subSections; track $index) {
                         <div class="d-flex gap-2 p-1 align-items-center">
-                            <span class="d-flex align-items-center"><i
-                                    class="bi bi-journal-text fs-4 pe-3"></i>
-                                    <a routerLink='/course/content' class="text-decoration-none green-txt" [queryParams]="{ courseName: courseSection.courseName ,secName: subSection.sectionName }">{{subSection.subSectionName}}</a>
-                                </span>
+                            <span class="d-flex align-items-center"><i class="bi bi-journal-text fs-4 pe-3"></i>
+                                <a routerLink='/course/content' class="text-decoration-none green-txt"
+                                    [queryParams]="{ courseName: courseSection.courseName ,secName: subSection.sectionName, subSecIndex: $index }">{{subSection.subSectionName}}</a>
+                            </span>
                         </div>}
                     </div>
-                </div>
             }
         </div>
     </div>

@@ -41,7 +41,7 @@ export class LoginComponent {
           this.router.navigate(['/dashboard']).then(()=>{
             window.location.reload();
           });
-        },700)
+        },1400)
       },
       error:(err) => {
         this.toastService.generateToast(this.toastComponent,false,"Login failed!");
