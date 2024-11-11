@@ -45,7 +45,7 @@ public class SecurityConfig {
 //                        .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
 //                        .anyRequest().permitAll());
 
-                        .requestMatchers("user/login","user/create","/error","course/get","review/get", "review/get/course/*","/category/all","course/filter","course/size","course/levels").permitAll()
+                        .requestMatchers("user/login","user/create","/error","course/get","review/get", "review/get/course/*","/category/all","course/filter","course/size","course/levels","review/get/unique").permitAll()
 
 //                        .requestMatchers("course/get").hasRole("USER")
                         .requestMatchers("user/get").hasRole("ADMIN")
