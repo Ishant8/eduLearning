@@ -44,7 +44,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request
 //                        .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
 //                        .anyRequest().permitAll());
-                        .requestMatchers("user/login","user/create","/error","course/get","review/get", "review/get/course/*","/category/all","course/filter","course/size").permitAll()
+                        .requestMatchers("user/login","user/create","/error","course/get","review/get", "review/get/course/*","/category/all","course/filter","course/size","course/levels").permitAll()
 //                        .requestMatchers("course/get").hasRole("USER")
                         .requestMatchers("user/get").hasRole("ADMIN")
                         .anyRequest().authenticated());
