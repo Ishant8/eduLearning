@@ -17,4 +17,6 @@ public interface ReviewService {
     String addReview(ReviewDTO reviewDTO);
 
     String updateReview(ReviewDTO reviewDTO);
+
+    List<ReviewDTO> uniqueReviews();
 }

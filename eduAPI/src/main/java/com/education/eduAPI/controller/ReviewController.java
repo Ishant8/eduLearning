@@ -28,6 +28,11 @@ public class ReviewController {
         return reviewService.getAllReviews();
     }
 
+    @GetMapping("/get/unique")
+    public List<ReviewDTO> findUniqueReviewsOfUsers(){
+        return reviewService.uniqueReviews();
+    }
+
     @GetMapping("/get/course/{id}")
     public List<ReviewDTO> findAllReviewsByCourseId(@PathVariable int id){
         return reviewService.getAllReviewsByCourseId(id);
