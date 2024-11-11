@@ -47,8 +47,8 @@
           <div class="py-5 d-flex flex-column gap-5">
             <div>
               <h3>Description</h3>
-              <p class="text-justify">
-                {{description()![0]}}
+              <p class="text-justify custom-paragraph">
+                {{description()![0] | addExtraLineBreak}}
               </p>
             </div>
             <div>
@@ -178,7 +178,13 @@
           <label for="floatingTextarea">Your Message</label>
         </div>
 
-          <button class="btn btn-custom mt-3 py-2 px-3">Write a Review</button>
+        
+            <div>
+              <button class="btn btn-custom mt-3 py-2 px-3" [disabled]="!profileService.profile()?.courseNames?.includes(courseName())">Write a Review</button>
+              @if (!profileService.profile()?.courseNames?.includes(courseName())) {
+                <p class="m-0 text-danger">Enroll to write a review</p>
+              }
+            </div>
         
       </form>
     </div>

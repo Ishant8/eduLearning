@@ -62,3 +62,8 @@
     background-color: transparent;
     color: var(--primary-color-dark);
 }
+
+.custom-paragraph{
+    white-space: pre-line;
+    text-align: justify;
+}

@@ -9,11 +9,12 @@ import { Review } from '../home-page/testomonials/testimonial.model';
 import { TestimonialService } from '../home-page/testomonials/testimonial.service';
 import { ToastComponent } from '../toast/toast.component';
 import { ToastService } from '../toast/toast.service';
+import { AddExtraLineBreakPipe } from './add-extra-line-break.pipe';
 
 @Component({
   selector: 'app-course-detail-page',
   standalone: true,
-  imports: [TestomonialsComponent, RouterLink, FormsModule, ToastComponent],
+  imports: [TestomonialsComponent, RouterLink, FormsModule, ToastComponent,AddExtraLineBreakPipe],
   templateUrl: './course-detail-page.component.html',
   styleUrl: './course-detail-page.component.css'
 })
