@@ -13,9 +13,12 @@
     <div class="d-flex flex-column flex-md-row">
         <div class="col-md-3 bg-color-home py-2 ps-5 ps-md-3 pe-5 pe-md-3 px-lg-4 px-xl-5">
             <div>
-                <p class="fs-5 mb-2 mt-lg-5 border-bottom border-black border-opacity-25 fw-bold">
-                    Filter By
-                </p>
+                <div class="d-flex align-items-end justify-content-between border-bottom border-black border-opacity-25">
+                    <p class="fs-5 mb-2 mt-lg-5  fw-bold">
+                        Filter By
+                    </p>
+                    <button class="btn fw-bold green-txt" (click)="clearFilter()">CLEAR</button>
+                </div>
                 <div class="mb-3">
                     <a class="nav-link d-flex justify-content-between dropdown" href="#" data-bs-toggle="collapse"
                         data-bs-target="#submenu" aria-expanded="false" aria-controls="submenu">
@@ -71,32 +74,7 @@
                     </div>
                 </div>
 
-                <div class="mb-3">
-                    <a class="nav-link d-flex justify-content-between dropdown" href="#" data-bs-toggle="collapse"
-                        data-bs-target="#MyRange" aria-expanded="false" aria-controls="submenu">
-                        <span class="description fs-5 d-block ms-2">Course Rating⭐</span>
-                        <div class="down d-flex align-items-center">
-                            <i class="bi bi-chevron-down"></i>
-                        </div>
-                        <div class="up">
-                            <i class="bi bi-chevron-up d-flex align-items-center"></i>
-                        </div>
-                    </a>
-                    <div class="collapse ms-2" id="MyRange">
-                        <input type="range" class="form-range" value="2" min="0" max="4" step="1" id="customRange2" />
-                        <div class="d-flex ms-1">
-                            <p class="col-3 text-start">1</p>
-                            <p class="col-2 text-start">2</p>
-                            <!-- <div class="col-3 d-flex justify-content-between">
-                                <p>3</p>
-                                <p>4</p>
-                            </div> -->
-                            <p class="col-2 text-center">3</p>
-                            <p class="col-2 text-end">4</p>
-                            <p class="col-3 text-end">5</p>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
         </div>
         <div class="col-md-9 px-5 py-5 d-flex flex-column justify-content-between" style="min-height: 150vh;" id="cards">

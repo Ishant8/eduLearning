@@ -29,6 +29,8 @@ export class CoursesComponent implements OnInit {
   levelFilter = signal<string>('');
   currentPage = 1;
 
+  allLevels = signal<string[]>([])
+
   someFun(){
     this.pageNav.currentPage=1;
   }
@@ -67,6 +69,19 @@ export class CoursesComponent implements OnInit {
     
   }
 
+  clearFilter(){
+    this.categoryFilter.set([]);
+    this.levelFilter.set('');
+    this.someFun();
+    this.callFilterCourses(1);
+    const inputs = document.getElementsByTagName("input");
+    Array.from(inputs).forEach(element =>{
+      if(element.type == "checkbox" || element.type == "radio"){
+        element.checked = false;
+      }
+    })
+  }
+
   callFilterCourses(page:number){
     
     let categoryFilterVar:string[];
@@ -82,11 +97,7 @@ export class CoursesComponent implements OnInit {
 
     if(!this.levelFilter())
       {
-        levelFilterVar = [
-          "Intermediate",
-          "Advanced",
-          "Beginner"
-      ];
+        levelFilterVar = this.allLevels();
       }else{
         levelFilterVar = []
         levelFilterVar.push(this.levelFilter());
@@ -131,18 +142,30 @@ export class CoursesComponent implements OnInit {
       next:(resData)=>{
         this.category.set(resData);
         console.log(resData);
-        const levelFilterVar = [
-          "Intermediate",
-          "Advanced",
-          "Beginner"
-      ];
-      this.courseService.getSizeOfCourses({"categoriesList":resData, "levelList":levelFilterVar}).subscribe({
-        next:(resData1)=>{
-          console.log("line 121",resData1);
+      //   const levelFilterVar = [
+      //     "Intermediate",
+      //     "Advanced",
+      //     "Beginner"
+      // ];
+      this.courseService.getLevels().subscribe({
+        next:(resData2)=>{
+          console.log(resData2);
+          this.allLevels.set(resData2);
+          console.log(this.allLevels());
+        },
+        complete:()=>{
+          console.log(this.allLevels());
           
-          this.courseService.pageSubject.next(Math.ceil(resData1/6))
+          this.courseService.getSizeOfCourses({"categoriesList":resData, "levelList":this.allLevels()}).subscribe({
+            next:(resData1)=>{
+              console.log("line 121",resData1);
+              
+              this.courseService.pageSubject.next(Math.ceil(resData1/6))
+            }
+          })
         }
       })
+      
       }
     })
 
