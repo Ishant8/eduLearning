@@ -1,7 +1,7 @@
 <!-- toast.component.html -->
 <div class="toast-container position-fixed bottom-0 end-0 p-3" style=" max-width: 1000px;">
     <div id="liveToast" [class.bg-danger]="!isSuccessful" [class.green-bg-dark]="isSuccessful" class="toast" role="alert" aria-live="assertive" aria-atomic="true" #liveToast>
-      <div class="d-flex align-items-center text-white tw-bold fs-6">
+      <div class="d-flex align-items-center text-white tw-bold fs-5">
           <div class="toast-body">
             {{ toastMessage }}
           </div>

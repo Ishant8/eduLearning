@@ -22,6 +22,7 @@ export class CourseContentComponent implements OnInit, AfterViewInit {
   private scrollSpy: any;
   sectionName:string = ''
   courseName:string = ''
+  subSecIndex:number = -1;
 
   emitNextSection = output();
   
@@ -40,8 +41,8 @@ export class CourseContentComponent implements OnInit, AfterViewInit {
   constructor(private route: ActivatedRoute, private router: Router,
     private elementRef: ElementRef) {}
 
-    scrollToSection(event: Event, sectionId: string) {
-      event.preventDefault();
+    scrollToSection(event: Event | null, sectionId: string) {      
+      event?.preventDefault();
       document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
     }
   
@@ -50,8 +51,9 @@ export class CourseContentComponent implements OnInit, AfterViewInit {
     this.route.queryParamMap.subscribe((params) => {
       this.sectionName = params.get('secName') as string;
       this.courseName = params.get('courseName') as string;
+      this.subSecIndex = +(params.get('subSecIndex') as string);
 
-      console.log(this.sectionName + ' ' + this.courseName);
+      console.log(this.sectionName + ' ' + this.courseName + ' ' + this.subSecIndex);
 
       if (this.courseService.sections().length != 0) {
         
@@ -74,7 +76,6 @@ export class CourseContentComponent implements OnInit, AfterViewInit {
         }else{
           this.currentSectionCompleted.set(false);
         }
-        
 
       } else {
         this.fetchSections();
@@ -88,10 +89,22 @@ export class CourseContentComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(){
 
     const scrollSpyElement = document.querySelector('[data-bs-spy="scroll"]');
+    
     if (scrollSpyElement) {
       const event = new Event('load');
       window.dispatchEvent(event);
     }
+
+
+    if(this.subSecIndex != -1)
+    {
+      console.log('subIndex working'); 
+      console.log(this.subSecIndex);
+           
+      this.scrollToSection(null, 'item-'+this.subSecIndex);
+    }
+    else console.log('subIndex not working');
+    
   }
 
   navigateToCourse(courseName:string | null | undefined) {
@@ -140,26 +153,43 @@ export class CourseContentComponent implements OnInit, AfterViewInit {
         console.log(this.completedSectionsIds().includes(this.section()?.sectionId as number));
         
         this.currentSectionCompleted.set(!this.completedSectionsIds().includes(this.section()?.sectionId as number))
+      },
+      complete:() =>{
+        
+        const scrollSpyElement = document.querySelector('[data-bs-spy="scroll"]');
+        console.log(scrollSpyElement);
+        
+        const event = new Event('load');
+        window.dispatchEvent(event);                   
+        // calling this here because on reload scroll spy wasnt working. It only worked when given a timeout. 
+        // So by writing the load event here, scroll spy element gets enough time to be created and loaded in the dom. Scroll spy is independent of the data fetched, we are just using the fetch time like a setTimeout function.
+
       }
     })
   }
 
 
   markComplete() {
-    this.courseService.completeSection({
-                userId:this.profileService.profile()?.userId as number, 
-                sectionId:this.section()?.sectionId as number
-              }).subscribe({
-                next:(resdata)=>{
-                  if(resdata){
-                    this.completedSectionsIds().push(this.section()?.sectionId as number);
-                    this.courseService.completedSections().push(this.section() as AddSection);
-                    this.currentSectionCompleted.set(false);
-                  }
-                },
-              })
+    this.courseService
+      .completeSection({
+        userId: this.profileService.profile()?.userId as number,
+        sectionId: this.section()?.sectionId as number,
+      })
+      .subscribe({
+        next: (resdata) => {
+          if (resdata) {
+            this.completedSectionsIds().push(
+              this.section()?.sectionId as number
+            );
+            this.courseService
+              .completedSections()
+              .push(this.section() as AddSection);
+            this.currentSectionCompleted.set(false);
+          }
+        },
+      });
 
-              window.scroll(0,0);
+    window.scroll(0, 0);
   }
 
 
