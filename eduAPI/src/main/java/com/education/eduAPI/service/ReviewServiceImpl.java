@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -97,6 +98,31 @@ public class ReviewServiceImpl implements ReviewService {
         review.setComment(reviewDTO.getComment());
         review.setRating(reviewDTO.getRating());
         return reviewMapper.toDto(reviewRepository.save(review)).toString();
+    }
+
+    @Override
+    public List<ReviewDTO> uniqueReviews() {
+
+        List<Review> uniqueReviews = new ArrayList<>();
+        reviewRepository.findAll()
+                .forEach((review)->{
+                    if(uniqueReviews.isEmpty())
+                            uniqueReviews.add(review);
+                    else if(!uniqueReviews.stream()
+                                .map((uniqueReview)->uniqueReview.getUser().getUserId())
+                                .toList()
+                                .contains(review.getUser().getUserId()) &&
+                        !uniqueReviews.stream()
+                                .map((uniqueReview)->uniqueReview.getCourse().getCourseId())
+                                .toList()
+                                .contains(review.getCourse().getCourseId())
+                    )
+                    {
+                        uniqueReviews.add(review);
+                    }
+        });
+
+        return uniqueReviews.stream().map(rv -> reviewMapper.toDto(rv)).toList();
     }
 
 
