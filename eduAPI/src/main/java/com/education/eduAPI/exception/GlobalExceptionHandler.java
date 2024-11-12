@@ -70,10 +70,10 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(customError, HttpStatus.UNAUTHORIZED);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<CustomErrorResponse> handleException(Exception e) {
-        CustomErrorResponse customError = new CustomErrorResponse(500,e.getMessage(), new Date(System.currentTimeMillis()));
-        return new ResponseEntity<>(customError, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity<CustomErrorResponse> handleException(Exception e) {
+//        CustomErrorResponse customError = new CustomErrorResponse(500,e.getMessage(), new Date(System.currentTimeMillis()));
+//        return new ResponseEntity<>(customError, HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
 
 }
