@@ -103,7 +103,8 @@ public class Section {
                 "id=" + id +
                 ", sectionName='" + sectionName + '\'' +
                 ", description='" + sectionDescription + '\'' +
-                ", course=" + course +
+//                ", course=" + course +
+                ", subsections=" + subSections.stream().map((SubSection::getSubSectionName)).toList() +
                 '}';
     }
 }

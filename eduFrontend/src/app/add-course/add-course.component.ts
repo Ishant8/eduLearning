@@ -21,7 +21,6 @@ import { AddSection, AddSubSection } from './add-course.model';
   selector: 'app-add-course',
   standalone: true,
   imports: [
-    PhotoComponent,
     FormsModule,
     RouterLink,
     ToastComponent,
@@ -42,6 +41,12 @@ export class AddCourseComponent implements OnInit {
 
   editIndex: number = -1;
   editSectionIndex: number = -1;
+
+  sectionTotal:number = 0;
+  subSectionTotal:number = 0;
+
+  deletedSections:string = '';
+  deletedSubSections:string = '';
 
   courseDetails = new FormGroup({
     courseName: new FormControl('', [Validators.required]),
@@ -190,6 +195,7 @@ export class AddCourseComponent implements OnInit {
       .get('sectionDescription')
       ?.setValue(this.sectionArray[index].sectionDescription);
     this.subSectionArray = this.sectionArray[index].subSections;
+    this.subSectionTotal = this.subSectionArray.length;
     this.sectionState = 'Edit';
     this.editSectionIndex = index;
   }
@@ -238,10 +244,17 @@ export class AddCourseComponent implements OnInit {
   }
 
   deleteSubSection(index: number) {
+    
+    this.deletedSubSections += this.subSectionArray[index].id + ' ';
+    console.log(this.deletedSubSections + 'length: '+ this.deletedSubSections.length);
+    
     this.subSectionArray = this.subSectionArray.filter((x, i) => i !== index);
   }
 
   deleteSection(index: number) {
+    this.deletedSections += this.sectionArray[index].sectionId + ' ';
+    console.log(this.deletedSections + 'length: '+ this.deletedSections.length);
+
     this.sectionArray = this.sectionArray.filter((x, i) => i !== index);
   }
 
@@ -332,6 +345,7 @@ export class AddCourseComponent implements OnInit {
     this.courseService.getSections(courseName as string).subscribe({
       next: (resData) => {
         this.sectionArray = resData;
+        this.sectionTotal = this.sectionArray.length;
         console.log('line 298', this.sectionArray);
       },
     });
@@ -436,6 +450,8 @@ export class AddCourseComponent implements OnInit {
       } else {
         courseData.courseId = this.courseId() as number;
         formData.append('instructorData', JSON.stringify(courseData));
+        formData.append('deletedSections', this.deletedSections)
+        formData.append('deletedSubSections', this.deletedSubSections)
 
         this.courseService.updateCourse(formData).subscribe({
           next: (resData) => {
@@ -443,7 +459,7 @@ export class AddCourseComponent implements OnInit {
             this.toastService.generateToast(
               this.toastComponent,
               true,
-              'Created Updated Successfully'
+              'Course Updated Successfully'
             );
             setTimeout(()=>{
 
@@ -451,7 +467,11 @@ export class AddCourseComponent implements OnInit {
             },1000);
 
           },
-          error: () => {
+          error: (err) => {
+            
+            console.log(err.error.message);
+            
+            
             this.toastService.generateToast(
               this.toastComponent,
               false,

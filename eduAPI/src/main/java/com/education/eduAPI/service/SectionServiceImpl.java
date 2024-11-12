@@ -12,6 +12,8 @@ import com.education.eduAPI.repository.SectionRepository;
 import com.education.eduAPI.repository.SubSectionRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -181,8 +183,18 @@ public class SectionServiceImpl implements SectionService {
     }
 
     @Override
-    public List<SectionDTO> updateSectionList(List<SectionDTO> sectionDTOList, String courseName) {
+    public List<SectionDTO> updateSectionList(List<SectionDTO> sectionDTOList, String courseName, String deletedSections, String deletedSubSections) {
         Course course = courseRepository.findCourseByCourseName(courseName);
+
+        if(!deletedSections.isEmpty())
+        {
+            System.out.println("Inside delete Sections");
+
+            List<Integer> deletedSectionIds = Arrays.stream(deletedSections.trim().split(" "))
+                    .map(Integer::parseInt).toList();
+
+            sectionRepository.deleteByIdIn(deletedSectionIds);
+        }
 
 
         List<SectionDTO> sectionDTOS = sectionDTOList.stream()
@@ -194,6 +206,26 @@ public class SectionServiceImpl implements SectionService {
                         return addSection(section);
                     }
                 }).toList();
+
+        List<Integer> deletedSubSectionIds;
+
+        if(!deletedSubSections.isEmpty())
+        {
+            System.out.println("Inside delete Subsections");
+
+            deletedSubSectionIds = Arrays.stream(deletedSubSections.trim().split(" "))
+                    .map(Integer::parseInt).toList();
+
+        } else {
+            deletedSubSectionIds = new ArrayList<>();
+        }
+
+        List<SubSection> subSecToDel = subSectionRepository.findAllByIdIn(deletedSubSectionIds);
+        subSecToDel.forEach(subsec -> subsec.setSection(null));
+        subSecToDel = subSectionRepository.saveAll(subSecToDel);
+//        subSectionRepository.deleteByIdIn(deletedSubSectionIds);
+        subSectionRepository.deleteAll(subSecToDel);
+
         return sectionDTOS;
     }
 
@@ -224,6 +256,54 @@ public class SectionServiceImpl implements SectionService {
             sectionRepository.save(existingSection);
             return sectionMapper.toDto(existingSection);
         }
+
+//        List<Integer> deletedSubSectionIds;
+//
+//        if(!deletedSubSections.isEmpty())
+//        {
+//            System.out.println("Inside delete Subsections");
+//
+//            deletedSubSectionIds = Arrays.stream(deletedSubSections.trim().split(" "))
+//                    .map(Integer::parseInt).toList();
+//
+//        } else {
+//            deletedSubSectionIds = new ArrayList<>();
+//        }
+//
+//        if (existingSection != null) {
+//            existingSection.setSectionName(sectionDTO.getSectionName());
+//            existingSection.setSectionDescription(sectionDTO.getSectionDescription());
+//
+//            List<SubSection> subSecToDel = subSectionRepository.findAllByIdIn(deletedSubSectionIds);
+//
+//            for (SubSectionDTO subSectionDTO: sectionDTO.getSubSections()) {
+//
+//                if (subSectionDTO.getId() == 0) {
+//
+//                    subSectionDTO.setSectionName(sectionDTO.getSectionName());
+//                    existingSection.getSubSections().add(subSectionMapper.toEntity(subSectionDTO));
+//
+//                }else{
+//
+//
+//                    SubSection existingSubSection = existingSection.getSubSections().stream().filter(subsec -> subsec.getId() == subSectionDTO.getId()).findFirst().orElse(null);
+//                    existingSection.getSubSections().remove(existingSubSection);
+//                    existingSection.getSubSections().add(subSectionMapper.toEntity(subSectionDTO));
+//                }
+//            }
+//
+//            for (SubSection subSection : subSecToDel) {
+//                existingSection.getSubSections().remove(subSection);
+//            }
+//
+//            System.out.println("Filtered Section: "+existingSection);
+//
+//            existingSection = sectionRepository.save(existingSection);
+//
+//
+//
+//            return sectionMapper.toDto(existingSection);
+//        }
 
 
 

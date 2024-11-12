@@ -25,7 +25,7 @@ public interface SectionService {
 
     List<SubSection> addSubSections(List<SubSectionDTO> subSectionDTOList, Section section);
 
-    List<SectionDTO> updateSectionList(List<SectionDTO> sectionDTOList, String courseName);
+    List<SectionDTO> updateSectionList(List<SectionDTO> sectionDTOList, String courseName, String deletedSections, String deletedSubSections);
 
     SectionDTO updateSection(SectionDTO section, Course course);
 

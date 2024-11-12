@@ -266,7 +266,7 @@
         </button>
         }
         @if(formStep == 1){
-        <button type="submit" [disabled]="!(courseDetails.dirty && courseDetails.valid) || sectionArray.length === 0 || !isStepValid(0)"
+        <button type="submit" [disabled]="!((courseDetails.dirty && courseDetails.valid) || sectionArray.length != sectionTotal || subSectionArray.length != subSectionTotal) || sectionArray.length === 0 || !isStepValid(0)"
           class="btn btn-custom btn-lg ms-3 rounded-1">
           {{title}} Course
         </button>

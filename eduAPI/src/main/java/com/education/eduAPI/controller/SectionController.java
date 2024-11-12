@@ -2,6 +2,7 @@ package com.education.eduAPI.controller;
 
 import com.education.eduAPI.dto.SectionDTO;
 import com.education.eduAPI.dto.SubSectionDTO;
+import com.education.eduAPI.repository.SubSectionRepository;
 import com.education.eduAPI.service.SectionService;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,10 +12,12 @@ import java.util.List;
 @RequestMapping("/section")
 public class SectionController {
 
+    private final SubSectionRepository subSectionRepository;
     SectionService sectionService;
 
-    public SectionController(SectionService sectionService) {
+    public SectionController(SectionService sectionService, SubSectionRepository subSectionRepository) {
         this.sectionService = sectionService;
+        this.subSectionRepository = subSectionRepository;
     }
 
     @GetMapping("/get")
@@ -57,6 +60,13 @@ public class SectionController {
     public List<SubSectionDTO> addSubSectionList(@RequestBody List<SubSectionDTO> subSectionDTOList, String sectionName){
 //        return sectionService.add(subSectionDTOList, sectionName);
         return null;
+    }
+
+    @DeleteMapping("/subsection/delete/{id}")
+    public String deleteSubSection(@PathVariable("id") int id){
+
+        subSectionRepository.deleteById(id);
+        return "subsection deleted";
     }
 
 
