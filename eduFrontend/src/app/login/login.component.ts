@@ -25,12 +25,15 @@ export class LoginComponent {
   username = ''
   password = ''
 
+  isLoading = false;
+
   checkInputStatus(elem:NgModel) {
     return elem.invalid && (elem.dirty || elem.touched)
   }
 
   doLogin(event:Event){
     event.preventDefault();
+    this.isLoading=true;
     const subscription = this.profileService.login({email:this.username, password:this.password})
     .subscribe({
       next: (resData) => {
@@ -45,6 +48,7 @@ export class LoginComponent {
       },
       error:(err) => {
         this.toastService.generateToast(this.toastComponent,false,"Login failed!");
+        this.isLoading=false;
       }
     });
 

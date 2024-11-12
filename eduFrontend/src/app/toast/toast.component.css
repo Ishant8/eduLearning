@@ -2,3 +2,6 @@
     min-width: 200px;
     width: fit-content;
 }
+.toast-body{
+    white-space: pre-line;
+}

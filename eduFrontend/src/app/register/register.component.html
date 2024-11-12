@@ -101,7 +101,12 @@
                     </div>
   
                     <div class="d-flex justify-content-center mx-4 mb-4">
-                      <button  type="submit" [disabled]="!(agree && form.valid && (confPass.control.value == pass.control.value))"  class="btn btn-custom btn-lg rounded-1">Register</button>
+                      <button  type="submit" [disabled]="!(agree && form.valid && (confPass.control.value == pass.control.value)) || isLoading"  class="btn btn-custom btn-lg rounded-1">
+                        @if (isLoading) {
+                          <div class="spinner-border spinner-border-sm text-light fs-6" role="status"></div>
+                      }
+                      {{isLoading? "Registering ..." : "Register"}}
+                      </button>
                     </div>
   
                   </form>

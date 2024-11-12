@@ -55,7 +55,12 @@
                                     
 
                                     <div class="d-grid pt-1 mb-4">
-                                        <button class="btn btn-custom btn-lg rounded-1 fw-medium" [disabled]="form.invalid" type="submit">Login</button>
+                                        <button class="btn btn-custom btn-lg rounded-1 fw-medium" [disabled]="form.invalid || isLoading" type="submit">
+                                            @if (isLoading) {
+                                                <div class="spinner-border spinner-border-sm text-light fs-6" role="status"></div>
+                                            }
+                                            {{isLoading? "Logging in ..." : "Login"}}
+                                        </button>
                                     </div>
 
                                     <p class="mb-5 pb-lg-2" >Don't have an account? <a class="mall text-muted mb-1" routerLink="/register/user">Register here</a></p>
