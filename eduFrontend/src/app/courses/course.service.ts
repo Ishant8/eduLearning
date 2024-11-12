@@ -18,6 +18,7 @@ export class CourseService {
   public pageSubject = new BehaviorSubject<number>(1);
   public pages$ = this.pageSubject.asObservable();
   pages=signal<number>(0);
+  oneTimeFlag:string[] = [];
 
   httpClient = inject(HttpClient);
   destroyRef = inject(DestroyRef);

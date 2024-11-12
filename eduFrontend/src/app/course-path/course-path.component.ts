@@ -19,6 +19,8 @@ export class CoursePathComponent implements OnInit {
   completedSectionsIds = signal<number[]>([]);
   isCompleted = (id:number) => computed(()=>this.completedSectionsIds().includes(id));
   progress = signal<number>(0);
+  confettiDisplay = false;
+  
 
   constructor(private route: ActivatedRoute, private renderer:Renderer2) {}
 
@@ -42,6 +44,8 @@ export class CoursePathComponent implements OnInit {
       this.fetchSections();
       
     });
+
+    
     
 
   }
@@ -77,6 +81,16 @@ export class CoursePathComponent implements OnInit {
         const progress = (this.completedSectionsIds().length / this.courseSections().length)*100;
         // console.log("line 72",this.completedSectionsIds.length);
         
+        if(progress===100 ){
+          if(!this.courseService.oneTimeFlag.includes(this.courseName)){
+            this.confettiDisplay = true;
+            setTimeout(()=>{
+              this.confettiDisplay = false;
+              this.courseService.oneTimeFlag.push(this.courseName);
+            },4000);
+          }
+          
+        }
 
         this.css3RadialProgressBar(parseFloat(progress.toFixed(1)));
       }

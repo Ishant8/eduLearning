@@ -81,3 +81,10 @@
     left: 5%;
     top: 5%;
   }
+
+  .confetti{
+    background-image: url("../../../public/images/loading/Confetti.gif");
+    width: 100%;
+    background-size: 900px 800px;
+    top: 0;
+  }
