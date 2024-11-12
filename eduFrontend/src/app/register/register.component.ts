@@ -33,6 +33,7 @@ export class RegisterComponent implements OnInit {
   confirmPassword = '';
   agree = false
   destroyRef = inject(DestroyRef)
+  isLoading = false;
 
   role=signal<"user"|"instructor">("user");
   
@@ -59,6 +60,7 @@ export class RegisterComponent implements OnInit {
     this.userDetails.firstName = this.fullName.split(' ')[0];
     this.userDetails.lastName = this.fullName.split(' ')[1];
     let url;
+    this.isLoading = true;
     if(this.role() === "user"){
       this.userDetails.role="ROLE_USER";
     }
@@ -78,8 +80,16 @@ export class RegisterComponent implements OnInit {
         },700)
       },
       error:(err)=>{
-        console.log(err);
-        this.toastService.generateToast(this.toastComponent,false,"Registration Failed!")
+        console.log(err.error.message.includes("Duplicate entry"));
+        if(err.error.message.includes("Duplicate entry")){
+
+          this.toastService.generateToast(this.toastComponent,false,"Registration Failed!\n<b>Email already exists</b>")
+        }else{
+
+          this.toastService.generateToast(this.toastComponent,false,"Registration Failed!")
+        }
+        
+        this.isLoading=false;
       }
     });
 
