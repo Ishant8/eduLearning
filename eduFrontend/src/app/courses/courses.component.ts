@@ -1,9 +1,5 @@
-  import { Component, inject, input, OnInit, signal, ViewChild } from '@angular/core';
-import { HeaderComponent } from "../header/header.component";
-import { FooterComponent } from "../footer/footer.component";
+import { Component, inject, input, OnInit, signal, ViewChild } from '@angular/core';
 import { JumbotronComponent } from "../home-page/jumbotron/jumbotron.component";
-import { TestomonialsComponent } from "../home-page/testomonials/testomonials.component";
-import { TestimonialComponent } from '../home-page/testomonials/testimonial/testimonial.component';
 import { CourseCardComponent } from "../course-card/course-card.component";
 import { PageNavComponent } from "../page-nav/page-nav.component";
 import { CourseService } from './course.service';
@@ -13,7 +9,7 @@ import { ProfileService } from '../profile-page/profile.service';
 @Component({
   selector: 'app-courses',
   standalone: true,
-  imports: [HeaderComponent, FooterComponent, JumbotronComponent, TestomonialsComponent, TestimonialComponent, CourseCardComponent, PageNavComponent],
+  imports: [JumbotronComponent, CourseCardComponent, PageNavComponent],
   templateUrl: './courses.component.html',
   styleUrl: './courses.component.css'
 })
