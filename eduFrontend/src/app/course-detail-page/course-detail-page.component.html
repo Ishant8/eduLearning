@@ -180,10 +180,13 @@
 
         
             <div>
-              <button class="btn btn-custom mt-3 py-2 px-3" [disabled]="!profileService.profile()?.courseNames?.includes(courseName())">Write a Review</button>
-              @if (!profileService.profile()?.courseNames?.includes(courseName())) {
+              <button class="btn btn-custom mt-3 py-2 px-3" [disabled]="!profileService.profile()?.courseNames?.includes(courseName()) || profileService.profile()?.role === 'ROLE_ADMIN'">Write a Review</button>
+              @if(profileService.profile()?.role === 'ROLE_ADMIN'){
+                <p class="m-0 text-danger">Instructors can't write reviews.</p>
+              } @else if (!profileService.profile()?.courseNames?.includes(courseName())) {
                 <p class="m-0 text-danger">Enroll to write a review</p>
               }
+              
             </div>
         
       </form>
