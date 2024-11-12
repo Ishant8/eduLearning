@@ -35,7 +35,7 @@ export class CourseContentComponent implements OnInit, AfterViewInit {
   sectionsLength = signal<number>(0);
 
   completedSectionsIds = signal<number[]>([]);
-  currentSectionCompleted = signal<boolean>(false);
+  currentSectionCompleted = signal<boolean>(true);
 
 
   constructor(private route: ActivatedRoute, private router: Router,

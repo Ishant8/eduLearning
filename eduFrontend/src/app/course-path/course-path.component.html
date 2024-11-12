@@ -1,5 +1,9 @@
 
-@if(courseSections().length != 0){<div class="main-margin py-5" style="min-height: 80vh;">
+@if(courseSections().length != 0){
+    @if(confettiDisplay){
+        <div class="position-fixed vh-100 confetti"></div>
+    }
+    <div class="main-margin py-5" style="min-height: 80vh;">
     <div class="d-flex flex-column align-items-center"  >
         
             <!-- <span class="percentage-complete">10% complete</span> -->
