@@ -21,8 +21,8 @@ import java.util.Optional;
 @Service
 public class ImageServiceImpl implements ImageService{
 
-//    private final String FILE_PATH = "/home/anant/Projects/eduLearning/eduFrontend/public/images/common/";
-    private final String FILE_PATH = "/home/ishant/Projects/EduLearning/eduFrontend/public/images/common/";
+    private final String FILE_PATH = "/home/anant/Projects/eduLearning/eduFrontend/public/images/common/";
+//    private final String FILE_PATH = "/home/ishant/Projects/EduLearning/eduFrontend/public/images/common/";
 
     private final ImageRepository imageRepository;
     private final UserRepository userRepository;

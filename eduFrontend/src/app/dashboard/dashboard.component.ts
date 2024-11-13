@@ -22,10 +22,11 @@ export class DashboardComponent implements OnInit {
   filterCourses = signal<Course[] | undefined>(undefined);
   instructorCourses = signal<Course[] | undefined>(undefined);
   firstElement = signal<string>('Photography');
+  // first = true;
 
   userDetails = computed(() => this.profileService.profile());
 
-  
+  displaySuggestion=true;
   constructor(private injector: Injector){}
   
   ngOnInit(): void {
@@ -95,14 +96,17 @@ export class DashboardComponent implements OnInit {
                   });
                 } else {
                   resData.forEach((course) => {
-                    this.categories().add(course.categoryName);
+                    this.getFilterCourses(course.categoryName,false);
                   });
 
-                  this.firstElement.set(
-                    this.categories().values().next().value as string
-                  );
+                  // this.firstElement.set(this.categories().values().next().value as string);
+                  
+                  // for(let category of this.categories()){
+                    // this.getFilterCourses(this.firstElement());
+                    // this.getFilterCourses(this.categories().values().next().value as string);
 
-                  this.getFilterCourses(this.firstElement());
+                  // }         
+                  
                 }
               },
             });
@@ -112,13 +116,19 @@ export class DashboardComponent implements OnInit {
 
   }
 
-  getFilterCourses(categoryName: string) {
+  getFilterCourses(categoryName: string,clicked: boolean) {
     this.courseService
       .getCourses('http://localhost:8080/course/notenrolled/' + categoryName)
       .subscribe({
         next: (resData) => {
-          this.filterCourses.set(resData);
-        },
+          if(resData.length){
+            this.categories().add(resData[0].categoryName);
+            this.firstElement.set(this.categories().values().next().value as string);
+            if(this.firstElement() === categoryName || clicked){
+              this.filterCourses.set(resData);
+            }
+          }
+        }
       });
   }
 
@@ -134,32 +144,4 @@ export class DashboardComponent implements OnInit {
     })
   }
 
-  getEnrollCourse(){
-    this.courseService
-            .getCourses('http://localhost:8080/course/user')
-            .subscribe({
-              next: (resData) => {
-                this.courses.set(resData);
-
-                if (resData.length == 0) {
-                  this.courseService.getAllCourses(1).subscribe({
-                    next: (resData2) => {
-                      this.courseService.course.set(resData2);
-                      console.log(this.courseService.course());
-                    },
-                  });
-                } else {
-                  resData.forEach((course) => {
-                    this.categories().add(course.categoryName);
-                  });
-
-                  this.firstElement.set(
-                    this.categories().values().next().value as string
-                  );
-
-                  this.getFilterCourses(this.firstElement());
-                }
-              },
-            });
-  }
 }
