@@ -20,14 +20,20 @@ export class EditProfileComponent {
   
   profileService = inject(ProfileService)
   toastService = inject(ToastService)
+  router = inject(Router);
   myProfile :any;
 
   firstName = '';
   lastName = '';
+  prevEmail = ''
   email = '';
 
   checkInputStatus(elem:NgModel) {
     return elem.invalid && (elem.dirty || elem.touched)
+  }
+
+  checkEmailStatus(){
+    return this.email === this.prevEmail
   }
 
   ngOnInit(): void {
@@ -36,6 +42,7 @@ export class EditProfileComponent {
     this.firstName = this.myProfile().firstName;
     this.lastName = this.myProfile().lastName;
     this.email = this.myProfile().email;
+    this.prevEmail = this.myProfile().email;
   }
 
   updateUser(){
@@ -45,6 +52,12 @@ export class EditProfileComponent {
       next: (resData) => {
         this.profileService.profile.set(resData);
         this.toastService.generateToast(this.toastComponent,true,"Updated User Successfully.")
+      },
+      complete:()=>{
+        setTimeout(()=>{
+          if(!this.checkEmailStatus())
+            this.router.navigate(['/dashboard']);
+          },1000)
       },
       error:()=>{
         this.toastService.generateToast(this.toastComponent,false,"User Updation Failed")

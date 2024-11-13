@@ -39,9 +39,13 @@
                 <div class="position-absolute ms-1 mt-1 small text-danger">
                     Enter valid email
                 </div>
+                }@else if(!checkEmailStatus()){
+                    <div class="position-absolute ms-1 mt-1 small text-danger">
+                        You will be logged out on Email change
+                    </div>
                 }
               </div>
-            <button class="btn btn-custom btn-lg" [disabled]="form.invalid || !form.dirty" type="submit">Save</button>
+            <button class="btn btn-custom btn-lg" [disabled]="form.invalid || !form.dirty || checkEmailStatus()" type="submit">Save</button>
         </form>
     </div>
     <app-toast></app-toast>

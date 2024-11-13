@@ -1,3 +1,5 @@
+@if(userDetails() && courses())
+{
 <div class="d-flex my-bg welcome" style="min-height: 20vh;" >
     <div class="d-flex justify-content-end align-items-center">
         @if(userDetails()?.profileImage){
@@ -10,6 +12,8 @@
         <p class="mb-0 ms-3 fs-4 fw-bold">Welcome Back, {{profileService.profile()?.firstName}}</p>
     </div>
 </div>
+
+
 <div class="mx-md-5">
     
     
@@ -87,3 +91,9 @@
     </div>}
 
 </div>
+}
+@else{
+    <div class="loading d-flex justify-content-center align-items-center vh-100">
+        <img src="images/loading/loading-elephant.gif" height="50%" alt="loader">
+    </div>
+}
