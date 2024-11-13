@@ -8,8 +8,16 @@
         <form class="col-10 m-auto" name="form" (ngSubmit)="uploadImage()">
 
             <p class="fw-bolder fs-5">Image Preview</p>
-            <div class="border border-black py-2">
-                <img [src]="imgSrc()" alt="your-img" class="custom-image-preview">
+            <div id="cropperWrapper" class="border border-black py-2" style="min-height: fit-content;">
+                @if(!selectedImage){<img [src]="imgSrc()" alt="your-img" class="custom-image-preview">}
+                @else{
+                
+                <image-cropper class="custom-image-preview mx-auto" [maintainAspectRatio]="true" [aspectRatio]="8 / 10" [format]="imageFormat"
+                    (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded($event)" (cropperReady)="cropperReady()"
+                    (loadImageFailed)="loadImageFailed()" [imageBase64]="imgSrc2()" [hidden]="!selectedImage" style="width: fit-content;">
+                </image-cropper>
+            }
+
             </div>
 
             <div class="my-4">
