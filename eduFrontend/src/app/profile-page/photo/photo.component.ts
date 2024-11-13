@@ -1,4 +1,4 @@
-import { Component, inject, signal, ViewChild, viewChild } from '@angular/core';
+import { Component, computed, inject, OnInit, signal, ViewChild, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ProfileService } from '../profile.service';
@@ -12,7 +12,8 @@ import { ToastService } from '../../toast/toast.service';
   templateUrl: './photo.component.html',
   styleUrl: './photo.component.css'
 })
-export class PhotoComponent {
+export class PhotoComponent implements OnInit {
+  
 
   @ViewChild(ToastComponent) toastComponent!: ToastComponent;
   
@@ -24,6 +25,12 @@ export class PhotoComponent {
   imgDet = viewChild.required<File>("imgDetail");
 
   selectedImage:File|null = null;
+
+  ngOnInit(): void {
+    if(this.profileService.profile()?.profileImage){
+      this.imgSrc.set("data:image/*;base64,"+this.profileService.profile()?.profileImage)
+    }
+  }
 
   imgDetails(event:Event){
     // console.log(event);
