@@ -1,12 +1,15 @@
 @if(userDetails() && courses())
 {
-<div class="d-flex my-bg welcome" style="min-height: 20vh;" >
+<div class="d-flex my-bg welcome" style="min-height: 20vh;">
     <div class="d-flex justify-content-end align-items-center">
         @if(userDetails()?.profileImage){
-            <img [src]="'data:image/*;base64,' + userDetails()?.profileImage" width="50px" height="50px" style="object-fit: cover;object-position:top; border-radius: 50%;" alt="">
-            }@else {
-                <div class="custom-profile bg-success-subtle fw-bold d-flex align-items-center justify-content-center rounded-pill">{{userDetails()?.firstName?.substring(0,1)}}</div>
-            }
+        <img [src]="'data:image/*;base64,' + userDetails()?.profileImage" width="50px" height="50px"
+            style="object-fit: cover;object-position:top; border-radius: 50%;" alt="">
+        }@else {
+        <div
+            class="custom-profile bg-success-subtle fw-bold d-flex align-items-center justify-content-center rounded-pill">
+            {{userDetails()?.firstName?.substring(0,1)}}</div>
+        }
     </div>
     <div class="d-flex justify-content-start align-items-center">
         <p class="mb-0 ms-3 fs-4 fw-bold">Welcome Back, {{profileService.profile()?.firstName}}</p>
@@ -15,34 +18,36 @@
 
 
 <div class="mx-md-5">
-    
-    
+
+
     @if(userDetails()?.role === "ROLE_ADMIN")
     {@if(instructorCourses()?.length)
     {
 
     <app-course-carousel carouselId="Enrolled" sectionTitle="Instructor" [courses]="instructorCourses()">
-        <div><a routerLink="/course/add" class="btn btn-custom fs-5 fw-medium rounded-1 d-flex gap-2"> <i class="bi bi-plus-square"></i> Create Course</a></div>  
+        <div><a routerLink="/course/add" class="btn btn-custom fs-5 fw-medium rounded-1 d-flex gap-2"> <i
+                    class="bi bi-plus-square"></i> Create Course</a></div>
     </app-course-carousel>
     }@else {
-    
+
     <div class="d-flex justify-content-between mx-5 mx-md-0 mt-4">
         <div>
             <p class="fs-2 custom-font fw-bold mb-0">Go Ahead and Create you first Course!</p>
             <p class="custom-font fs-4 fw-medium mb-0">Meanwhile here are some interesting courses.</p>
         </div>
-    
-        <div><a routerLink="/course/add" class="btn btn-custom fs-5 fw-medium rounded-1 d-flex gap-2"> <i class="bi bi-plus-square"></i> Create Course</a></div>  
-    
+
+        <div><a routerLink="/course/add" class="btn btn-custom fs-5 fw-medium rounded-1 d-flex gap-2"> <i
+                    class="bi bi-plus-square"></i> Create Course</a></div>
+
     </div>
     <app-course-carousel carouselId="Enrolled" sectionTitle="InstructorSuggest"
         [courses]="this.courseService.course()"></app-course-carousel>
     }}
-    
+
     @if(userDetails()?.role !== "ROLE_ADMIN")
     {@if(courses()?.length)
     {
-    
+
     <app-course-carousel carouselId="Enrolled" sectionTitle="Enrolled" [courses]="courses()">
     </app-course-carousel>
 
@@ -57,35 +62,43 @@
     <app-course-carousel carouselId="Enrolled" sectionTitle="none"
         [courses]="this.courseService.course()"></app-course-carousel>
     }}
-    
+
 
     @if(courses()?.length && userDetails()?.role != "ROLE_ADMIN")
     {<div class="mx-md-5">
         <div>
 
-                <div class="mx-5 mx-md-0">
-                    <p class="custom-font fs-4 fw-medium fw-bold">Based on your skill interests, we recommend</p>
-                </div> 
+            <div class="mx-5 mx-md-0">
+                <p class="custom-font fs-4 fw-medium fw-bold">Based on your skill interests, we recommend</p>
+            </div>
             <div class="mx-5 mx-md-0">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     @for(category of categories(); track category)
-                    {<li class="nav-item" role="presentation">
-                        <button class="nav-link fw-bold" [class.active]="category === firstElement()"
-                            [id]="category+'-tabId'" data-bs-toggle="tab" [attr.data-bs-target]="'#'+category" type="button"
-                            role="tab" [attr.aria-controls]="category" (click)="getFilterCourses(category)"
-                            [attr.aria-selected]="category === firstElement()">{{category}}</button>
-                    </li>}
+                    {
+
+
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link fw-bold" [class.active]="category === categories().values().next().value"
+                            [id]="category+'-tabId'" data-bs-toggle="tab"
+                            [attr.data-bs-target]="'#'+category" type="button" role="tab"
+                            [attr.aria-controls]="category" (click)="getFilterCourses(category,true)"
+                            [attr.aria-selected]="category === categories().values().next().value">{{category}}</button>
+                    </li>
+
+                    }
                 </ul>
             </div>
-    
-    
+
+
             <div class="tab-content" id="myTabContent">
                 @for(category of categories(); track category){
-                <div class="tab-pane fade" [class.show]="category === firstElement()"
-                    [class.active]="category === firstElement()" [id]="category" role="tabpanel"
+
+                <div class="tab-pane fade" [class.show]="category === categories().values().next().value"
+                    [class.active]="category === categories().values().next().value" [id]="category" role="tabpanel"
                     [attr.aria-labelledby]="category+'-tabId'">
                     <app-course-carousel [carouselId]="category+'Carousel'" [courses]="filterCourses()" />
-                </div>}
+                </div>
+                }
             </div>
         </div>
     </div>}
@@ -93,7 +106,7 @@
 </div>
 }
 @else{
-    <div class="loading d-flex justify-content-center align-items-center vh-100">
-        <img src="images/loading/loading-elephant.gif" height="50%" alt="loader">
-    </div>
+<div class="loading d-flex justify-content-center align-items-center vh-100">
+    <img src="images/loading/loading-elephant.gif" height="50%" alt="loader">
+</div>
 }
