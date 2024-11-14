@@ -12,13 +12,24 @@ export class PageNavComponent implements OnInit {
   courseService = inject(CourseService);
   pages = signal<number[]>([]);
   @Input() currentPage =1 ;
+  totalPages:number=0;
+  // prevPage = computed(()=>{
+  //   return
+  // })
   currentPageEvent=output<number>();
 
 
 
   ngOnInit(){
     this.courseService.pages$.subscribe(value=>{
-      this.pages.set(Array(value).fill(0).map((x,i)=>i+1));
+      this.totalPages=value;
+      
+      let arr:number[] = []
+      arr[0] = this.currentPage -1;
+      arr[1] = this.currentPage;
+      arr[2] = this.currentPage + 1;
+      // this.pages.set(Array(value).fill(0).map((x,i)=>i+1));
+      this.pages.set(arr);
     })
   }
 

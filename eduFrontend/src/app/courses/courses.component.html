@@ -1,3 +1,4 @@
+@if(courses()) {
 <app-jumbotron title="Explore Our Diverse Range of Courses" description="Unlock new skills and grow your knowledge with our comprehensive collection of courses. Whether you're looking to advance your career or learn something new, we've got you covered!" >
 
     <div class="col-5">
@@ -80,7 +81,7 @@
         <div class="col-md-9 px-5 py-5 d-flex flex-column justify-content-between" style="min-height: 150vh;" id="cards">
             <!-- <app-testomonials/> -->
 
-            @if(courses()) {
+            
                 <div class="d-flex flex-wrap gap-5 py-4" id="cards-inner">
                     @for (courseItem of courses(); track courseItem.courseId) {
                         <app-course-card [role]="profileService.profile()?.role" [course]="courseItem" class="course-card rounded-2 overflow-hidden"/>
@@ -88,18 +89,19 @@
                         <li>There are no Courses Available.</li>
                     }
                 </div>
-            } @else{
-                <div class="loading d-flex justify-content-center align-items-center vh-100">
-                    <img src="images/loading/loading-elephant.gif" height="50%" alt="loader" />
-                </div>
-            }
+             
             
             <div class="m-5 pt-5" id="page-nav">
                 <app-page-nav (currentPageEvent)="callFilterCourses($event)"  />
             </div>
         </div>
     </div>
-</div>
+</div>}
+@else{
+    <div class="loading d-flex justify-content-center align-items-center vh-100">
+        <img src="images/loading/loading-elephant.gif" height="50%" alt="loader" />
+    </div>
+}
 
 <!-- <div class="sidebar">
     <nav class="nav flex-column">

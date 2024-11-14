@@ -45,7 +45,7 @@
                     </div>
                 }
               </div>
-            <button class="btn btn-custom btn-lg" [disabled]="form.invalid || !form.dirty || checkEmailStatus()" type="submit">Save</button>
+            <button class="btn btn-custom btn-lg" [disabled]="(form.invalid || !form.dirty) && checkEmailStatus()" type="submit">Save</button>
         </form>
     </div>
     <app-toast></app-toast>
