@@ -4,11 +4,12 @@
         <a class="page-link rounded-start-1" (click)="prevPage()">Previous</a>
       </li>
       @for (page of pages(); track $index) {
-        <li class="page-item" role="button" [class.active]="page === currentPage" aria-current="page">
+        @if(page!==0 && page<=totalPages)
+        {<li class="page-item" role="button" [class.active]="page === currentPage" aria-current="page">
           <a class="page-link" (click)="eventEmit(page)">{{page}}</a>
-        </li>
+        </li>}
       }
-      <li class="page-item" [class.disabled]="currentPage>=pages().length" role="button">
+      <li class="page-item" [class.disabled]="currentPage>=totalPages" role="button">
         <a class="page-link rounded-end-1" (click)="nextPage()">Next</a>
       </li>
     </ul>

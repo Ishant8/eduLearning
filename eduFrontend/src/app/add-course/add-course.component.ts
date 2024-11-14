@@ -33,6 +33,8 @@ import { AddSection, AddSubSection } from './add-course.model';
 export class AddCourseComponent implements OnInit {
   @ViewChild(ToastComponent) toastComponent!: ToastComponent;
 
+  nameOfCourseToFetchSections:string = '';
+  
   title = 'Add';
 
   formStep = 0;
@@ -280,6 +282,9 @@ export class AddCourseComponent implements OnInit {
             if (course) {
               const descriptionArray = course?.courseDescription.split('-----');
               // this.description = this.course()!.courseDescription.split("\n");
+              
+              this.nameOfCourseToFetchSections = course.courseName;
+              
               this.courseDetails.patchValue({
                 courseName: course?.courseName,
                 categoryName: course?.categoryName,
@@ -341,8 +346,7 @@ export class AddCourseComponent implements OnInit {
   }
 
   fetchSections() {
-    const courseName = this.courseDetails.get('courseName')?.value;
-    this.courseService.getSections(courseName as string).subscribe({
+    this.courseService.getSections(this.nameOfCourseToFetchSections).subscribe({
       next: (resData) => {
         this.sectionArray = resData;
         this.sectionTotal = this.sectionArray.length;
