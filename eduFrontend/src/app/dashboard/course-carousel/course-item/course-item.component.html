@@ -36,14 +36,18 @@
                     Now</a>
                 <p class=" mb-0 text-secondary">${{course().price}}</p>
             </div>}
-            @else {
+            @else if(profileService.profile()?.role == "ROLE_USER"){
+                
                 <div class="d-flex justify-content-between align-items-center mt-3">
                     <a class="btn btn-custom rounded-1" [routerLink]="['/course','section']" [queryParams]="{courseName: course().courseName}">Continue Learning</a>
                 </div>
             }
-            <div class="text-end mt-2">
-                <ng-content />
-            </div>
+            @else {
+                <div class="d-flex justify-content-end gap-3 mt-2">
+                    <a class="btn btn-custom rounded-0" [routerLink]="['/course','section']" [queryParams]="{courseName: course().courseName}">Simulate</a>
+                    <ng-content />
+                </div>
+            }
         </div>
     </div>
 </div>

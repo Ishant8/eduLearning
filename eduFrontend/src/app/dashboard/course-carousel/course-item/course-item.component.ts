@@ -1,6 +1,7 @@
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { Course } from '../../../courses/course.model';
 import { RouterLink } from '@angular/router';
+import { ProfileService } from '../../../profile-page/profile.service';
 
 @Component({
   selector: '[course-item]',
@@ -14,6 +15,8 @@ export class CourseItemComponent {
   description: string=''
   ratingSum: number=0;
   avgRating: number=0;
+
+  profileService = inject(ProfileService);
 
   course = input.required<Course>();
   enrolled = input.required<boolean>();
