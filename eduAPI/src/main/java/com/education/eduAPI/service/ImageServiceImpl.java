@@ -5,6 +5,7 @@ import com.education.eduAPI.entity.User;
 import com.education.eduAPI.exception.CustomEntityNotFoundException;
 import com.education.eduAPI.repository.ImageRepository;
 import com.education.eduAPI.repository.UserRepository;
+import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -22,14 +23,18 @@ import java.util.Optional;
 public class ImageServiceImpl implements ImageService{
 
 //    private final String FILE_PATH = "/home/anant/Projects/eduLearning/eduFrontend/public/images/common/";
-    private final String FILE_PATH = "/home/ishant/Projects/EduLearning/eduFrontend/public/images/common/";
+//    private final String FILE_PATH = "/home/ishant/Projects/EduLearning/eduFrontend/public/images/common/";
+    private final String FILE_PATH;
 
     private final ImageRepository imageRepository;
     private final UserRepository userRepository;
+    private final Dotenv dotEnv;
 
-    public ImageServiceImpl(ImageRepository imageRepository, UserRepository userRepository) {
+    public ImageServiceImpl(ImageRepository imageRepository, UserRepository userRepository, Dotenv dotEnv) {
         this.imageRepository = imageRepository;
         this.userRepository = userRepository;
+        this.dotEnv = dotEnv;
+        FILE_PATH = dotEnv.get("FILE_PATH");
     }
 
     @Override

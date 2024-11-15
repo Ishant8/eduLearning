@@ -32,10 +32,15 @@
                 Sections</p>
             @if(!enrolled())
             {<div class="d-flex justify-content-between align-items-center mt-3">
-                <a class="btn btn btn-custom" [routerLink]="['/course', course().courseId]">Enroll
+                <a class="btn btn-custom rounded-1" [routerLink]="['/course', course().courseId]">Enroll
                     Now</a>
                 <p class=" mb-0 text-secondary">${{course().price}}</p>
             </div>}
+            @else {
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                    <a class="btn btn-custom rounded-1" [routerLink]="['/course','section']" [queryParams]="{courseName: course().courseName}">Continue Learning</a>
+                </div>
+            }
             <div class="text-end mt-2">
                 <ng-content />
             </div>

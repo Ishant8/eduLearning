@@ -13,6 +13,7 @@ import com.education.eduAPI.mapper.UserMapper;
 import com.education.eduAPI.repository.CategoryRepository;
 import com.education.eduAPI.repository.CourseRepository;
 import com.education.eduAPI.repository.UserRepository;
+import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.persistence.EntityManager;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,14 +34,16 @@ public class CourseServiceImpl implements CourseService {
     private final UserRepository userRepository;
     CourseRepository courseRepository;
     CategoryRepository categoryRepository;
+    private final Dotenv dotEnv;
 
     CourseMapper courseMapper;
 
-    public CourseServiceImpl(UserRepository userRepository, EntityManager entityManager, CourseRepository courseRepository, UserMapper userMapper, CourseMapper courseMapper, CategoryRepository categoryRepository) {
+    public CourseServiceImpl(UserRepository userRepository, EntityManager entityManager, CourseRepository courseRepository, UserMapper userMapper, CourseMapper courseMapper, CategoryRepository categoryRepository, Dotenv dotEnv) {
          this.courseRepository = courseRepository;
         this.courseMapper = courseMapper;
         this.categoryRepository = categoryRepository;
         this.userRepository = userRepository;
+        this.dotEnv = dotEnv;
     }
 
     @Override
@@ -101,8 +104,9 @@ public class CourseServiceImpl implements CourseService {
         }
 
         if(courseDTO.getImageData() != null) {
-            String FILE_PATH = "/home/ishant/Projects/EduLearning/eduFrontend/public/images/common/";
+//            String FILE_PATH = "/home/ishant/Projects/EduLearning/eduFrontend/public/images/common/";
 //            String FILE_PATH = "/home/anant/Projects/eduLearning/eduFrontend/public/images/common/";
+            String FILE_PATH = dotEnv.get("FILE_PATH");
             String[] fileNames = Objects.requireNonNull(courseDTO.getImageData().getOriginalFilename()).split("\\.");
             System.out.println(Arrays.toString(fileNames));
 
