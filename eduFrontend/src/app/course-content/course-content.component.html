@@ -41,7 +41,7 @@
             <a class="btn course-btn-custom py-2 border border-black border-opacity-10 fw-medium"
                 (click)="navigateToCourse(section()?.courseName)"><i class="bi bi-journal-richtext pe-2 fs-6"
                     style="-webkit-text-stroke: 0.3px;"></i>View Course</a>
-            @if(currentSectionCompleted()){
+            @if(currentSectionCompleted() && profileService.profile()?.role !== "ROLE_ADMIN"){
             <a class="btn btn-custom btn-padding px-5 fw-medium" (click)="markComplete()">Mark Complete</a>
             }
             @if(currentSectionIndex() < sectionsLength()-1){ <a

@@ -2,6 +2,7 @@ import { AfterViewChecked, Component, computed, ElementRef, inject, OnInit, Rend
 import { CourseService } from '../courses/course.service';
 import { AddSection } from '../add-course/add-course.model';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ProfileService } from '../profile-page/profile.service';
 
 @Component({
   selector: 'app-course-path',
@@ -13,6 +14,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 export class CoursePathComponent implements OnInit {
   
   courseService = inject(CourseService);
+  profileService = inject(ProfileService)
   courseSections = signal<AddSection[]>([]);
   isHovered = signal<Boolean>(false);
   courseName:string='';

@@ -40,7 +40,7 @@
                             style="cursor: pointer;">
                             {{courseSection.sectionName}}
                         </div>
-                        @if(isCompleted(courseSection.sectionId)()){
+                        @if(isCompleted(courseSection.sectionId)() || profileService.profile()?.role == "ROLE_ADMIN"){
                         <i class="bi bi-check-circle-fill green-txt fs-4"></i>
                         }@else{
                         <i class="bi bi-check-circle-fill text-secondary fs-4"></i>

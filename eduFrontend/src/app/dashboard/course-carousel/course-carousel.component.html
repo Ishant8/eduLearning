@@ -41,13 +41,16 @@
             @for (courseItem of courses(); track courseItem.courseId) {
 
                 <!-- <app-course-card [course]="courseItem" class="course-card rounded-2 overflow-hidden"/> -->
-                <div class="carousel-item" [class.active]="courseItem === courses()![0]" [course]="courseItem" [enrolled]="sectionTitle() === 'Enrolled' || sectionTitle() === 'Instructor' || sectionTitle() === 'InstructorSuggest'" course-item>
-                @if(sectionTitle() === 'Instructor'){
-
-                <!-- <button class="btn border border-black rounded-pill"><i class="bi bi-pencil"></i></button> -->
-                <a class="btn btn-custom rounded-0" style="font-size: 15px;" [routerLink]="['/course/edit',courseItem.courseId]" >Edit</a>
-                }
-            </div>
+                <div class="carousel-item" [class.active]="courseItem === courses()![0]" [course]="courseItem"
+                    [enrolled]="sectionTitle() === 'Enrolled' || sectionTitle() === 'Instructor' || sectionTitle() === 'InstructorSuggest'"
+                    course-item>
+                    @if(sectionTitle() === 'Instructor'){
+                
+                    <!-- <button class="btn border border-black rounded-pill"><i class="bi bi-pencil"></i></button> -->
+                    <a class="btn btn-custom rounded-0" style="font-size: 15px;"
+                        [routerLink]="['/course/edit',courseItem.courseId]">Edit</a>
+                    }
+                </div>
 
             } @empty {
             <li>There are no Courses Available.</li>
