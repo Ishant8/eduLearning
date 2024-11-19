@@ -9,12 +9,12 @@
 
             <p class="fw-bolder fs-5">Image Preview</p>
             <div id="cropperWrapper" class="border border-black py-2" style="min-height: fit-content;">
-                @if(!selectedImage){<img [src]="imgSrc()" alt="your-img" class="custom-image-preview">}
+                @if(!selectedImage && !imageSelected){<img [src]="imgSrc()" alt="your-img" class="custom-image-preview">}
                 @else{
                 
                 <image-cropper class="custom-image-preview mx-auto" [maintainAspectRatio]="true" [aspectRatio]="8 / 10" [format]="imageFormat"
                     (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded($event)" (cropperReady)="cropperReady()"
-                    (loadImageFailed)="loadImageFailed()" [imageBase64]="imgSrc2()" [hidden]="!selectedImage" style="width: fit-content;">
+                    (loadImageFailed)="loadImageFailed()" [imageBase64]="imgSrc2()" [hidden]="!selectedImage && !imageSelected" style="width: fit-content;">
                 </image-cropper>
             }
 
@@ -25,8 +25,9 @@
                 <input class="form-control form-control-lg rounded-1 fs-5" (change)="imgDetails($event)" #imgDetail type="file" id="formFile" accept="image/*"/>
             </div>
 
-            
-            <button type="submit" class="btn btn-custom rounded-1 px-4 fs-5">Save</button>
+                
+                @if(!selectedImage &&!imageSelected){<button (click)="imageSelected = !imageSelected" class="btn btn-custom rounded-1 px-4 fs-5">Edit</button>}
+                @else {<button type="submit" class="btn btn-custom rounded-1 px-4 fs-5">Save</button>}
             
             
         </form>

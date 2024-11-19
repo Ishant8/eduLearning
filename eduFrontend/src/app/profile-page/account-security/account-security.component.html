@@ -31,15 +31,19 @@
                     }
                 </div>
                 <div class="form-floating mb-4 pb-2 w-100">
-                    <input type="password" class="form-control shadow-none rounded-1 custom-form bg-white" [class.is-invalid]="checkInputStatus(newPass)" [(ngModel)]="newPassword" name="newPassword" id="newPassword" placeholder="" #newPass="ngModel" required minlength="3"/>
+                    <input type="password" class="form-control shadow-none rounded-1 custom-form bg-white" [class.is-invalid]="checkInputStatus(newPass)" [(ngModel)]="newPassword" name="newPassword" id="newPassword" placeholder="" #newPass="ngModel" required minlength="8" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]*$"/>
                     <label class="placeholder-font" for="newPassword">Enter new password</label>
                     @if (newPass.hasError('required') && (newPass.touched || newPass.dirty)) {
                     <div class="position-absolute ms-1 mt-1 small text-danger">
                         New Password is required
                     </div>
+                    }@else if(newPass.hasError('pattern') && (newPass.touched || newPass.dirty)){
+                    <div class="position-absolute ms-1 mt-1 small text-danger">
+                        Password must contain UpperCase, LowerCase, Digit and Special Character
+                    </div>
                     }@else if(newPass.hasError('minlength') && (newPass.touched || newPass.dirty)){
                     <div class="position-absolute ms-1 mt-1 small text-danger">
-                        Password must be at least 3 characters
+                        Password must be at least 8 characters
                     </div>
                     }
                 </div>

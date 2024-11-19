@@ -23,6 +23,8 @@ export class PhotoComponent implements OnInit {
     'images/placeholder/placeholder-600x400.png'
   );
 
+  imageSelected:boolean = false;
+
   imageFormat: OutputFormat = 'png';
 
   imageChangedEvent: Event | null = null;
@@ -82,6 +84,8 @@ export class PhotoComponent implements OnInit {
     }
   }
 
+
+
   uploadImage() {
     const formData = new FormData();
     formData.append('file', this.selectedImage as File);
@@ -122,7 +126,7 @@ export class PhotoComponent implements OnInit {
       [blob],
       this.selectedImage?.name
         ? (this.selectedImage?.name as string)
-        : 'newFile',
+        : 'newFile.jpg',
       { type: blob.type }
     );
     this.selectedImage = croppedImageFile;
