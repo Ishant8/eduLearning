@@ -16,11 +16,13 @@
                       <div class="form-floating mt-3 flex-fill mb-3">
                         <input autocomplete="off" type="text" [class.is-invalid]="checkInputStatus(nameInput)"
                           [class.border-black]="!checkInputStatus(nameInput)" [class.border-opacity-25]="!checkInputStatus(nameInput)" class="form-control rounded-1 shadow-none" id="fullname"
-                          [(ngModel)]="fullName" name="fullname" placeholder="name" #nameInput="ngModel" required>
+                          [(ngModel)]="fullName" name="fullname" placeholder="name" #nameInput="ngModel" required pattern="^[a-zA-Z]*([ ][a-zA-Z]+)*$">
                         <label class="text-secondary placeholder-font" for="floatingInput">Full Name</label>
                       </div>
-                      @if (checkInputStatus(nameInput)) {
+                      @if (nameInput.hasError('required') && (nameInput.touched || nameInput.dirty)) {
                       <div class="position-absolute ms-5 small text-danger" style="bottom: -10px;">Name is required</div>
+                      }@else if(nameInput.hasError('pattern')){
+                        <div class="position-absolute ms-5 small text-danger" style="bottom: -10px;">Name cannot contain Number or End with Space</div>
                       }
                     
                     </div>
@@ -32,20 +34,21 @@
                         <input autocomplete="off" type="email" [class.is-invalid]="checkInputStatus(email)"
                           [class.border-black]="!checkInputStatus(email)" [class.border-opacity-25]="!checkInputStatus(email)"
                           class="form-control rounded-1 shadow-none border-black border-opacity-25" id="email" [(ngModel)]="userDetails.email"
-                          name="email" placeholder="email" #email="ngModel" required email>
+                          name="email" placeholder="email" #email="ngModel" required pattern="^[a-z\d\.$!%*?&\#%\^\+=\-_]{2,}@[a-z]{2,}(\.[a-z\d]{2,})+$">
                         <label class="text-secondary placeholder-font" for="floatingInput">Email Address</label>
                       </div>
 
-                      @if (email.hasError('required') && (email.touched || email.dirty)) {
-                      <div class="position-absolute ms-5 small text-danger" style="bottom: -10px;">
-                        Email is required
-                      </div>
-                      }@else if(email.hasError('email') && (email.touched || email.dirty)){
+                      
+                      @if(email.hasError('pattern')){
                         <div class="position-absolute ms-5 small text-danger" style="bottom: -10px;">
-                          Enter valid email
+                          Email is invalid
                         </div>
                       }
-
+                      @else if (email.hasError('required') && (email.touched || email.dirty)) {
+                        <div class="position-absolute ms-5 small text-danger" style="bottom: -10px;">
+                          Email is required
+                        </div>
+                      }
                     </div>
   
                     <div class="d-flex flex-row align-items-center mb-2 position-relative">
@@ -53,7 +56,7 @@
                       <div class="form-floating mt-3 flex-fill mb-3">
                         <input autocomplete="off" type="password" #pass="ngModel" [class.is-invalid]="checkInputStatus(pass)"
                           [class.border-black]="!checkInputStatus(pass)" [class.border-opacity-25]="!checkInputStatus(pass)" required
-                          minlength="2" class="form-control rounded-1 shadow-none " [(ngModel)]="userDetails.password" name="password" id="password"
+                          minlength="8" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]*$" class="form-control rounded-1 shadow-none " [(ngModel)]="userDetails.password" name="password" id="password"
                           placeholder="password">
                         <label class="text-secondary placeholder-font" for="floatingInput">Password</label>
                       </div>
@@ -62,9 +65,13 @@
                       <div class="position-absolute ms-5 small text-danger" style="bottom: -10px;">
                         Password is required
                       </div>
+                      }@else if(pass.hasError('pattern') && (pass.touched || pass.dirty)){
+                        <div class="position-absolute ms-5 small text-danger" style="bottom: -25px;">
+                          Password must contain UpperCase, LowerCase, Digit and Special Character
+                        </div>
                       }@else if(pass.hasError('minlength') && (pass.touched || pass.dirty)){
                       <div class="position-absolute ms-5 small text-danger" style="bottom: -10px;">
-                        Password must be at least 2 characters
+                        Password must be at least 8 characters
                       </div>
                       }
 

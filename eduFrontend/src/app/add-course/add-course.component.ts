@@ -325,6 +325,9 @@ export class AddCourseComponent implements OnInit {
       if (course) {
         const descriptionArray = course.courseDescription.split('-----');
         // this.description = this.course()!.courseDescription.split("\n");
+
+        this.nameOfCourseToFetchSections = course.courseName;
+
         this.courseDetails.patchValue({
           courseName: course.courseName,
           categoryName: course.categoryName,

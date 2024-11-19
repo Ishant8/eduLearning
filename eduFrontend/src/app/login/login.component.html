@@ -23,16 +23,12 @@
                                     <div class="form-floating mb-4 pb-3 position-relative">
                                         <input autocomplete="off" type="email" id="floatingInputEmail" [class.is-invalid]="checkInputStatus(email)"
                                             class="form-control shadow-none rounded-1 form-control-lg" [(ngModel)]="username" name="username"
-                                            placeholder="name@example.com" #email="ngModel" required email />
+                                            placeholder="name@example.com" #email="ngModel" required />
                                         <label class="form-label text-secondary" for="floatingInputEmail">Email address</label>
                                     
                                         @if (email.hasError('required') && (email.touched || email.dirty)) {
                                         <div class="position-absolute ms-1 mt-1 small text-danger">
                                             Email is required
-                                        </div>
-                                        }@else if(email.hasError('email') && (email.touched || email.dirty)){
-                                        <div class="position-absolute ms-1 mt-1 small text-danger">
-                                            Enter valid email
                                         </div>
                                         }
                                     

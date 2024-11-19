@@ -9,33 +9,43 @@
             <div class="d-flex gap-4 w-100">
                 <div class="form-floating mb-3 w-100 position-relative text-secondary">
                     <input autocomplete="off" type="email" class="form-control shadow-none rounded-1 custom-form" [class.is-invalid]="checkInputStatus(fName)" id="floatingInput" [(ngModel)]="firstName" name="firstName"
-                        placeholder="" #fName="ngModel" required>
+                        placeholder="" #fName="ngModel" required pattern="^[a-zA-Z]*([ ][a-zA-Z]+)*$">
                     <label for="floatingInput ">First Name</label>
                     @if (fName.hasError('required') && (fName.touched || fName.dirty)) {
                     <div class="position-absolute ms-1 mt-1 small text-danger">
                         First Name is required
                     </div>
                     }
+                    @else if(fName.hasError('pattern')){
+                        <div class="position-absolute ms-1 mt-1 small text-danger">
+                            Name can't have Numbers or Special Characters
+                        </div>
+                    }
                 </div>
                 <div class="form-floating mb-3 w-100 position-relative text-secondary">
                     <input autocomplete="off" type="email" class="form-control shadow-none rounded-1 custom-form" [class.is-invalid]="checkInputStatus(lName)"
-                        [(ngModel)]="lastName" id="floatingInput" name="lastName" placeholder="" #lName="ngModel" required>
+                        [(ngModel)]="lastName" id="floatingInput" name="lastName" placeholder="" #lName="ngModel" required pattern="^[a-zA-Z]*([ ][a-zA-Z]+)*$">
                     <label for="floatingInput  ">Last Name</label>
                     @if (lName.hasError('required') && (lName.touched || lName.dirty)) {
                     <div class="position-absolute ms-1 mt-1 small text-danger">
                         Last Name is required
                     </div>
                     }
+                    @else if(lName.hasError('pattern')){
+                        <div class="position-absolute ms-1 mt-1 small text-danger">
+                            Name can't have Numbers or Special Characters
+                        </div>
+                    }
                 </div>
             </div>
-            <div class="form-floating mb-3 w-100 text-secondary">
-                <input autocomplete="off" type="email" class="form-control shadow-none rounded-1 custom-form" [class.is-invalid]="checkInputStatus(mail)" [(ngModel)]="email" name="email" id="floatingInput" placeholder="" #mail="ngModel" required email>
+            <div class="form-floating mb-3 mt-3 w-100 text-secondary">
+                <input autocomplete="off" type="email" class="form-control shadow-none rounded-1 custom-form" [class.is-invalid]="checkInputStatus(mail)" [(ngModel)]="email" name="email" id="floatingInput" placeholder="" #mail="ngModel" required pattern="^[a-zA-Z\d\.$!%*?&\#%\^\+=\-_]{2,}@[a-zA-Z]{2,}(\.[a-zA-Z\d]{2,})+$">
                 <label for="floatingInput">Email</label>
                 @if (mail.hasError('required') && (mail.touched || mail.dirty)) {
                 <div class="position-absolute ms-1 mt-1 small text-danger">
                     Email is required
                 </div>
-                }@else if(mail.hasError('email') && (mail.touched || mail.dirty)){
+                }@else if(mail.hasError('pattern') && (mail.touched || mail.dirty)){
                 <div class="position-absolute ms-1 mt-1 small text-danger">
                     Enter valid email
                 </div>
