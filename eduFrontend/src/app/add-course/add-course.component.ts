@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal, ViewChild } from '@angular/core';
+import { Component, computed, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { PhotoComponent } from '../profile-page/photo/photo.component';
 import {
   ControlContainer,
@@ -18,6 +18,8 @@ import { CommonModule } from '@angular/common';
 import { AddSection, AddSubSection } from './add-course.model';
 import { ImageCroppedEvent, ImageCropperComponent, LoadedImage, OutputFormat } from 'ngx-image-cropper';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { BehaviorSubject, Observable } from 'rxjs';
+
 
 @Component({
   selector: 'app-add-course',
@@ -60,9 +62,10 @@ export class AddCourseComponent implements OnInit {
     sections: new FormControl<number>(0, [
       Validators.required,
       Validators.min(1),
+      Validators.max(100)
     ]),
-    hours: new FormControl<number>(0, [Validators.required, Validators.min(1)]),
-    price: new FormControl<number>(0, [Validators.required, Validators.min(1)]),
+    hours: new FormControl<number>(0, [Validators.required, Validators.min(1), Validators.max(300)]),
+    price: new FormControl<number>(0, [Validators.required, Validators.min(1), Validators.max(500)]),
     description: new FormControl('', [Validators.required]),
     curriculum: new FormControl('', [Validators.required]),
     courseReview: new FormControl('', [Validators.required]),
@@ -86,12 +89,16 @@ export class AddCourseComponent implements OnInit {
   imgSrc = signal<string | ArrayBuffer>(
     'https://placehold.co/1100x500/ddd/555?text=Sample+Image'
   );
+  public imageSubject = new BehaviorSubject<boolean>(false);
+  public image$ = this.imageSubject.asObservable();
+  imageValid = signal<string>('');
 
   imgSrc2 = signal<string | undefined>(undefined);
 
 
   categories: string[] = [];
   levels: string[] = [];
+  errorMessages:string[] = [];
 
   subSectionState = 'Add';
   sectionState = 'Add';
@@ -127,6 +134,12 @@ export class AddCourseComponent implements OnInit {
         }
       },
     });
+
+    this.courseDetails.valueChanges.subscribe(()=>{
+        this.validateForm();
+    })
+
+    
   }
 
   nextStep() {
@@ -275,6 +288,49 @@ export class AddCourseComponent implements OnInit {
     this.sectionArray = this.sectionArray.filter((x, i) => i !== index);
   }
 
+  validateForm() {
+    this.errorMessages = []; // Reset the error messages array
+    this.collectErrors(this.courseDetails);
+    this.image$.subscribe((resData)=>{
+      if(!resData)
+        this.imageValid.set("Image is required");
+      else
+        this.imageValid.set("");
+    })
+  }
+
+  private collectErrors(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach((key) => {
+      const control = formGroup.get(key);
+
+      // Build a readable field name
+      const fieldName = key;
+
+     if (control && control.errors) {
+        // Map errors to user-friendly messages
+        Object.keys(control.errors).forEach((errorKey) => {
+          this.errorMessages.push(
+            this.getErrorMessage(fieldName, errorKey, control.errors ? control.errors[errorKey] : null)
+          );
+        });
+      }
+    });
+  }
+
+  private getErrorMessage(fieldName: string, errorKey: string, errorValue: any): string {
+    const fieldDisplayName = fieldName.replace(/([A-Z])/g, ' $1').toLowerCase(); // e.g., "courseName" -> "course name"
+    switch (errorKey) {
+      case 'required':
+        return `${fieldDisplayName} is required.`;
+      case 'min':
+        return `${fieldDisplayName} must be at least ${errorValue.min}.`;
+      case 'max':
+        return `${fieldDisplayName} must not exceed ${errorValue.max}.`;
+      default:
+        return `${fieldDisplayName} has an invalid value.`;
+    }
+  }
+
   fetchDetails() {
     if (!this.courseService.course()) {
       console.log('courseService.course() is empty .....');
@@ -396,6 +452,9 @@ export class AddCourseComponent implements OnInit {
         this.imgSrc2.set(reader.result as string);
 
       };
+      this.imageSubject.next(true);
+      // console.log("hi there");
+      
 
       reader.readAsDataURL(file);
     }
