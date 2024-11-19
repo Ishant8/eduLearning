@@ -263,7 +263,13 @@
         @if(formStep == 0){
         <button [disabled]="!isStepValid(formStep)" (click)="nextStep()" class="btn btn-custom btn-lg rounded-1">
           Next
-        </button>
+        </button> 
+        <span class="text-danger">
+          {{errorMessages[0]}}
+          @if(!errorMessages.length){
+            {{imageValid()}}
+          }
+        </span>
         }
         @if(formStep == 1){
         <button type="submit" [disabled]="!((courseDetails.dirty && courseDetails.valid) || sectionArray.length != sectionTotal || subSectionArray.length != subSectionTotal) || sectionArray.length === 0 || !isStepValid(0)"
