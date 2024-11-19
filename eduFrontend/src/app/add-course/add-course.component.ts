@@ -16,6 +16,8 @@ import { ToastComponent } from '../toast/toast.component';
 import { Course } from '../courses/course.model';
 import { CommonModule } from '@angular/common';
 import { AddSection, AddSubSection } from './add-course.model';
+import { ImageCroppedEvent, ImageCropperComponent, LoadedImage, OutputFormat } from 'ngx-image-cropper';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-add-course',
@@ -26,6 +28,7 @@ import { AddSection, AddSubSection } from './add-course.model';
     ToastComponent,
     ReactiveFormsModule,
     CommonModule,
+    ImageCropperComponent
   ],
   templateUrl: './add-course.component.html',
   styleUrl: './add-course.component.css',
@@ -81,14 +84,26 @@ export class AddCourseComponent implements OnInit {
   private router = inject(Router);
 
   imgSrc = signal<string | ArrayBuffer>(
-    'https://placehold.co/600x400/fff/20694d?text=Click+here+to+upload'
+    'https://placehold.co/1100x500/ddd/555?text=Sample+Image'
   );
+
+  imgSrc2 = signal<string | undefined>(undefined);
+
 
   categories: string[] = [];
   levels: string[] = [];
 
   subSectionState = 'Add';
   sectionState = 'Add';
+
+  croppedImage: SafeUrl = '';
+  imageChangedEvent: Event | null = null;
+
+  imageSelected:boolean = false;
+
+  isLoading = signal<boolean>(true);
+
+  constructor(private sanitizer: DomSanitizer) {}
 
   ngOnInit(): void {
     this.courseService.getAllCategories().subscribe({
@@ -298,6 +313,9 @@ export class AddCourseComponent implements OnInit {
               });
 
               this.imgSrc.set('data:image/*;base64,' + course?.coverImage);
+              this.imgSrc2.set('data:image/*;base64,' + course?.coverImage);
+
+              this.isLoading.set(false);
             } else {
               this.toastService.generateToast(
                 this.toastComponent,
@@ -341,6 +359,9 @@ export class AddCourseComponent implements OnInit {
         });
 
         this.imgSrc.set('data:image/*;base64,' + course?.coverImage);
+        this.imgSrc2.set('data:image/*;base64,' + course?.coverImage);
+
+        this.isLoading.set(false);
       } else {
         this.courseService.course.set(undefined);
         this.fetchDetails();
@@ -372,6 +393,8 @@ export class AddCourseComponent implements OnInit {
 
       reader.onload = (e) => {
         this.imgSrc.set(reader.result as ArrayBuffer);
+        this.imgSrc2.set(reader.result as string);
+
       };
 
       reader.readAsDataURL(file);
@@ -463,6 +486,7 @@ export class AddCourseComponent implements OnInit {
         this.courseService.updateCourse(formData).subscribe({
           next: (resData) => {
             console.log(resData);
+            this.courseService.course.set(undefined);
             this.toastService.generateToast(
               this.toastComponent,
               true,
@@ -500,5 +524,34 @@ export class AddCourseComponent implements OnInit {
         'Enter All the details'
       );
     }
+  }
+
+  imageCropped(event: ImageCroppedEvent) {
+    this.croppedImage = this.sanitizer.bypassSecurityTrustUrl(
+      event.objectUrl as string
+    );
+    const blob = event.blob as Blob;
+
+    const croppedImageFile = new File(
+      [blob],
+      this.selectedImage?.name
+        ? (this.selectedImage?.name as string)
+        : 'newFile'+new Date().getTime()+'.jpg',
+      { type: blob.type }
+    );
+    
+    this.selectedImage = croppedImageFile;
+    console.log(this.selectedImage);
+    
+  }
+
+  imageLoaded(image: LoadedImage) {
+    // show cropper
+  }
+  cropperReady() {
+    // cropper ready
+  }
+  loadImageFailed() {
+    // show message
   }
 }

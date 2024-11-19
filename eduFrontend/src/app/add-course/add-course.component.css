@@ -36,3 +36,10 @@
     overflow: scroll;
     max-height: 200px;
 }
+
+.custom-image-preview{
+    width: 100%;
+    height:260px;
+    object-fit: contain;
+    object-position: center;
+}

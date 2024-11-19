@@ -1,4 +1,4 @@
-<div class="col-11 mx-auto my-5">
+@if(!isLoading()){<div class="col-11 mx-auto my-5">
   <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb" class="ms-5 ps-4">
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
@@ -103,15 +103,31 @@
           formControlName="courseReview"></textarea>
       </div>
       <div class="input-group d-flex flex-column custom-width">
-        <label for="course-image" class="border rounded-1">
-          <p class="fw-medium p-2 border-bottom bg-color-home green-txt">
+        <div class="d-flex justify-content-between border rounded-top-1 bg-color-home green-txt">
+          <label role="button" for="course-image" class="fw-medium p-2 mb-0 text-decoration-underline" id="cropperWrapper">
             Add Course Image
-          </p>
-          <img [src]="imgSrc()" alt="" class="custom-image mb-3" />
         </label>
+          <div>
+            @if(imgSrc2() && !imageSelected){<p role="button" (click)="imageSelected = !imageSelected" class="fw-medium p-2 mb-0 me-2 text-decoration-underline">
+              Edit
+            </p>}
+            
+          </div>
+        </div>
+          @if(!selectedImage && !imageSelected){<img [src]="imgSrc()" alt="" class="custom-image my-3" />}
+          @else{<image-cropper class="custom-image-preview mx-auto my-2" [maintainAspectRatio]="true" [aspectRatio]="16 / 9"
+            format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded($event)"
+            (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()" [imageBase64]="imgSrc2()"
+            style="width: fit-content;">
+          </image-cropper>}
+      
         <input autocomplete="off" type="file" id="course-image" name="coverImage" class="d-none" (change)="imgDetails($event)"
           formControlName="coverImage" />
       </div>
+      <!-- <image-cropper class="custom-image-preview mx-auto" [maintainAspectRatio]="true" [aspectRatio]="8 / 10" format="png"
+                    (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded($event)" (cropperReady)="cropperReady()"
+                    (loadImageFailed)="loadImageFailed()" [imageBase64]="imgSrc2()" style="width: fit-content;">
+      </image-cropper> -->
 
       }@else if (formStep==1) {
 
@@ -266,7 +282,7 @@
         </button>
         }
         @if(formStep == 1){
-        <button type="submit" [disabled]="!((courseDetails.dirty && courseDetails.valid) || sectionArray.length != sectionTotal || subSectionArray.length != subSectionTotal) || sectionArray.length === 0 || !isStepValid(0)"
+        <button type="submit" [disabled]="!(((courseDetails.dirty && courseDetails.valid) || sectionArray.length != sectionTotal || subSectionArray.length != subSectionTotal) || sectionArray.length === 0 || !isStepValid(0)) && !imageSelected"
           class="btn btn-custom btn-lg ms-3 rounded-1">
           {{title}} Course
         </button>
@@ -275,4 +291,9 @@
     </form>
     <app-toast></app-toast>
   </main>
+</div>}
+@else{
+  <div class="loading d-flex justify-content-center align-items-center vh-100">
+    <img src="images/loading/loading-elephant.gif" height="50%" alt="loader">
 </div>
+}
