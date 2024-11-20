@@ -323,7 +323,7 @@ export class AddCourseComponent implements OnInit {
       case 'required':
         return `${fieldDisplayName} is required.`;
       case 'min':
-        return `${fieldDisplayName} must be at least ${errorValue.min}.`;
+        return `${fieldDisplayName} cannot be ${this.courseDetails.get(fieldName)?.value}.`;
       case 'max':
         return `${fieldDisplayName} must not exceed ${errorValue.max}.`;
       default:
@@ -370,6 +370,7 @@ export class AddCourseComponent implements OnInit {
 
               this.imgSrc.set('data:image/*;base64,' + course?.coverImage);
               this.imgSrc2.set('data:image/*;base64,' + course?.coverImage);
+              this.imageSubject.next(true);
 
               this.isLoading.set(false);
             } else {
@@ -416,6 +417,7 @@ export class AddCourseComponent implements OnInit {
 
         this.imgSrc.set('data:image/*;base64,' + course?.coverImage);
         this.imgSrc2.set('data:image/*;base64,' + course?.coverImage);
+        this.imageSubject.next(true);
 
         this.isLoading.set(false);
       } else {
@@ -601,6 +603,7 @@ export class AddCourseComponent implements OnInit {
     
     this.selectedImage = croppedImageFile;
     console.log(this.selectedImage);
+    this.imageSubject.next(true);
     
   }
 
