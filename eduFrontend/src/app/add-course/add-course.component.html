@@ -255,18 +255,26 @@
               formControlName="subSectionContent"></textarea>
           </div>
 
+          <div class="ms-auto">
+            <span class="text-danger">{{subSectionErrorMessages[0]}}</span>
           <button type="button"
-            class="btn btn-custom rounded-1 fw-medium border border-black border-opacity-10 col-2 ms-auto"
-            (click)="subSectionState=='Add'? addSubSection(): editSubSection()" [disabled]="isSubSectionValid()" >{{subSectionState}} Sub Section</button>
+            class="btn btn-custom rounded-1 fw-medium border border-black border-opacity-10 "
+            (click)="subSectionState=='Add'? addSubSection(): editSubSection()" [disabled]="!isSubSectionValid()" >{{subSectionState}} Sub Section</button>
+          </div>
         </div>
 
 
       </div>
 
-
-      <button type="button"
+      <div class="">
+        <button type="button"
         class="btn add-section-btn-custom rounded-1 fw-medium border border-black border-opacity-10 col-2 ms-auto me-2"
-        (click)="sectionState=='Add'? addSection(): editSection()" [disabled]="isSectionValid()" >{{sectionState}} Section</button>
+        (click)="sectionState=='Add'? addSection(): editSection()" [disabled]="!isSectionValid()" >{{sectionState}} Section</button>
+        <span class="text-danger">{{sectionErrorMessages[0]}}</span>
+        @if (sectionErrorMessages.length === 0 && !isSectionValid() && courseDetails.get("sectionName")?.value!=='') {
+          <span class="text-danger">Add minimum one subsection</span>
+        }
+      </div>
       }
 
 
@@ -278,7 +286,7 @@
         </button>
         }
         @if(formStep == 0){
-        <button [disabled]="!isStepValid(formStep)" (click)="nextStep()" class="btn btn-custom btn-lg rounded-1">
+        <button [disabled]="!(isStepValid(formStep) && (selectedImage || title==='Edit'))" (click)="nextStep()" class="btn btn-custom btn-lg rounded-1">
           Next
         </button> 
         <span class="text-danger">
@@ -289,10 +297,13 @@
         </span>
         }
         @if(formStep == 1){
-        <button type="submit" [disabled]="!(((courseDetails.dirty && courseDetails.valid) || sectionArray.length != sectionTotal || subSectionArray.length != subSectionTotal) || sectionArray.length === 0 || !isStepValid(0)) && !imageSelected"
+        <button type="submit" [disabled]="(!(((courseDetails.dirty && courseDetails.valid) || sectionArray.length != sectionTotal || subSectionArray.length != subSectionTotal)) || sectionArray.length === 0 || !isStepValid(0) ) && title !== 'Edit'"
           class="btn btn-custom btn-lg ms-3 rounded-1">
           {{title}} Course
         </button>
+        @if(sectionArray.length == 0 && courseDetails.get("sectionName")?.dirty ){<span class="text-danger">
+          Minimum one section required
+        </span>}
         }
       </div>
     </form>
