@@ -70,10 +70,10 @@ export class AddCourseComponent implements OnInit {
     curriculum: new FormControl('', [Validators.required]),
     courseReview: new FormControl('', [Validators.required]),
     coverImage: new FormControl(''),
-    sectionName: new FormControl(''),
-    sectionDescription: new FormControl(''),
-    subSectionTitle: new FormControl(''),
-    subSectionContent: new FormControl(''),
+    sectionName: new FormControl('',[Validators.required,Validators.minLength(20)]),
+    sectionDescription: new FormControl('',[Validators.required,Validators.minLength(200)]),
+    subSectionTitle: new FormControl('',[Validators.required,Validators.minLength(10)]),
+    subSectionContent: new FormControl('',[Validators.required,Validators.minLength(200)]),
   });
 
   courseId = signal<number | null>(null);
@@ -99,6 +99,8 @@ export class AddCourseComponent implements OnInit {
   categories: string[] = [];
   levels: string[] = [];
   errorMessages:string[] = [];
+  sectionErrorMessages:string[] = [];
+  subSectionErrorMessages:string[] = [];
 
   subSectionState = 'Add';
   sectionState = 'Add';
@@ -168,6 +170,9 @@ export class AddCourseComponent implements OnInit {
     this.courseDetails.get('sectionName')?.setValue('');
     this.courseDetails.get('sectionDescription')?.setValue('');
     this.subSectionArray = [];
+    this.sectionErrorMessages = [];
+    this.subSectionErrorMessages = [];
+
   }
 
   addSubSection() {
@@ -181,20 +186,22 @@ export class AddCourseComponent implements OnInit {
 
     this.courseDetails.get('subSectionTitle')?.setValue('');
     this.courseDetails.get('subSectionContent')?.setValue('');
+    this.subSectionErrorMessages = [];
+
   }
 
-  isSubSectionValid(): boolean {
+  isSubSectionValid() {
     return (
-      this.courseDetails.get('subSectionTitle')?.value === '' ||
-      this.courseDetails.get('subSectionContent')?.value === ''
+      this.courseDetails.get('subSectionTitle')?.valid &&
+      this.courseDetails.get('subSectionContent')?.valid
     );
   }
 
-  isSectionValid(): boolean {
+  isSectionValid() {
     return (
-      this.courseDetails.get('sectionName')?.value === '' ||
-      this.courseDetails.get('sectionDescription')?.value === '' ||
-      this.subSectionArray.length === 0
+      this.courseDetails.get('sectionName')?.valid &&
+      this.courseDetails.get('sectionDescription')?.valid &&
+      this.subSectionArray.length !== 0
     );
   }
 
@@ -289,18 +296,28 @@ export class AddCourseComponent implements OnInit {
   }
 
   validateForm() {
-    this.errorMessages = []; // Reset the error messages array
-    this.collectErrors(this.courseDetails);
-    this.image$.subscribe((resData)=>{
-      if(!resData)
-        this.imageValid.set("Image is required");
-      else
-        this.imageValid.set("");
-    })
+    if(this.formStep == 0){
+      this.errorMessages = []; // Reset the error messages array
+      this.collectErrors(this.courseDetails);
+      this.image$.subscribe((resData)=>{
+        if(!resData)
+          this.imageValid.set("Image is required");
+        else
+          this.imageValid.set("");
+      })
+    }else{
+      this.sectionErrorMessages = [];
+      this.subSectionErrorMessages = [];
+      this.collectErrors(this.courseDetails);
+    }
   }
 
   private collectErrors(formGroup: FormGroup) {
-    Object.keys(formGroup.controls).forEach((key) => {
+
+    const keysArray = this.formStep == 0 ? Object.keys(formGroup.controls).splice(0,10) : Object.keys(formGroup.controls).splice(10);
+    console.log(keysArray);
+    
+    keysArray.forEach((key) => {
       const control = formGroup.get(key);
 
       // Build a readable field name
@@ -309,9 +326,19 @@ export class AddCourseComponent implements OnInit {
      if (control && control.errors) {
         // Map errors to user-friendly messages
         Object.keys(control.errors).forEach((errorKey) => {
-          this.errorMessages.push(
-            this.getErrorMessage(fieldName, errorKey, control.errors ? control.errors[errorKey] : null)
-          );
+          if(this.formStep === 0){
+            this.errorMessages.push(
+              this.getErrorMessage(fieldName, errorKey, control.errors ? control.errors[errorKey] : null)
+            );
+          }else if (key.includes("subSection")){
+            this.subSectionErrorMessages.push(
+              this.getErrorMessage(fieldName, errorKey, control.errors ? control.errors[errorKey] : null)
+            );
+          }else{
+            this.sectionErrorMessages.push(
+              this.getErrorMessage(fieldName, errorKey, control.errors ? control.errors[errorKey] : null)
+            );
+          }
         });
       }
     });
@@ -319,6 +346,8 @@ export class AddCourseComponent implements OnInit {
 
   private getErrorMessage(fieldName: string, errorKey: string, errorValue: any): string {
     const fieldDisplayName = fieldName.replace(/([A-Z])/g, ' $1').toLowerCase(); // e.g., "courseName" -> "course name"
+    console.log(errorValue);
+    
     switch (errorKey) {
       case 'required':
         return `${fieldDisplayName} is required.`;
@@ -326,6 +355,8 @@ export class AddCourseComponent implements OnInit {
         return `${fieldDisplayName} cannot be ${this.courseDetails.get(fieldName)?.value}.`;
       case 'max':
         return `${fieldDisplayName} must not exceed ${errorValue.max}.`;
+      case 'minlength':
+        return `${fieldDisplayName} must have minimum ${errorValue.requiredLength} length.`;
       default:
         return `${fieldDisplayName} has an invalid value.`;
     }
@@ -505,7 +536,7 @@ export class AddCourseComponent implements OnInit {
     console.log(this.courseDetails.valid);
     console.log('line 363', this.sectionArray);
 
-    if (this.courseDetails.valid) {
+    // if (this.courseDetails.valid) {
       formData.append('sections', JSON.stringify(sectionData));
       console.log(formData.get('sections'));
 
@@ -578,13 +609,13 @@ export class AddCourseComponent implements OnInit {
         });
       }
     
-    } else {
-      this.toastService.generateToast(
-        this.toastComponent,
-        false,
-        'Enter All the details'
-      );
-    }
+    // } else {
+    //   this.toastService.generateToast(
+    //     this.toastComponent,
+    //     false,
+    //     'Enter All the details'
+    //   );
+    // }
   }
 
   imageCropped(event: ImageCroppedEvent) {
