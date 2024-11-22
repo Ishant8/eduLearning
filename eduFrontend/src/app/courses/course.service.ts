@@ -143,7 +143,7 @@ export class CourseService {
   }
 
   courseDelete(courseId:number){
-    return this.httpClient.delete<number>("http://localhost:8080/course/delete/"+courseId,{
+    return this.httpClient.delete<string>("http://localhost:8080/course/delete/"+courseId,{
       headers:this.headers,
       withCredentials:true
     })

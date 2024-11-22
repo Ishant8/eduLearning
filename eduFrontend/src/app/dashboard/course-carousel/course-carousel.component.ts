@@ -1,14 +1,15 @@
 import { Component, ViewChild, ElementRef, Renderer2, HostListener, AfterViewInit, ViewEncapsulation, inject, signal, OnInit, ChangeDetectorRef, computed, input } from '@angular/core';
-import { first } from 'rxjs';
 import { CourseItemComponent } from './course-item/course-item.component';
 import { Course } from '../../courses/course.model';
 import { CourseService } from '../../courses/course.service';
 import { RouterLink } from '@angular/router';
+import { ToastService } from '../../toast/toast.service';
+import { ToastComponent } from '../../toast/toast.component';
 
 @Component({
   selector: 'app-course-carousel',
   standalone: true,
-  imports: [CourseItemComponent,RouterLink],
+  imports: [CourseItemComponent,RouterLink, ToastComponent],
   templateUrl: './course-carousel.component.html',
   styleUrl: './course-carousel.component.css',
   encapsulation: ViewEncapsulation.None
@@ -20,11 +21,17 @@ export class CourseCarouselComponent implements AfterViewInit {
   @ViewChild('carouselContainer') carouselContainer!: ElementRef;
   @ViewChild('carouselControl') carouselControl!: ElementRef;
 
+  @ViewChild(ToastComponent) toastComponent!: ToastComponent;
+
   // url = input.required<string>();
 
   courses = input.required<Course[] | undefined>()
   sectionTitle = input<string>();
   carouselId = input.required<string>();
+  deleteCourseId:number = -1;
+
+  courseService = inject(CourseService);
+  toastService = inject(ToastService);
 
   scrollPosition = 0;
   cardWidth = computed(()=>{
@@ -49,6 +56,33 @@ export class CourseCarouselComponent implements AfterViewInit {
       this.visibleCards=2.6;
       // this.renderer.addClass(this.carouselControl.nativeElement, 'carouselbtn');
     }
+  }
+
+  deleteCourse(courseId:number) {
+    this.courseService.courseDelete(courseId).subscribe({
+      next:()=>{
+        this.toastService.generateToast(
+          this.toastComponent,
+          true,
+          'Course Deleted Successfully'
+        );
+        setTimeout(()=>{
+          window.location.reload();
+        },1000);
+      },
+      error:(err)=>{
+        console.log(err);
+        
+        this.toastService.generateToast(
+          this.toastComponent,
+          false,
+          'Course Deletion Failed'
+        );
+        setTimeout(()=>{
+          window.location.reload();
+        },1000);
+      }
+    })
   }
 
   scrollNext() {
