@@ -10,15 +10,14 @@ import com.education.eduAPI.enums.Level;
 import com.education.eduAPI.exception.CustomEntityNotFoundException;
 import com.education.eduAPI.mapper.CourseMapper;
 import com.education.eduAPI.mapper.UserMapper;
-import com.education.eduAPI.repository.CategoryRepository;
-import com.education.eduAPI.repository.CourseRepository;
-import com.education.eduAPI.repository.UserRepository;
+import com.education.eduAPI.repository.*;
 import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.persistence.EntityManager;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,18 +31,26 @@ import java.util.Objects;
 public class CourseServiceImpl implements CourseService {
 
     private final UserRepository userRepository;
+    private final SectionRepository sectionRepository;
+    private final ReviewRepository reviewRepository;
     CourseRepository courseRepository;
     CategoryRepository categoryRepository;
+    ReviewService reviewService;
+    EntityManager entityManager;
     private final Dotenv dotEnv;
 
     CourseMapper courseMapper;
 
-    public CourseServiceImpl(UserRepository userRepository, EntityManager entityManager, CourseRepository courseRepository, UserMapper userMapper, CourseMapper courseMapper, CategoryRepository categoryRepository, Dotenv dotEnv) {
+    public CourseServiceImpl(UserRepository userRepository, EntityManager entityManager, CourseRepository courseRepository, UserMapper userMapper, CourseMapper courseMapper, CategoryRepository categoryRepository, Dotenv dotEnv, SectionRepository sectionRepository, ReviewRepository reviewRepository, ReviewService reviewService) {
          this.courseRepository = courseRepository;
         this.courseMapper = courseMapper;
         this.categoryRepository = categoryRepository;
         this.userRepository = userRepository;
         this.dotEnv = dotEnv;
+        this.sectionRepository = sectionRepository;
+        this.reviewRepository = reviewRepository;
+        this.reviewService = reviewService;
+        this.entityManager = entityManager;
     }
 
     @Override
@@ -59,12 +66,62 @@ public class CourseServiceImpl implements CourseService {
         return courseMapper.toDto(course);
     }
 
+    @Transactional
     @Override
-    public String deleteCourseById(CourseDTO courseDTO) {
+    public String deleteCourseById(int courseId) {
 
-        courseRepository.deleteById(courseDTO.getCourseId());
+//        Course course = courseRepository.findById(courseId).orElseThrow(() -> new CustomEntityNotFoundException("Requested Course not found"));
+//
+//        System.out.println(reviewService.removeUser(course));
+//        reviewService.deleteReviews(courseId);
+//
+//        Course course2 = courseRepository.findById(courseId).orElseThrow(() -> new CustomEntityNotFoundException("Requested Course not found"));
+//        entityManager.refresh(course2);
+//
+//        List<Section> sectionsList = sectionRepository.findAllByCourse(course2);
+//        sectionRepository.deleteAll(sectionsList);
+//        sectionRepository.flush();
+//
+//        Course course3 = courseRepository.findById(courseId).orElseThrow(() -> new CustomEntityNotFoundException("Requested Course not found"));
+//        entityManager.refresh(course3);
+////        System.out.println(course.getReviews());
+//        System.out.println("---------------Latest Course---------------------"+course3);
+//
+//        courseRepository.deleteById(courseId);
+//        courseRepository.flush();
 
-        return "Course with id " + courseDTO.getCourseId() + " has been deleted";
+        entityManager.createQuery(
+                        "UPDATE Review r SET r.user = NULL WHERE r.course.courseId = :courseId")
+                .setParameter("courseId", courseId)
+                .executeUpdate();
+
+        entityManager.flush();
+
+        // 2. Delete sections
+        entityManager.createQuery(
+                        "DELETE FROM Section s WHERE s.course.courseId = :courseId")
+                .setParameter("courseId", courseId)
+                .executeUpdate();
+
+        entityManager.flush();
+
+        // 3. Delete reviews
+        entityManager.createQuery(
+                        "DELETE FROM Review r WHERE r.course.courseId = :courseId")
+                .setParameter("courseId", courseId)
+                .executeUpdate();
+
+        entityManager.flush();
+
+        // 4. Finally delete the course
+//        entityManager.createQuery(
+//                        "DELETE FROM Course c WHERE c.courseId = :courseId")
+//                .setParameter("courseId", courseId)
+//                .executeUpdate();
+
+        courseRepository.deleteById(courseId);
+
+        return "Course with id " + courseId + " has been deleted";
     }
 
     @Override
@@ -181,6 +238,12 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<CourseDTO> findAllCoursesByInstructor(String instructorEmail) {
         return courseRepository.findAllByInstructorEmail(instructorEmail).stream().map(c-> courseMapper.toDto(c)).toList();
+    }
+
+    @Override
+    public Integer totalEnrolledStudents(int courseId) {
+        Course course = courseRepository.findById(courseId).orElseThrow(() -> new CustomEntityNotFoundException("Requested Course Not Found."));
+        return course.getUsers().size()-1;
     }
 
 }

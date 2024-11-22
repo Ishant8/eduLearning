@@ -134,5 +134,19 @@ export class CourseService {
     return this.httpClient.get<[]>("http://localhost:8080/course/levels")
 
   }
+
+  getEnrolCount(courseId:number){
+    return this.httpClient.get<number>("http://localhost:8080/course/enrolled/count/"+courseId,{
+      headers:this.headers,
+      withCredentials:true
+    })
+  }
+
+  courseDelete(courseId:number){
+    return this.httpClient.delete<number>("http://localhost:8080/course/delete/"+courseId,{
+      headers:this.headers,
+      withCredentials:true
+    })
+  }
   
 }

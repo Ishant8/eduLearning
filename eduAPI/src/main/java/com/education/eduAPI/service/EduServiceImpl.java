@@ -13,6 +13,7 @@ import com.education.eduAPI.mapper.CourseMapper;
 import com.education.eduAPI.mapper.SectionMapper;
 import com.education.eduAPI.mapper.UserMapper;
 import com.education.eduAPI.repository.CourseRepository;
+import com.education.eduAPI.repository.ReviewRepository;
 import com.education.eduAPI.repository.SectionRepository;
 import com.education.eduAPI.repository.UserRepository;
 import jakarta.persistence.EntityManager;
@@ -31,6 +32,7 @@ public class EduServiceImpl implements EduService{
 
     private final SectionRepository sectionRepository;
     private final SectionMapper sectionMapper;
+    private final ReviewRepository reviewRepository;
     UserRepository userRepository;
     CourseRepository courseRepository;
     EntityManager entityManager;
@@ -43,7 +45,7 @@ public class EduServiceImpl implements EduService{
 
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
-    public EduServiceImpl(JWTService jwtService, AuthenticationManager authManager, UserRepository userRepository, EntityManager entityManager, CourseRepository courseRepository, UserMapper userMapper, CourseMapper courseMapper, SectionRepository sectionRepository, SectionMapper sectionMapper){
+    public EduServiceImpl(JWTService jwtService, AuthenticationManager authManager, UserRepository userRepository, EntityManager entityManager, CourseRepository courseRepository, UserMapper userMapper, CourseMapper courseMapper, SectionRepository sectionRepository, SectionMapper sectionMapper, ReviewRepository reviewRepository){
         this.userRepository = userRepository;
         this.entityManager = entityManager;
         this.courseRepository = courseRepository;
@@ -53,6 +55,7 @@ public class EduServiceImpl implements EduService{
         this.jwtService = jwtService;
         this.sectionRepository = sectionRepository;
         this.sectionMapper = sectionMapper;
+        this.reviewRepository = reviewRepository;
     }
 
 
@@ -79,11 +82,18 @@ public class EduServiceImpl implements EduService{
 
 
     @Override
-    public String deleteUserById(UserDTO userDTO) {
+    public String deleteUserById(int userId) {
 
-        userRepository.deleteById(userDTO.getUserId());
+        User user = userRepository.findById(userId).orElseThrow(() -> new CustomEntityNotFoundException("User not found"));
 
-        return "User with id " + userDTO.getUserId() + " has been deleted";
+//        reviewRepository.deleteAllByUser(user);
+
+//        user.setProfileImage(null);
+//        User user2 = userRepository.save(user);
+
+        userRepository.delete(user);
+
+        return "User with id " + userId + " has been deleted";
     }
 
     @Override

@@ -9,9 +9,11 @@ import com.education.eduAPI.mapper.ReviewMapper;
 import com.education.eduAPI.repository.CourseRepository;
 import com.education.eduAPI.repository.ReviewRepository;
 import com.education.eduAPI.repository.UserRepository;
+import jakarta.persistence.EntityManager;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,12 +25,14 @@ public class ReviewServiceImpl implements ReviewService {
     private final UserRepository userRepository;
     ReviewRepository reviewRepository;
     ReviewMapper reviewMapper;
+    EntityManager entityManager;
 
-    public ReviewServiceImpl(ReviewRepository reviewRepository, ReviewMapper reviewMapper, CourseRepository courseRepository, UserRepository userRepository) {
+    public ReviewServiceImpl(ReviewRepository reviewRepository, ReviewMapper reviewMapper, CourseRepository courseRepository, UserRepository userRepository, EntityManager entityManager) {
         this.reviewRepository = reviewRepository;
         this.reviewMapper = reviewMapper;
         this.courseRepository = courseRepository;
         this.userRepository = userRepository;
+        this.entityManager = entityManager;
     }
 
     @Override
@@ -124,6 +128,52 @@ public class ReviewServiceImpl implements ReviewService {
 
         return uniqueReviews.stream().map(rv -> reviewMapper.toDto(rv)).toList();
     }
+
+//    @Transactional
+//    @Override
+//    public List<Review> removeUser(Course course) {
+//
+//        List<Review> reviews = reviewRepository.findByCourse(course);
+//        reviews.stream().map(review -> {
+//            review.setUser(null);
+//            return review;
+//        }).forEach(reviewRepository::save);
+//
+//        return reviews;
+//    }
+
+
+
+    @Transactional
+    @Override
+    public List<Review> removeUser(Course course) {
+
+        List<Review> reviews = reviewRepository.findByCourse(course);
+        reviews.stream().map(review -> {
+            review.setUser(null);
+            return review;
+        }).forEach(reviewRepository::saveAndFlush);
+        entityManager.refresh(course);
+        reviews.forEach(rev -> entityManager.refresh(rev));
+
+
+        return reviews;
+    }
+
+    @Transactional
+    @Override
+    public void deleteReviews(int courseId) {
+
+        Course course = courseRepository.findById(courseId).orElseThrow(() -> new CustomEntityNotFoundException("No Such course"));
+
+        List<Review> reviews = reviewRepository.findByCourse(course);
+        System.out.println("------------------------delete"+reviews);
+
+        reviewRepository.deleteAll(reviews);
+        reviewRepository.flush();
+    }
+
+
 
 
 }

@@ -33,9 +33,24 @@ export class DeleteAccountComponent {
         this.checked.set(true);
         console.log(resData);
         if(this.validPass())
-          this.toastService.generateToast(this.toastComponent,true,"Account Deleted Successfully")
-        else
-        this.toastService.generateToast(this.toastComponent,false,"Account Deletion Failed")
+        {
+          this.profileService.deleteProfile().subscribe({
+            next:()=>{
+              this.toastService.generateToast(this.toastComponent,true,"Account Deleted Successfully")
+              setTimeout(()=>{
+                window.location.reload();
+              },900)
+            },
+            error:()=>{
+              this.toastService.generateToast(this.toastComponent,false,"Account Deletion Failed")
+            }
+          });
+        }
+        
+        // if(this.validPass())
+        //   this.toastService.generateToast(this.toastComponent,true,"Account Deleted Successfully")
+        // else
+        // this.toastService.generateToast(this.toastComponent,false,"Account Deletion Failed")
       },
       error:()=>{
         this.toastService.generateToast(this.toastComponent,false,"Account Deletion Failed")

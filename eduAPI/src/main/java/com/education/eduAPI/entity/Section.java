@@ -21,15 +21,15 @@ public class Section {
     @Column(name = "section_description")
     private String sectionDescription;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "id_course")
     private Course course;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "section", cascade = CascadeType.ALL)
     private List<SubSection> subSections;
 
-    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    @JoinTable(name = "user_progress", inverseJoinColumns = @JoinColumn(name = "user_id"), joinColumns = @JoinColumn(name = "section_id"))
+    @ManyToMany(cascade = {CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
+    @JoinTable(name = "user_progress", joinColumns = @JoinColumn(name = "section_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> users;
 
     public Section() {

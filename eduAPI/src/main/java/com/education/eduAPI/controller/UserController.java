@@ -72,9 +72,9 @@ public class UserController {
     }
 
 
-    @DeleteMapping("/delete")
-    public String deleteUser(@RequestBody UserDTO userDTO){
-        return eduService.deleteUserById(userDTO);
+    @DeleteMapping("/delete/{userId}")
+    public String deleteUser(@PathVariable int userId){
+        return eduService.deleteUserById(userId);
     }
 
     @GetMapping("/get")
