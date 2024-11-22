@@ -54,9 +54,9 @@ public class CourseController {
         return savedCourseDTO;
     }
 
-    @DeleteMapping("/delete")
-    public String deleteCourse(@RequestBody CourseDTO courseDTO){
-        return courseService.deleteCourseById(courseDTO);
+    @DeleteMapping("/delete/{courseId}")
+    public String deleteCourse(@PathVariable int courseId){
+        return courseService.deleteCourseById(courseId);
     }
 
     @GetMapping("/get")
@@ -141,7 +141,10 @@ public class CourseController {
         return List.of(Level.values());
     }
 
-
+    @GetMapping("/enrolled/count/{courseId}")
+    public Integer findAllEnrolledCount(@PathVariable int courseId){
+        return courseService.totalEnrolledStudents(courseId);
+    }
 
 }
 

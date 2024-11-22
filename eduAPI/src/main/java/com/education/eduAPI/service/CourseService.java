@@ -12,7 +12,7 @@ public interface CourseService {
 
     CourseDTO createCourseUsingDto(CourseDTO courseDTO, List<SectionDTO> sectionList) throws IOException;
 
-    String deleteCourseById(CourseDTO courseDTO);
+    String deleteCourseById(int courseId);
 
     List<CourseDTO> getAllCourses(int page, int size);
 
@@ -29,4 +29,6 @@ public interface CourseService {
     List<CourseDTO> findAllCoursesByCourseNameOrInstructor(String searchItem);
 
     List<CourseDTO> findAllCoursesByInstructor(String instructorEmail);
+
+    Integer totalEnrolledStudents(int courseId);
 }

@@ -60,7 +60,7 @@ public class Course {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @OneToMany(cascade = {CascadeType.MERGE,CascadeType.DETACH,CascadeType.PERSIST,CascadeType.REFRESH}, mappedBy = "course")
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.REMOVE, CascadeType.REFRESH, CascadeType.PERSIST}, mappedBy = "course", orphanRemoval = true)
     private List<Review> reviews;
 
 //    @JsonIgnore
@@ -233,7 +233,8 @@ public class Course {
                 ", sections=" + sections +
                 ", price=" + price +
                 ", level=" + level +
-                ", coverImage=" + coverImage +
+//                ", coverImage=" + coverImage +
+                ", reviews=" + reviews +
                 ", createDate=" + createDate +
                 ", updateDate=" + updateDate +
                 ", category=" + category +

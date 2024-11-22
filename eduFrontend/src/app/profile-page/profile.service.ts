@@ -14,18 +14,24 @@ export class ProfileService {
   httpClient = inject(HttpClient);
   destroyRef = inject(DestroyRef);
 
+  headers = new HttpHeaders({
+    Authorization: `Bearer ${getCookie('JwtToken')}`,
+    'X-Requested-With': 'XMLHttpRequest',
+  });
   
+  deleteProfile(){
+    return this.httpClient.delete('http://localhost:8080/user/delete/'+this.profile()?.userId,{
+      headers: this.headers,
+      withCredentials: true,
+      responseType:'text'
+    })
+  }
   
   checkPassword(password:string){
     
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${getCookie('JwtToken')}`,
-      'X-Requested-With': 'XMLHttpRequest',
-    });
-    
     return this.httpClient
     .post<boolean>('http://localhost:8080/user/check', {oldPassword: password},{
-      headers: headers,
+      headers: this.headers,
       withCredentials: true,
       // responseType:'text'
     });
@@ -37,27 +43,18 @@ export class ProfileService {
   
   changePassword(oldPassword: string, newPassword: string) {
     
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${getCookie('JwtToken')}`,
-      'X-Requested-With': 'XMLHttpRequest',
-    });
-    
     return this.httpClient
       .put<{message:string, status:number, timestamp:string}>('http://localhost:8080/user/update/password', {oldPassword, newPassword},{
-        headers: headers,
+        headers: this.headers,
         withCredentials: true,
         // responseType:'text'
       });
   }
 
   getUser() {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${getCookie('JwtToken')}`,
-      // 'X-Requested-With': 'XMLHttpRequest',
-    });
 
     return this.httpClient.get<Profile>('http://localhost:8080/user', {
-      headers: headers,
+      headers: this.headers,
       withCredentials: true,
     });
   }
@@ -65,14 +62,9 @@ export class ProfileService {
   setUser(updatedData: Profile) {
     // console.log(JSON.stringify(updatedData));
 
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${getCookie('JwtToken')}`,
-      'X-Requested-With': 'XMLHttpRequest',
-    });
-
     return this.httpClient
       .put<Profile>('http://localhost:8080/user/profile/update', updatedData, {
-        headers: headers,
+        headers: this.headers,
         withCredentials: true,
       });
       
@@ -80,15 +72,9 @@ export class ProfileService {
 
   uploadProfileImage(url:string,imgData:FormData){
 
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${getCookie('JwtToken')}`,
-      'X-Requested-With': 'XMLHttpRequest'
-    });
-    
-
     return this.httpClient.post(url,imgData,{
       responseType:'text',
-      headers,
+      headers: this.headers,
       withCredentials:true
     })
 

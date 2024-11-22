@@ -78,11 +78,13 @@ public class Review {
 
     @Override
     public String toString() {
+        String str = user==null?null:user.getEmail();
+
         return "Review{" +
                 "id=" + id +
                 ", comment='" + comment + '\'' +
-                ", user=" + user +
-                ", course=" + course +
+                ", user=" + str +
+//                ", course=" + course +
                 ", rating=" + rating +
                 '}';
     }

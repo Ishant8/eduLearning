@@ -14,7 +14,7 @@ import { AddExtraLineBreakPipe } from './add-extra-line-break.pipe';
 @Component({
   selector: 'app-course-detail-page',
   standalone: true,
-  imports: [TestomonialsComponent, RouterLink, FormsModule, ToastComponent,AddExtraLineBreakPipe],
+  imports: [TestomonialsComponent, RouterLink, FormsModule, ToastComponent],
   templateUrl: './course-detail-page.component.html',
   styleUrl: './course-detail-page.component.css'
 })
@@ -64,6 +64,7 @@ export class CourseDetailPageComponent implements OnInit, AfterViewInit {
   rating:number=7;
   ratingSum: number=0;
   isReviewed = false;  
+  totalEnrolled:number = 0;
 
   constructor(private route: ActivatedRoute) {}
 
@@ -83,6 +84,14 @@ export class CourseDetailPageComponent implements OnInit, AfterViewInit {
     this.route.paramMap.subscribe(params => {
       this.courseId = Number(params.get('courseId')); 
       this.fetchDetails();
+      this.courseService.getEnrolCount(this.courseId as number).subscribe({
+        next:(resData)=>{
+          this.totalEnrolled = resData;          
+        },
+        error:(error)=>{
+          console.log(error);
+        }
+      })
     });
 
     console.log(this.courseId);

@@ -15,7 +15,7 @@ public interface EduService {
 
     UserDTO createUserUsingDTO(UserDTO userDTO);
 
-    String deleteUserById(UserDTO userDTO);
+    String deleteUserById(int userId);
 
     List<UserDTO> getAllUsers();
 

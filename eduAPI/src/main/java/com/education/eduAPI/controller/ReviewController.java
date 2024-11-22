@@ -2,6 +2,7 @@ package com.education.eduAPI.controller;
 
 
 import com.education.eduAPI.dto.ReviewDTO;
+import com.education.eduAPI.repository.ReviewRepository;
 import com.education.eduAPI.service.ReviewService;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,10 +12,12 @@ import java.util.List;
 @RequestMapping("/review")
 public class ReviewController {
 
+    private final ReviewRepository reviewRepository;
     ReviewService reviewService;
 
-    public ReviewController(ReviewService reviewService){
+    public ReviewController(ReviewService reviewService, ReviewRepository reviewRepository){
         this.reviewService = reviewService;
+        this.reviewRepository = reviewRepository;
     }
 
     @GetMapping("/get/{id}")
@@ -54,6 +57,12 @@ public class ReviewController {
     public String updateReview(@RequestBody ReviewDTO reviewDTO)
     {
         return reviewService.updateReview(reviewDTO);
+    }
+
+    @DeleteMapping("/delete/{reviewId}")
+    public String deleteReview( @PathVariable int reviewId){
+        reviewRepository.deleteById(reviewId);
+        return "Deleted Review of "+reviewId+" Successfully";
     }
 
 }
