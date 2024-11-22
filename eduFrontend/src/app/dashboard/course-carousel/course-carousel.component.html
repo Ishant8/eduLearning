@@ -49,6 +49,8 @@
                     <!-- <button class="btn border border-black rounded-pill"><i class="bi bi-pencil"></i></button> -->
                     <a class="btn btn-custom rounded-0" style="font-size: 15px;"
                         [routerLink]="['/course/edit',courseItem.courseId]">Edit</a>
+                    <button class="btn btn-danger rounded-0" (click)="deleteCourseId=courseItem.courseId" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</button>
+
                     }
                 </div>
 
@@ -59,4 +61,27 @@
         </div>
 
     </div>
-</div>}
+
+    
+</div>
+<app-toast></app-toast>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Course</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body mb-3">
+        
+            <p>Are you sure you want to delete this course?</p>
+        
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+            <button (click)="deleteCourse(deleteCourseId)" class="btn btn-danger">Delete</button>
+          </div>
+      </div>
+    </div>
+  </div>
+}

@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/course")
@@ -55,8 +57,10 @@ public class CourseController {
     }
 
     @DeleteMapping("/delete/{courseId}")
-    public String deleteCourse(@PathVariable int courseId){
-        return courseService.deleteCourseById(courseId);
+    public Map<String,String> deleteCourse(@PathVariable int courseId){
+        Map<String,String> map = new HashMap<>();
+        map.put("status",courseService.deleteCourseById(courseId));
+        return map;
     }
 
     @GetMapping("/get")

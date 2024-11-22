@@ -7,6 +7,7 @@ import com.education.eduAPI.entity.Image;
 import com.education.eduAPI.entity.User;
 import com.education.eduAPI.repository.CategoryRepository;
 import com.education.eduAPI.repository.UserRepository;
+import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -25,11 +26,13 @@ public class CourseMapper {
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
     private final ReviewMapper reviewMapper;
+    private final Dotenv dotEnv;
 
-    public CourseMapper(UserRepository userRepository, CategoryRepository categoryRepository, ReviewMapper reviewMapper) {
+    public CourseMapper(UserRepository userRepository, CategoryRepository categoryRepository, ReviewMapper reviewMapper, Dotenv dotEnv) {
         this.userRepository = userRepository;
         this.categoryRepository = categoryRepository;
         this.reviewMapper = reviewMapper;
+        this.dotEnv = dotEnv;
     }
 
     public CourseDTO toDto(Course course){
@@ -51,6 +54,7 @@ public class CourseMapper {
         if(course.getCoverImage() != null)
         {
             String filePath = course.getCoverImage().getFilePath();
+            System.out.println("filePath = " + filePath);
             try {
 
                 byte[] image = Files.readAllBytes(new File(filePath).toPath());
@@ -135,8 +139,10 @@ public class CourseMapper {
 
         course.setInstructorEmail(course.getUsers().get(0).getEmail());
 
-        String FILE_PATH = "/home/ishant/Projects/EduLearning/eduFrontend/public/images/common/";
+//        String FILE_PATH = "/home/ishant/Projects/EduLearning/eduFrontend/public/images/common/";
 //        String FILE_PATH = "/home/anant/Projects/eduLearning/eduFrontend/public/images/common/";
+        String FILE_PATH = dotEnv.get("FILE_PATH");
+
         String[] fileNames = Objects.requireNonNull(courseDTO.getImageData().getOriginalFilename()).split("\\.");
         String fileName =fileNames[0]+ "_" + Instant.now().getEpochSecond()+"."+fileNames[1];
         String filePath = FILE_PATH + fileName;
