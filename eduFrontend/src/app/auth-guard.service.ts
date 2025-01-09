@@ -58,7 +58,7 @@ export class AuthGuard implements CanActivate {
     providedIn: 'root'
   })
   export class AuthService {
-    private readonly API_URL = 'http://localhost:8080';
+    private readonly API_URL = 'http://192.1.125.33:8080';
   
     constructor(private http: HttpClient,private router: Router) {}
   

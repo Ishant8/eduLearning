@@ -68,7 +68,7 @@ export class RegisterComponent implements OnInit {
       this.userDetails.role="ROLE_ADMIN";
     }
     
-    const subscription = this.profileService.addUser("http://localhost:8080/user/create",this.userDetails)
+    const subscription = this.profileService.addUser("http://192.1.125.33:8080/user/create",this.userDetails)
     .subscribe({
       next:(resData)=>{
         console.log(resData);

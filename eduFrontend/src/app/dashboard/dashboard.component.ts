@@ -82,7 +82,7 @@ export class DashboardComponent implements OnInit {
             this.getInstructorCourses();
           }
           this.courseService
-            .getCourses('http://localhost:8080/course/user')
+            .getCourses('http://192.1.125.33:8080/course/user')
             .subscribe({
               next: (resData) => {
                 this.courses.set(resData);
@@ -118,7 +118,7 @@ export class DashboardComponent implements OnInit {
 
   getFilterCourses(categoryName: string,clicked: boolean) {
     this.courseService
-      .getCourses('http://localhost:8080/course/notenrolled/' + categoryName)
+      .getCourses('http://192.1.125.33:8080/course/notenrolled/' + categoryName)
       .subscribe({
         next: (resData) => {
           if(resData.length){

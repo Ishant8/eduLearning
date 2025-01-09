@@ -122,7 +122,7 @@ export class CourseDetailPageComponent implements OnInit, AfterViewInit {
     console.log("courseService.course() is empty .....");
         
         
-        this.courseService.getCourses("http://localhost:8080/course/get").subscribe({
+        this.courseService.getCourses("http://192.1.125.33:8080/course/get").subscribe({
           next:(resData)=>{
             console.log("Data fetched");
             
@@ -179,7 +179,7 @@ export class CourseDetailPageComponent implements OnInit, AfterViewInit {
           courseName: this.course()!.courseName,
           comment: this.comment,
           rating: this.rating,
-        },"http://localhost:8080/review/updateReview")
+        },"http://192.1.125.33:8080/review/updateReview")
         .subscribe({
           next: (resData) => {
             console.log('updating');
@@ -201,7 +201,7 @@ export class CourseDetailPageComponent implements OnInit, AfterViewInit {
           courseName: this.course()!.courseName,
           comment: this.comment,
           rating: this.rating,
-        }, "http://localhost:8080/review/addReview")
+        }, "http://192.1.125.33:8080/review/addReview")
         .subscribe({
           next: (resData) => {
             console.log('addReview');

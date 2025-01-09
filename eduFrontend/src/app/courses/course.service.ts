@@ -37,28 +37,28 @@ export class CourseService {
 
   getAllCourses(page:number) {
     return this.httpClient
-      .get<Course[]>("http://localhost:8080/course/get?page="+--page+"&size="+6);
+      .get<Course[]>("http://192.1.125.33:8080/course/get?page="+--page+"&size="+6);
   }
 
 
   getAllCategories() {
     return this.httpClient
-      .get<string[]>("http://localhost:8080/category/all");
+      .get<string[]>("http://192.1.125.33:8080/category/all");
   }
 
   getSizeOfCourses(filterData:{categoriesList:string[], levelList:string[]}){
-    return this.httpClient.post<number>("http://localhost:8080/course/size", filterData,{
+    return this.httpClient.post<number>("http://192.1.125.33:8080/course/size", filterData,{
       withCredentials:true
     });
 
   }
 
   getFilterCourses(filterData:{categoriesList:string[], levelList:string[]},page:number){
-    return this.httpClient.post<Course[]>("http://localhost:8080/course/filter?page="+--page+"&size="+6, filterData);
+    return this.httpClient.post<Course[]>("http://192.1.125.33:8080/course/filter?page="+--page+"&size="+6, filterData);
   }
 
   addCourse(courseData:FormData){
-    return this.httpClient.post("http://localhost:8080/course/create",courseData,{
+    return this.httpClient.post("http://192.1.125.33:8080/course/create",courseData,{
       headers:this.headers,
       withCredentials:true
     });
@@ -66,7 +66,7 @@ export class CourseService {
   }
   
   updateCourse(courseData:FormData){
-    return this.httpClient.put("http://localhost:8080/course/update",courseData,{
+    return this.httpClient.put("http://192.1.125.33:8080/course/update",courseData,{
       headers:this.headers,
       withCredentials:true
     });
@@ -75,14 +75,14 @@ export class CourseService {
 
 
   enrolCourse(courseName:string|undefined){
-    return this.httpClient.post("http://localhost:8080/user/enrol",courseName,{
+    return this.httpClient.post("http://192.1.125.33:8080/user/enrol",courseName,{
       headers:this.headers,
       withCredentials:true
     });
   }
 
   getCoursesBySearch(searchItem:string){
-    return this.httpClient.get<Course[]>("http://localhost:8080/course/search?search="+searchItem,{
+    return this.httpClient.get<Course[]>("http://192.1.125.33:8080/course/search?search="+searchItem,{
       headers:this.headers,
       withCredentials:true
     })
@@ -98,7 +98,7 @@ export class CourseService {
   }
 
   getInstructorCourses(instructorEmail:string){
-    return this.httpClient.get<Course[]>("http://localhost:8080/course/instructor?instructor="+instructorEmail,{
+    return this.httpClient.get<Course[]>("http://192.1.125.33:8080/course/instructor?instructor="+instructorEmail,{
       headers:this.headers,
       withCredentials:true
     })
@@ -106,7 +106,7 @@ export class CourseService {
 
 
   getSections(courseName:string){
-    return this.httpClient.get<AddSection[]>("http://localhost:8080/section/get/course?courseName="+courseName,{
+    return this.httpClient.get<AddSection[]>("http://192.1.125.33:8080/section/get/course?courseName="+courseName,{
       headers:this.headers,
       withCredentials:true
     }).pipe(tap((resData)=>{
@@ -115,7 +115,7 @@ export class CourseService {
   }
 
   getAllCompletedSections() {
-    return this.httpClient.get<AddSection[]>("http://localhost:8080/user/sections",{
+    return this.httpClient.get<AddSection[]>("http://192.1.125.33:8080/user/sections",{
       headers:this.headers,
       withCredentials:true
     }).pipe(tap((resData)=>{
@@ -124,26 +124,26 @@ export class CourseService {
   }
 
   completeSection(progressData: {userId:number,sectionId:number}){
-    return this.httpClient.post("http://localhost:8080/user/complete",progressData,{
+    return this.httpClient.post("http://192.1.125.33:8080/user/complete",progressData,{
       headers:this.headers,
       withCredentials:true
     })
   }
 
   getLevels(){
-    return this.httpClient.get<[]>("http://localhost:8080/course/levels")
+    return this.httpClient.get<[]>("http://192.1.125.33:8080/course/levels")
 
   }
 
   getEnrolCount(courseId:number){
-    return this.httpClient.get<number>("http://localhost:8080/course/enrolled/count/"+courseId,{
+    return this.httpClient.get<number>("http://192.1.125.33:8080/course/enrolled/count/"+courseId,{
       headers:this.headers,
       withCredentials:true
     })
   }
 
   courseDelete(courseId:number){
-    return this.httpClient.delete<string>("http://localhost:8080/course/delete/"+courseId,{
+    return this.httpClient.delete<string>("http://192.1.125.33:8080/course/delete/"+courseId,{
       headers:this.headers,
       withCredentials:true
     })

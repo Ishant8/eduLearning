@@ -56,7 +56,7 @@
                       <div class="form-floating mt-3 flex-fill mb-3">
                         <input autocomplete="off" type="password" #pass="ngModel" [class.is-invalid]="checkInputStatus(pass)"
                           [class.border-black]="!checkInputStatus(pass)" [class.border-opacity-25]="!checkInputStatus(pass)" required
-                          minlength="8" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]*$" class="form-control rounded-1 shadow-none " [(ngModel)]="userDetails.password" name="password" id="password"
+                          minlength="8" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&\.,])[A-Za-z\d@$!%*?&\.,]*$" class="form-control rounded-1 shadow-none " [(ngModel)]="userDetails.password" name="password" id="password"
                           placeholder="password">
                         <label class="text-secondary placeholder-font" for="floatingInput">Password</label>
                       </div>

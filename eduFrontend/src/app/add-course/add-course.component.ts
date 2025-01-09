@@ -367,7 +367,7 @@ export class AddCourseComponent implements OnInit {
       console.log('courseService.course() is empty .....');
 
       this.courseService
-        .getCourses('http://localhost:8080/course/get')
+        .getCourses('http://192.1.125.33:8080/course/get')
         .subscribe({
           next: (resData) => {
             console.log('Data fetched');

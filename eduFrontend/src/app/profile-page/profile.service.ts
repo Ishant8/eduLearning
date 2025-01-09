@@ -20,7 +20,7 @@ export class ProfileService {
   });
   
   deleteProfile(){
-    return this.httpClient.delete('http://localhost:8080/user/delete/'+this.profile()?.userId,{
+    return this.httpClient.delete('http://192.1.125.33:8080/user/delete/'+this.profile()?.userId,{
       headers: this.headers,
       withCredentials: true,
       responseType:'text'
@@ -30,7 +30,7 @@ export class ProfileService {
   checkPassword(password:string){
     
     return this.httpClient
-    .post<boolean>('http://localhost:8080/user/check', {oldPassword: password},{
+    .post<boolean>('http://192.1.125.33:8080/user/check', {oldPassword: password},{
       headers: this.headers,
       withCredentials: true,
       // responseType:'text'
@@ -44,7 +44,7 @@ export class ProfileService {
   changePassword(oldPassword: string, newPassword: string) {
     
     return this.httpClient
-      .put<{message:string, status:number, timestamp:string}>('http://localhost:8080/user/update/password', {oldPassword, newPassword},{
+      .put<{message:string, status:number, timestamp:string}>('http://192.1.125.33:8080/user/update/password', {oldPassword, newPassword},{
         headers: this.headers,
         withCredentials: true,
         // responseType:'text'
@@ -53,7 +53,7 @@ export class ProfileService {
 
   getUser() {
 
-    return this.httpClient.get<Profile>('http://localhost:8080/user', {
+    return this.httpClient.get<Profile>('http://192.1.125.33:8080/user', {
       headers: this.headers,
       withCredentials: true,
     });
@@ -63,7 +63,7 @@ export class ProfileService {
     // console.log(JSON.stringify(updatedData));
 
     return this.httpClient
-      .put<Profile>('http://localhost:8080/user/profile/update', updatedData, {
+      .put<Profile>('http://192.1.125.33:8080/user/profile/update', updatedData, {
         headers: this.headers,
         withCredentials: true,
       });
@@ -82,7 +82,7 @@ export class ProfileService {
 
   login(credens: { email: string; password: string }) {
     return this.httpClient
-      .post('http://localhost:8080/user/login', credens, {
+      .post('http://192.1.125.33:8080/user/login', credens, {
         responseType: 'text',
         withCredentials: true
       });

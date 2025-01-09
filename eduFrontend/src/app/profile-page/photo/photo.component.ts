@@ -91,7 +91,7 @@ export class PhotoComponent implements OnInit {
     formData.append('file', this.selectedImage as File);
 
     this.profileService
-      .uploadProfileImage('http://localhost:8080/user/image', formData)
+      .uploadProfileImage('http://192.1.125.33:8080/user/image', formData)
       .subscribe({
         next: (resData) => {
           console.log(resData);
